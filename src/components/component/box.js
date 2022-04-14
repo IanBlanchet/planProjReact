@@ -12,7 +12,7 @@ export function JalonDetail(props) {
     return (
         <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
             {props.user&&icons[props.user.service]}
-            <p>test</p>
+            <p>{props.projet&&props.projet.no_projet}</p>
 
         </Box>
     )

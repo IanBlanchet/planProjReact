@@ -32,7 +32,8 @@ export function Events(props) {
     return (
         <Box>
         <SelectEvent events={events} onChange={selectEvent}/>
-        {filterJalons.map(item => { return <JalonDetail  user={props.user.find(element => item.charge_jalon)}/>})}
+        {filterJalons.map(item => { return <JalonDetail  user={props.user.find(element => element.id == item.charge_jalon)}
+                                                        projet={props.projet.find(element => element.id == item.projet_id)}/>})}
         </Box>
     )
 
