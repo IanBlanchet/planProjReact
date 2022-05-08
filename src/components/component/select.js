@@ -22,7 +22,7 @@ export function SelectEvent(props) {
 
     return (
     <Select placeholder='Select évènement' onChange={handleSelect} w='30%'>
-        {props.events.map(item => <option key={item.key} value={item[0]} >{item[0]} -- {item[1]}</option>)}
+        {props.events.map(item => <option key={item.id} value={item.id} >{item.date} -- {item.title}</option>)}
     </Select>
     )
 

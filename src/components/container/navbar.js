@@ -4,6 +4,7 @@ import { TriangleDownIcon } from '@chakra-ui/icons'
 import { GrTextAlignLeft } from 'react-icons/gr'
 import { GrSchedules } from 'react-icons/gr'
 import { useToast } from '@chakra-ui/react';
+import logo from '../../static/logo.png'
 
 /** 
 * Create a navigation bar with login button.
@@ -27,12 +28,12 @@ export function NavBar(props) {
 
 
     return (
-        <Flex bg='blue.200' h='10'>
-            <Box fontFamily='fantasy' bg='blue.400' w='50px' >Logo</Box>
+        <Flex bg='#022958' h='12' padding='1'>
+            <Box fontFamily='fantasy' bg='blue.200' w='50px' ><img src={logo}  alt="logo" /></Box>
             <Spacer />
             <ButtonGroup spacing='4' variant='outline' size='sm'>           
-                <Button leftIcon={<GrTextAlignLeft />} onClick={handleClick} value='suiviProjet'>Suivi projet</Button>
-                <Button leftIcon={<GrSchedules />} onClick={handleClick} value='evenement'>Évènement</Button>
+                <Button leftIcon={<GrTextAlignLeft />} onClick={handleClick} value='suiviProjet' variant='solid' borderWidth={1} borderColor="white">Suivi projet</Button>
+                <Button leftIcon={<GrSchedules />} onClick={handleClick} value='evenement' variant='solid' borderWidth={1} borderColor="white">Évènement</Button>
                 
             </ButtonGroup>
             <Spacer/>        
