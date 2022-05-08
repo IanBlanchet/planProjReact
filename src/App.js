@@ -25,6 +25,7 @@ function App() {
     suiviProjet: <SuiviProjet projet={projet} contrat={contrat} user={user}/>,
     evenement: <Events projet={projet} contrat={contrat} user={user}/>,
     accueil : (<div>bienvenue</div>),
+    admin : <Admin />,
   }
   const getData = () => {
     getRessources('/api/v1/user').then(
