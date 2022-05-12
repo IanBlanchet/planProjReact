@@ -34,6 +34,7 @@ export function NavBar(props) {
             <ButtonGroup spacing='4' variant='outline' size='sm'>           
                 <Button leftIcon={<GrTextAlignLeft />} onClick={handleClick} value='suiviProjet' variant='solid' borderWidth={1} borderColor="white">Suivi projet</Button>
                 <Button leftIcon={<GrSchedules />} onClick={handleClick} value='evenement' variant='solid' borderWidth={1} borderColor="white">Évènement</Button>
+                {sessionStorage.username=== 'Ian'&& <Button leftIcon={<GrSchedules />} onClick={handleClick} value='admin' variant='solid' borderWidth={1} borderColor="white">Admin</Button>}
                 
             </ButtonGroup>
             <Spacer/>        

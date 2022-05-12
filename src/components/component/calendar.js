@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import {Calendar} from "react-multi-date-picker";
 import { Button,  Box} from '@chakra-ui/react';
 
-
+/** 
+* a calendar picker that display events
+* @param {object} props.events - list events object
+* @param {function} props.onSelect- function to use data in selected date
+* @return {JSX} a calendar picker
+*/
 export function CalendarPicker(props) {
     const [value, setValue] = useState(new Date());
     const [selectedEvent, setSelectedEvent] = useState([])
@@ -11,7 +16,8 @@ export function CalendarPicker(props) {
         props.onSelect(date, '') 
         setValue(date.toString())
         const event = props.events.filter(item => item.date === date.toString())
-        setSelectedEvent(event)
+        setSelectedEvent(event);
+        
     }
 
     const selectEvent = (e) => {
