@@ -2,8 +2,8 @@
  
  
  
- const domain = 'http://127.0.0.1:5000'
- //const domain = 'https://apiplanproj.herokuapp.com/'
+ //const domain = 'http://127.0.0.1:5000'
+ const domain = 'https://apiplanproj.herokuapp.com/'
  
  export const postLogin = async (url, params={}, objects={}, method='POST') => {
        
