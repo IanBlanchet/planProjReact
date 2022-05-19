@@ -13,15 +13,17 @@ export function CalendarPicker(props) {
     const [selectedEvent, setSelectedEvent] = useState([])
 
     const select = (date) => {
-        props.onSelect(date, '') 
+        //props.onSelect(date, '') 
         setValue(date.toString())
         const event = props.events.filter(item => item.date === date.toString())
+        props.onSelectDate(date) 
         setSelectedEvent(event);
         
     }
 
     const selectEvent = (e) => {
-        props.onSelect(e.target.attributes.date.value, e.target.attributes.title.value)        
+        props.onSelect(e.target.attributes.eventid.value)
+        
     }
 
 
@@ -41,7 +43,7 @@ export function CalendarPicker(props) {
                       if (color) return { className: "highlight highlight-" + color, style:{backgroundColor:'green'} }
                     }}>
         <Box padding='1' display='grid' gridTemplateColumns='1fr 1fr' gridTemplateRows='1fr 1fr'>
-            {selectedEvent.map(item => <Button margin='1px' size='sm' bgColor='blue.200' key={item.id} onClick={selectEvent} date={item.date} title={item.title}>
+            {selectedEvent.map(item => <Button margin='1px' size='sm' bgColor='blue.200' key={item.id} onClick={selectEvent} eventid={item.id} date={item.date} title={item.title}>
                                         {item.title}
                                         </Button>)
                                         }

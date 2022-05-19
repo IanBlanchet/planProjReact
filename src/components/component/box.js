@@ -1,5 +1,6 @@
-import { Box, HStack, Grid, GridItem } from '@chakra-ui/react';
+import { Box, HStack, Grid, GridItem, Input } from '@chakra-ui/react';
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
+import { InputDuree } from './dureeinput';
 
 const size = 25
 const icons = {
@@ -10,6 +11,7 @@ const icons = {
 }
 
 export function JalonDetail(props) {
+    
 
     return (
         <Box maxW='lg' borderWidth='1px' borderRadius='lg' overflow='hidden' padding='10px' margin='1.5' bg={props.user&&icons[props.user.service].bg}>
@@ -20,13 +22,14 @@ export function JalonDetail(props) {
                         gap={1}>
                     <GridItem>{props.user&&icons[props.user.service].icon}</GridItem>
                     {props.projet?<GridItem>{props.projet.no_projet}</GridItem>:
-                    props.contrat?<GridItem>{props.contrat.no}</GridItem>:
-                    {}}                    
+                    props.contrat?<GridItem>{props.contrat.no}</GridItem>:<GridItem/>
+                    }                    
                     <GridItem>{props.user&&props.user.username}</GridItem>
-                    {props.projet?<GridItem>{props.projet.desc}</GridItem>:
-                    props.contrat?<GridItem>{props.contrat.desc}</GridItem>:
-                    {}} 
-                    <GridItem>{props.jalon.commentaire}</GridItem>  
+                    {props.projet?<GridItem fontSize='sm'>{props.projet.desc}</GridItem>:
+                    props.contrat?<GridItem fontSize='sm'>{props.contrat.desc}</GridItem>:<GridItem/>
+                    } 
+                    <GridItem fontSize='sm'>{props.jalon.commentaire}</GridItem>
+                    <GridItem><InputDuree jalon={props.jalon} /></GridItem>
                 </Grid>
             
             
