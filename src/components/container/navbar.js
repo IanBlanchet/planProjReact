@@ -1,8 +1,7 @@
 import { Flex, Spacer, Box, Button, ButtonGroup} from '@chakra-ui/react'
 import { Connexion } from '../component/modal'
 import { TriangleDownIcon } from '@chakra-ui/icons'
-import { GrTextAlignLeft } from 'react-icons/gr'
-import { GrSchedules } from 'react-icons/gr'
+import { GrTextAlignLeft, GrSchedules, GrUserAdmin, GrMoney, GrTable } from 'react-icons/gr'
 import { useToast } from '@chakra-ui/react';
 import logo from '../../static/logo.png'
 
@@ -32,9 +31,12 @@ export function NavBar(props) {
             <Box fontFamily='fantasy' bg='blue.200' w='50px' ><img src={logo}  alt="logo" /></Box>
             <Spacer />
             <ButtonGroup spacing='4' variant='outline' size='sm'>           
-                <Button leftIcon={<GrTextAlignLeft />} onClick={handleClick} value='suiviProjet' variant='solid' borderWidth={1} borderColor="white">Suivi projet</Button>
+                <Button leftIcon={<GrTextAlignLeft />} onClick={handleClick} value='suiviProjet' variant='solid' borderWidth={1} borderColor="white">Suivi projets</Button>
                 <Button leftIcon={<GrSchedules />} onClick={handleClick} value='evenement' variant='solid' borderWidth={1} borderColor="white">Évènement</Button>
-                {sessionStorage.username=== 'Ian'&& <Button leftIcon={<GrSchedules />} onClick={handleClick} value='admin' variant='solid' borderWidth={1} borderColor="white">Admin</Button>}
+                <Button leftIcon={<GrTable/>} onClick={handleClick} value='detailProjet' variant='solid' borderWidth={1} borderColor="white">Détail projet</Button>
+                <Button leftIcon={<GrMoney/>} onClick={handleClick} value='pti' variant='solid' borderWidth={1} borderColor="white">Pti</Button>
+                {sessionStorage.username=== 'Ian'&& <Button leftIcon={<GrUserAdmin />} onClick={handleClick} value='admin' variant='solid' borderWidth={1} borderColor="white">Admin</Button>}
+                
                 
             </ButtonGroup>
             <Spacer/>        

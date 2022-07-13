@@ -3,8 +3,10 @@ import { getRessources } from './components/util';
 import { useState, useEffect ,createContext } from 'react'
 import { NavBar } from './components/container/navbar'
 import { SuiviProjet } from './components/container/suiviProjet'
-import { Events } from './components/container/events'
+import { Events } from './components/container/events';
 import { Admin } from './components/container/admin';
+import { Finance } from './components/container/detailprojet';
+import { Pti } from './components/container/pti';
 
 
 
@@ -27,6 +29,8 @@ function App() {
     evenement: <Events projet={projet} contrat={contrat} user={user}/>,
     accueil : (<div>bienvenue</div>),
     admin : <Admin />,
+    detailProjet : <Finance projet={projet}/>,
+    pti : <Pti projet={projet} />
   }
   const getData = () => {
     getRessources('/api/v1/user').then(
