@@ -4,14 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/react'
+import { Table } from './static/customStyle.ts'
 
+
+const theme = extendTheme({
+  components: {
+    Table: {    
+  },
+}
+})
 
 
 
 
 ReactDOM.render(
   
-  <ChakraProvider>
+  <ChakraProvider theme={theme}>
     
     <React.StrictMode>
     

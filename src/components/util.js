@@ -2,8 +2,8 @@
  
  
  
- //const domain = 'http://127.0.0.1:5000'
- const domain = 'https://apiplanproj.herokuapp.com/'
+ const domain = 'http://127.0.0.1:5000'
+ //const domain = 'https://apiplanproj.herokuapp.com/'
  
  export const postLogin = async (url, params={}, objects={}, method='POST') => {
        
@@ -52,9 +52,13 @@
             
     } else {
         console.log('erreur')
-        responsedata = [{'error':'error'}]
-        sessionStorage.isLogin = false
-        alert('session expirée, veuillez vous logger à nouveau')
+        responsedata = await response.json() //[{'error':'error'}]
+        if (response.status == 400)  {
+          sessionStorage.isLogin = false;
+          alert(responsedata.message)
+        }
+        //sessionStorage.isLogin = false
+        alert(responsedata.message)
     };
     
     return responsedata;
@@ -78,7 +82,8 @@
     const response = await fetch(domain+url, options)
        
     if (response.ok) {
-        responsedata = await response.json()     
+        responsedata = await response.json()
+         
             
     } else {
         console.log('erreur')
