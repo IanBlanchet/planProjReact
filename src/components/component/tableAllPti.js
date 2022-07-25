@@ -4,6 +4,11 @@ export function TableAllPti(props) {
 
     const year = new Date().getFullYear();
 
+    const handleSelectProjet = (e) => {
+        console.log(e.target.getAttribute('value'))
+        props.afficheProjet(parseInt(e.target.getAttribute('value')))
+    }
+
     return (
         <Table colorScheme='blue'>
             <Thead >
@@ -22,8 +27,8 @@ export function TableAllPti(props) {
                 {props.ptis.map(pti =>
                 
                 <Tr>
-                    <Td>{props.projet.find(item => item.id === pti.projet_id).no_projet}</Td>
-                    <Td>{props.projet.find(item => item.id === pti.projet_id).desc}</Td>
+                    <Td onClick={handleSelectProjet}  value={pti.projet_id}>{props.projet.find(item => item.id === pti.projet_id)?props.projet.find(item => item.id === pti.projet_id).no_projet:pti.projet_id}</Td>
+                    <Td>{props.projet.find(item => item.id === pti.projet_id)?props.projet.find(item => item.id === pti.projet_id).desc:''}</Td>
                     <Td>null</Td>
                     <Td>{pti.cycleCour/1000000}</Td>
                     <Td>{pti.cycle2/1000000}</Td>

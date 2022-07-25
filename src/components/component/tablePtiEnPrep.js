@@ -22,8 +22,8 @@ export function TablePtiEnPrep(props) {
                 {props.ptis.map(pti =>
                 
                 <Tr>
-                    <Td>{props.projet.find(item => item.id === pti.projet_id).no_projet}</Td>
-                    <Td>{props.projet.find(item => item.id === pti.projet_id).desc}</Td>
+                    <Td>{props.projet.find(item => item.id === pti.projet_id)?props.projet.find(item => item.id === pti.projet_id).no_projet:pti.projet_id}</Td>
+                    <Td>{props.projet.find(item => item.id === pti.projet_id)?props.projet.find(item => item.id === pti.projet_id).desc:''}</Td>
                     <Td>null</Td>
                     <Td>{pti.cycleCour/1000000}</Td>
                     <Td>{pti.cycle2/1000000}</Td>

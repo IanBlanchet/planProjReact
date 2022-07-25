@@ -33,8 +33,8 @@ export function Pti(props) {
                 <Radio value={(CurrentYear)}>En préparation</Radio>                
                 </Stack>
             </RadioGroup>
-            { year === CurrentYear?<TableAllPti projet={props.projet} ptis={ptis}/>
-                :<TablePtiEnPrep projet={props.projet} ptis={ptis}/>
+            { year === CurrentYear?<TablePtiEnPrep projet={props.projet} ptis={ptis}/>
+                :<TableAllPti projet={props.projet} ptis={ptis} afficheProjet={props.afficheProjet}/>
             }
             
         </Grid>

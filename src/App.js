@@ -5,7 +5,7 @@ import { NavBar } from './components/container/navbar'
 import { SuiviProjet } from './components/container/suiviProjet'
 import { Events } from './components/container/events';
 import { Admin } from './components/container/admin';
-import { Finance } from './components/container/detailprojet';
+import { DetailProjet } from './components/container/detailprojet';
 import { Pti } from './components/container/pti';
 
 
@@ -19,19 +19,10 @@ function App() {
   const [user, setUser] = useState([]);
   const [contrat, setContrat] = useState([]);
   const [projet, setProjet] = useState([]);
-  const [view, setView ] = useState('accueil')  
-  
-  
+  const [view, setView ] = useState('accueil');
+    
+    
 
-  
-  let menuChoice = {
-    suiviProjet: <SuiviProjet projet={projet} contrat={contrat} user={user}/>,
-    evenement: <Events projet={projet} contrat={contrat} user={user}/>,
-    accueil : (<div>bienvenue</div>),
-    admin : <Admin />,
-    detailProjet : <Finance projet={projet}/>,
-    pti : <Pti projet={projet} />
-  }
   const getData = () => {
     getRessources('/api/v1/user').then(
       users => setUser(users)
@@ -52,6 +43,24 @@ function App() {
       
   };
 
+
+  const afficheDetailprojet = (projet_id) => {
+    const selectedProjet = projet.find(item => item.id == projet_id);
+    menuChoice['detailProjetSelected'] = <DetailProjet projet={projet} isSelected={true} selected={selectedProjet}/>
+    setView('detailProjetSelected')
+    
+  }
+ 
+  let menuChoice = {
+    suiviProjet: <SuiviProjet projet={projet} contrat={contrat} user={user}/>,
+    evenement: <Events projet={projet} contrat={contrat} user={user}/>,
+    accueil : (<div>bienvenue</div>),
+    admin : <Admin />,
+    detailProjet : <DetailProjet projet={projet} isSelected={false} selected=''/>,
+    detailProjetSelected : <DetailProjet projet={projet} isSelected={true} selected={''}/>,
+    pti : <Pti projet={projet} afficheProjet={afficheDetailprojet}/>
+  }
+
   const menuClick = (container) => {
     
     setView(container)    
@@ -60,6 +69,9 @@ function App() {
   const showAccueil = () => {
     setView('accueil')
   }
+
+
+  
 
   useEffect(() => {
     sessionStorage.isLogin = false
