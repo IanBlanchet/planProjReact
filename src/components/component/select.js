@@ -9,7 +9,7 @@ export function SelectProjet(props) {
     }
 
     return (
-    <Select placeholder='Select projet' onChange={handleSelect} w='30%'>
+    <Select placeholder='Select projet' onChange={handleSelect} w='fit-content'>
         {props.projets.map(item => <option key={item.id} value={item.id} >{item.no_projet} -- {item.desc}</option>)}
     </Select>
     )

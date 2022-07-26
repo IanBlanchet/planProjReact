@@ -10,12 +10,12 @@ export function SourceFinance(props) {
     useEffect(() => {
         getRessources('/api/v1/finance/'+props.projet.id).then(
             lesfinance => setFinance(lesfinance))
-    }, [props])
+    }, [props.projet])
 
     return (
         <Box display='inline'>
         
-        <Box width='fit-content'>
+        <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' overflow='hidden'>
                     <Heading size='lg'>Sources de financement</Heading>
                     <Heading size='md' color='blue.500'>Règlements</Heading>
                         <UnorderedList>

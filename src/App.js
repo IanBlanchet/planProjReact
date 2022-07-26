@@ -20,7 +20,7 @@ function App() {
   const [contrat, setContrat] = useState([]);
   const [projet, setProjet] = useState([]);
   const [view, setView ] = useState('accueil');
-    
+  
     
 
   const getData = () => {
@@ -46,8 +46,8 @@ function App() {
 
   const afficheDetailprojet = (projet_id) => {
     const selectedProjet = projet.find(item => item.id == projet_id);
-    menuChoice['detailProjetSelected'] = <DetailProjet projet={projet} isSelected={true} selected={selectedProjet}/>
-    setView('detailProjetSelected')
+    console.log(selectedProjet);
+    setView(<DetailProjet projet={projet} isSelected={true} selected={selectedProjet}/>)
     
   }
  
