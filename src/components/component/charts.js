@@ -42,12 +42,38 @@ export function TimelineChart(props) {
     />
     );
 }
-/*,
-[
-    "ProjetTest",
-    "C_Direction",
-    new Date(2022, 2, 7),
-    new Date(2022, 2, 8),
-  ],
-  ["ProjetTest", "Commission", new Date(2022, 2, 14), new Date(2022, 2,15)],
-  ["ProjetTest", "Conseil", new Date(2022, 3, 8), new Date(2022, 3, 9)],*/
+
+
+
+
+const dataGauge = [
+    ["Label", "Value"]    
+    
+  ];
+
+
+export const optionsGauge = {
+  width: 300,
+  height: 200,
+  redFrom: 0,
+  redTo: 20,
+  yellowFrom: 20,
+  yellowTo: 50,
+  greenFrom:50,
+  greenTo:100,
+  minorTicks: 5,
+};
+
+export function GaugeChart(props) {
+ 
+
+  return (
+    <Chart
+      chartType="Gauge"
+      width="100%"
+      height="400px"
+      data={props.data}
+      options={optionsGauge}
+    />
+  );
+}

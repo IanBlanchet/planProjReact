@@ -5,7 +5,7 @@ export function TableAllPti(props) {
     const year = new Date().getFullYear();
 
     const handleSelectProjet = (e) => {
-        console.log(e.target.getAttribute('value'))
+        
         props.afficheProjet(parseInt(e.target.getAttribute('value')))
     }
 

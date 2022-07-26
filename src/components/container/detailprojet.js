@@ -1,16 +1,16 @@
 import { SelectProjet } from "../component/select";
-import { Grid, GridItem, Box, Text} from '@chakra-ui/react';
+import { Grid, GridItem, Box, Text, Flex } from '@chakra-ui/react';
 import { List, ListItem, ListIcon, OrderedList, UnorderedList } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react'
 import { useState, useEffect} from 'react';
 import { TablePti } from "../component/tablePti";
 import { Descriptif } from "../component/descriptif";
 import { SourceFinance } from "../component/sourceFinance";
+import { GaugeChart } from "../component/charts";
+import { RessourceRequise } from "../component/ressource";
+import { Impacts } from "../component/impactbudget";
 import { getRessources } from '../util';
 import { modJalon } from '../util';
-
-
-
 
 
 export function DetailProjet(props) {
@@ -18,12 +18,24 @@ export function DetailProjet(props) {
     const [currentProject, setCurrentProject] = useState(props.isSelected?props.selected:{});
     const [depense, setDepense] = useState({});
     const [pti, setPti] = useState({});
+    const [users, setUsers] = useState([])
+    const [user, setUser] = useState({})
+    
     
     const year = new Date().getFullYear();
     
     
     const selectProjet = (projet_id) => {             
-        setCurrentProject(projet.find(item => item.id == projet_id))        
+        const leprojet = projet.find(item => item.id == projet_id)
+        setCurrentProject(leprojet)
+        const user = users.find(item => item.id == leprojet.charge)
+
+        if (user) {
+            setUser(user)
+        } else {
+            setUser({'username':'', 'service':'', 'email':''})
+        }
+
     }
 
   
@@ -37,6 +49,10 @@ export function DetailProjet(props) {
         
     }
 
+    const updateNature = (data) => {        
+        modJalon(`/api/v1/projet/${currentProject.id}`, {}, {'nature':data}, 'PUT');
+
+    }
 
     useEffect(() => {
         getRessources('/api/v1/projet').then(
@@ -56,6 +72,8 @@ export function DetailProjet(props) {
             lesdepense => setDepense(lesdepense));
         getRessources('/api/v1/pti/'+currentProject.id).then(
             lesPti => setPti(lesPti));
+        getRessources('/api/v1/user').then(
+            lesUser => setUsers(lesUser));
    
             
         
@@ -64,22 +82,33 @@ export function DetailProjet(props) {
 
     return (
         
-        <Grid  templateRows='repeat(2, 50px)' templateColumns='2fr, 3fr, 1fr' gap={6}>
+        <Grid  templateRows='repeat(3, 1fr, 3fr, 3fr)' templateColumns='2fr, 3fr, 1fr' gap={6} >
             <GridItem marginLeft='35%' marginTop='5px' colSpan='3'>
                     <SelectProjet projets={projet} onChange={selectProjet}/>                    
             </GridItem>
 
-            <GridItem marginLeft='2%' marginTop='5px' display='flex' gap='100px'>
-                
+            <GridItem marginLeft='2%' display='flex'>
                 <Descriptif projet={currentProject} lesprojet={projet} updateProjet={selectProjet}/>
-                              
+            </GridItem>
 
-                <Box display='inline'>
+            <GridItem marginLeft='2%' marginTop='5px' display='flex' gap='100px'>                               
+                <Box  >
                     <TablePti depense={depense} pti={pti} projet={currentProject} updatePti={updatePti} updatePrevision={updatePrevision}/>                    
                 </Box>
             </GridItem>
+
             <GridItem display='flex'>
                 <SourceFinance  projet={currentProject}  />
+            </GridItem>
+
+            <GridItem display='flex' marginLeft='2%' marginTop='5px'>
+                <RessourceRequise projet={currentProject} updateNature={updateNature} user={user}/>
+            </GridItem>
+            <GridItem>
+                <Impacts projet={currentProject} lesprojet={projet} updateProjet={selectProjet}/>
+            </GridItem>
+            <GridItem display='block' justifySelf='center'>
+                <GaugeChart data={[["Label", "Value"], ["avancement",0]]}/>
             </GridItem>
             
         </Grid>
@@ -87,3 +116,5 @@ export function DetailProjet(props) {
         
     )
 }
+
+//
