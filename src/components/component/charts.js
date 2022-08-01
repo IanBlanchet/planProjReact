@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
-
+import { FcUp, FcDown } from "react-icons/fc";
+import { IconButton, Box, Stack } from '@chakra-ui/react'
 
 export const data = [
     [
@@ -64,16 +65,60 @@ export const optionsGauge = {
   minorTicks: 5,
 };
 
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0}
+
 export function GaugeChart(props) {
  
+  
+  const [nature, setNature] = useState(blanckNature)
+  
+
+  const handleClickUp = () => {
+    let newAvancement = 0
+    
+    newAvancement = nature.avancement +5    
+    let newNature = {...nature};    
+    newNature.avancement = newAvancement
+    setNature(newNature)
+    props.updateNature(newNature)        
+  }
+
+  const handleClickDown = () => {
+    let newAvancement = 0
+    
+    newAvancement = nature.avancement -5    
+    let newNature = {...nature};    
+    newNature.avancement = newAvancement
+    setNature(newNature)
+    props.updateNature(newNature)  
+    
+  }
+
+  useEffect(() => {
+      !props.projet.nature?setNature(blanckNature):
+      setNature({...blanckNature,...props.projet.nature});
+      return () => {
+        setNature(blanckNature);
+    }
+  }, [props.projet])
 
   return (
+    <Box>
+    <Box >
+    <IconButton aria-label='avance' icon={<FcUp />} id='up' onClick={handleClickUp} />
+    <IconButton aria-label='recule' icon={<FcDown />} id='down' onClick={handleClickDown} />
+    </Box>
+    <Box >
     <Chart
       chartType="Gauge"
-      width="100%"
-      height="400px"
-      data={props.data}
+      width="80px"
+      height="80px"
+      data={[["Label", "Value"], ["avancement",nature.avancement]]}
       options={optionsGauge}
+         
     />
+    </Box>
+    </Box>
+    
   );
 }

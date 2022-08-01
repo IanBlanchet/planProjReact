@@ -54,6 +54,10 @@ export function DetailProjet(props) {
 
     }
 
+    const updateAvancement = (indicateur) => {
+
+    }
+
     useEffect(() => {
         getRessources('/api/v1/projet').then(
             projets => setProjet(projets.filter(item => item.statut === 'Actif').sort( (a,b) => {
@@ -107,8 +111,8 @@ export function DetailProjet(props) {
             <GridItem>
                 <Impacts projet={currentProject} lesprojet={projet} updateProjet={selectProjet}/>
             </GridItem>
-            <GridItem display='block' justifySelf='center'>
-                <GaugeChart data={[["Label", "Value"], ["avancement",0]]}/>
+            <GridItem display='flex'>
+                <GaugeChart projet={currentProject} onClick={updateAvancement('plus')} onDoubleClick={updateAvancement('moins')} updateNature={updateNature}/>
             </GridItem>
             
         </Grid>
