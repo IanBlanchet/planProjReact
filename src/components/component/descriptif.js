@@ -53,7 +53,7 @@ export function Descriptif(props) {
         //setlisDesc({});
         setlistDesc(renderListDesc(props.projet.nature));
         //setNature({})
-        setNature(!props.projet.nature?{'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':'', 'tempsTech' :''}:props.projet.nature)
+        setNature(!props.projet.nature?{'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0}:props.projet.nature)
                 
     },[props, isChecked])
     

@@ -7,7 +7,7 @@ export function TextDescriptif(props) {
 
 
     return (
-        <Box>
+        <Box >
         <Heading size='md'>{props.titre}</Heading><UnorderedList fontSize='md'>{props.detail&&props.detail.map(item => <ListItem key={item}>{item}</ListItem>)}</UnorderedList>
         </Box>
     )

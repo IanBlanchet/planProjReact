@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { modJalon } from '../util';
 import { Box, IconButton, Heading, Input, InputGroup, InputLeftAddon, InputRightAddon, Stack, Text, List, ListItem, Select } from '@chakra-ui/react';
 import { FcSettings, FcFeedIn } from "react-icons/fc";
 
@@ -7,9 +6,11 @@ const year = new Date().getFullYear();
 
 const options = ['Ingénierie', 'Travaux publics', 'Environnement', 'SRC', 'Urbanisme', 'Développement Économique', 'Greffe', 'Finance', 'Communications']
 
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0}
+
 export function RessourceRequise (props) {
 
-    const [nature, setNature] = useState({'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0})
+    const [nature, setNature] = useState(blanckNature)
     const [isChecked, setIschecked] = useState(false);
 
     const handleChange = (e) => {
@@ -40,9 +41,9 @@ export function RessourceRequise (props) {
 
     useEffect(()=>{
         
-        setNature(!props.projet.nature?{'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0}:{...{'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0},...props.projet.nature})
+        setNature(!props.projet.nature?blanckNature:{...blanckNature,...props.projet.nature})
         return () => {
-            setNature({'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0});
+            setNature(blanckNature);
         }
     }, [props.projet])
     
