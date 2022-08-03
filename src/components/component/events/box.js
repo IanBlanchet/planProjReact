@@ -1,6 +1,6 @@
 import { Box, HStack, Grid, GridItem, Input } from '@chakra-ui/react';
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
-import { InputDuree } from './dureeinput';
+import { InputDuree } from '../detailProjet/dureeinput';
 
 const size = 25
 const icons = {

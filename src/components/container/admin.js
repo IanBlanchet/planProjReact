@@ -1,4 +1,4 @@
-import { CalendarPicker } from "../component/calendar"
+import { CalendarPicker } from "../component/events/calendar"
 import { Box, Button, Select, Input } from "@chakra-ui/react"
 import { useState, useEffect } from 'react';
 import { getRessources, modJalon } from '../util';

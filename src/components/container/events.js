@@ -1,9 +1,9 @@
 import { Box } from '@chakra-ui/react'
-import { SelectEvent } from '../component/select';
+import { SelectEvent } from '../component/common/select';
 import { useState, useEffect, createContext  } from 'react'
 import { getRessources } from '../util';
-import { JalonDetail } from '../component/box';
-import { CalendarPicker } from '../component/calendar';
+import { JalonDetail } from '../component/events/box';
+import { CalendarPicker } from '../component/events/calendar';
 
 
 

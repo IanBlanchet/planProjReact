@@ -20,6 +20,7 @@ function App() {
   const [contrat, setContrat] = useState([]);
   const [projet, setProjet] = useState([]);
   const [view, setView ] = useState('accueil');
+  const [selected, setSelected] = useState([false,{}])
   
     
 
@@ -44,10 +45,12 @@ function App() {
   };
 
 
-  const afficheDetailprojet = (projet_id) => {
-    const selectedProjet = projet.find(item => item.id == projet_id);
-    console.log(selectedProjet);
-    setView(<DetailProjet projet={projet} isSelected={true} selected={selectedProjet}/>)
+  const afficheDetailprojet = (projet_id) => {    
+    const selectedProjet = projet.find(item => item.id == projet_id);    
+    let newSelected = [...selected]
+    newSelected[1] = selectedProjet
+    newSelected[0] = true
+    setSelected(newSelected)
     
   }
  
@@ -62,7 +65,7 @@ function App() {
   }
 
   const menuClick = (container) => {
-    
+    setSelected([false,{}])
     setView(container)    
   };
 
@@ -84,7 +87,7 @@ function App() {
         <loginContext.Provider value={sessionStorage.getItem('isLogin')}>
           <NavBar onLogin={getData} onLogout={showAccueil} onMenuSelect={menuClick}/>  
         
-        {menuChoice[view]}    
+        {selected[0]?<DetailProjet projet={projet} isSelected={true} selected={selected[1]}/>:menuChoice[view]}    
         </loginContext.Provider>
     </div>
    

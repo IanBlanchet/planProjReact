@@ -1,7 +1,7 @@
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Text } from '@chakra-ui/react'
 import { Input, InputLeftAddon, InputGroup, IconButton, ButtonGroup, Select, Box} from '@chakra-ui/react'
 import { useState, useEffect } from 'react';
-import { getRessources } from '../util';
+import { getRessources } from '../../util';
 
 
 

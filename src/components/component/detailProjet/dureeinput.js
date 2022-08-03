@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { Input, InputRightAddon, InputGroup, IconButton, ButtonGroup, Select, Box} from '@chakra-ui/react';
+
 import {
     NumberInput,
     NumberInputField,
@@ -7,7 +7,7 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
   } from '@chakra-ui/react'
-import {modJalon} from "../util";
+import {modJalon} from "../../util";
 
 export function InputDuree(props) {
 

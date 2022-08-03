@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { modJalon } from '../util';
+import { modJalon } from '../../util';
 import { List, ListItem, ListIcon, OrderedList, UnorderedList, Stack, Box, IconButton, Heading } from '@chakra-ui/react';
 import { TextDescriptif, EditTextDescriptif } from './textdescription';
 import { FcSettings, FcFeedIn } from "react-icons/fc";

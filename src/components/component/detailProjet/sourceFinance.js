@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getRessources } from '../util';
+import { getRessources } from '../../util';
 import { List, ListItem, ListIcon, OrderedList, UnorderedList, Text, Box, IconButton, Heading } from '@chakra-ui/react';
 
 
