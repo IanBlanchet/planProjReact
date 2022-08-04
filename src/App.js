@@ -2,6 +2,7 @@ import './App.css';
 import { getRessources } from './components/util';
 import { useState, useEffect ,createContext } from 'react'
 import { NavBar } from './components/container/navbar'
+import { Acceuil } from './components/container/accueil';
 import { SuiviProjet } from './components/container/suiviProjet'
 import { Events } from './components/container/events';
 import { Admin } from './components/container/admin';
@@ -57,7 +58,7 @@ function App() {
   let menuChoice = {
     suiviProjet: <SuiviProjet projet={projet} contrat={contrat} user={user}/>,
     evenement: <Events projet={projet} contrat={contrat} user={user}/>,
-    accueil : (<div>bienvenue</div>),
+    accueil : <Acceuil />,
     admin : <Admin />,
     detailProjet : <DetailProjet projet={projet} isSelected={false} selected=''/>,
     detailProjetSelected : <DetailProjet projet={projet} isSelected={true} selected={''}/>,
