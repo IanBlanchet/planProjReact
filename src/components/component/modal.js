@@ -28,6 +28,7 @@ export function Connexion(props) {
 
     const handleLogin = () => {
       const object = {'username':user.username, 'password':user.password};
+      document.body.style.cursor = "wait"
       const data = async () => {        
         postLogin('/api/v1/autorize', {}, object, "POST").then((data) =>
         {
@@ -44,7 +45,8 @@ export function Connexion(props) {
             toast({status:'success', description:'bienvenue '+user.username});
             onClose();
             props.onLogin()
-          }
+          };
+          document.body.style.cursor = "default"
             
            
         });     

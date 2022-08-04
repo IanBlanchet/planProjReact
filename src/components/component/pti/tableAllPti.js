@@ -53,7 +53,7 @@ export function TableAllPti(props) {
                 <Tr>
                     <Td onClick={handleSelectProjet}  value={pti.projet_id} textColor='blue' _hover={{background: "white", color: "teal.500",}}>{pti.no_projet}</Td>
                     <Td>{pti.description}</Td>
-                    <Td>{props.projet.find(item => item.id === pti.projet_id)?(props.projet.find(item => item.id === pti.projet_id).anterieur/1000000).toFixed(2):''}</Td>
+                    <Td>{(pti.anterieur/1000000).toFixed(2)}</Td>
                     <Td>{pti.cycleCour/1000000}</Td>
                     <Td>{pti.cycle2/1000000}</Td>
                     <Td>{pti.cycle3/1000000}</Td>

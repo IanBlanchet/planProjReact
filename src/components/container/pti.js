@@ -8,46 +8,53 @@ import { Radio, RadioGroup } from '@chakra-ui/react'
 const CurrentYear = new Date().getFullYear();
 
 export function Pti(props) {
-
-    const [ptis, setPtis] = useState([]);    
+    // declaration de donne de base correspondant au pti pour eviter des call à l'api au changement d'années qui ralentissent.
+    const [donneeBase, setDonneeBase] = useState([])
+    const [donneeBaseEnPrep, setDonneeBaseEnPrep] = useState([])
+    const [ptis, setPtis] = useState([]);
+    const [ptisEnPrep, setPtisEnPrep] = useState([])    
     const [year, setYear] = useState((CurrentYear-1));
 
     
     const changePti = (e) => {
-        setYear(parseInt(e))
+        setYear(parseInt(e));
+        setPtis(donneeBase);
+        setPtisEnPrep(donneeBaseEnPrep);
     }
 
     const filtrePti = (filtre) => {
-        getRessources('/api/v1/pti/all/'+year).then(
-            lesPti => 
-            {
-            if (filtre) {         
+        const donnee = !(year === CurrentYear)?donneeBase:donneeBaseEnPrep
+        if (filtre) {         
             let newPti = [];
             const projetFiltre = props.projet.filter(item => item.cat === filtre);
             projetFiltre.forEach(element => {
-                const pti = lesPti.find(pti => pti.projet_id === element.id)
+                const pti = donnee.find(pti => pti.projet_id === element.id)
                 pti&&newPti.push(pti)
                 });        
-            setPtis(newPti);
+                !(year === CurrentYear)?setPtis(newPti):setPtisEnPrep(newPti)
             } else {
-                setPtis(lesPti); 
-            }
-            }            
-            ); 
+                !(year === CurrentYear)?setPtis(donneeBase):setPtisEnPrep(donneeBaseEnPrep)
+            }               
+            
         
     }
 
     const triPti = (column, sens) => {
-        let ptiTrie = [...ptis];
+        let ptiTrie = !(year === CurrentYear)?[...ptis]:[...ptisEnPrep];
         sens?ptiTrie.sort((a,b) => (a[column] > b[column]) ? 1 : ((b[column] > a[column]) ? -1 : 0)):
         ptiTrie.sort((a,b) => (b[column] > a[column]) ? 1 : ((a[column] > b[column]) ? -1 : 0));
-        setPtis(ptiTrie)
+        !(year === CurrentYear)?setPtis(ptiTrie):setPtisEnPrep(ptiTrie);
     }
 
     useEffect(() => {
-        getRessources('/api/v1/pti/all/'+year).then(
-             lesPti => setPtis(lesPti));   
-     },[year])
+        console.log(CurrentYear-1);
+        document.body.style.cursor = "wait";
+        getRessources('/api/v1/pti/all/'+(CurrentYear-1)).then(
+             lesPti => {setPtis(lesPti);setDonneeBase(lesPti)});
+        getRessources('/api/v1/pti/all/'+CurrentYear).then(
+                lesPtiEnPrep => {setPtisEnPrep(lesPtiEnPrep);setDonneeBaseEnPrep(lesPtiEnPrep); document.body.style.cursor = "default"});
+              
+     },[])
 
 
 
@@ -62,7 +69,7 @@ export function Pti(props) {
             </RadioGroup>
             
             
-                <TableAllPti year={year} projet={props.projet} ptis={ptis} afficheProjet={props.afficheProjet} filter={filtrePti} trie={triPti}/>
+                <TableAllPti year={year} projet={props.projet} ptis={!(year === CurrentYear)?ptis:ptisEnPrep} afficheProjet={props.afficheProjet} filter={filtrePti} trie={triPti}/>
             
             
         </Grid>
