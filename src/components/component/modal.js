@@ -101,7 +101,7 @@ export function Connexion(props) {
             </ModalBody>)
             : 
             (<ModalBody>
-              <Text marginBottom='5px'>Bonjour {sessionStorage.username}</Text>
+              <Text marginBottom='5px' fontFamily='serif' fontSize='xx-large'>Bonjour {sessionStorage.username}</Text>
               <Link href='https://planproj.herokuapp.com/reset_password_request' isExternal>
                 Pour réinitialiser ton mot de passe <ExternalLinkIcon mx='2px' />
               </Link>
