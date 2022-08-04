@@ -1,8 +1,8 @@
-import { SelectProjet } from '../component/select';
+import { SelectProjet } from '../component/common/select';
 import { Grid, GridItem} from '@chakra-ui/react';
 import { useState, useEffect, createContext  } from 'react'
 import { getRessources } from '../util';
-import { GanttProjet } from '../component/gantt';
+import { GanttProjet } from '../component/suiviProjet/gantt';
 import { DateTime, Duration } from 'luxon';
 
 /**

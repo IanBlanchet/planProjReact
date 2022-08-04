@@ -1,6 +1,6 @@
-import { TimelineChart } from "./charts";
+import { TimelineChart } from "../common/charts";
 import { Flex, Spacer, Box, VStack } from '@chakra-ui/react'
-import { Jalons } from './modal'
+import { Jalons } from '../modal'
 import { EditJalon } from "./drawers";
 import { useState, useEffect } from 'react'
 

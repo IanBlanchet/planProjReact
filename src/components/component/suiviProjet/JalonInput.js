@@ -2,8 +2,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { Input, InputLeftAddon, InputGroup, IconButton, ButtonGroup, Select, Box} from '@chakra-ui/react'
 import { CheckCircleIcon, CloseIcon, PlusSquareIcon} from '@chakra-ui/icons'
-import { modJalon } from '../util';
-import { ContextSelectProject } from '../container/suiviProjet';
+import { modJalon } from '../../util';
+import { ContextSelectProject } from '../../container/suiviProjet';
 import { useFormik } from 'formik';
 
 

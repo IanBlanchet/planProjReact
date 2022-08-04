@@ -1,14 +1,14 @@
-import { SelectProjet } from "../component/select";
-import { Grid, GridItem, Box, Text, Flex } from '@chakra-ui/react';
+import { SelectProjet } from "../component/common/select";
+import { Grid, GridItem, Box, Text, Flex, Stack, Heading } from '@chakra-ui/react';
 import { List, ListItem, ListIcon, OrderedList, UnorderedList } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react'
 import { useState, useEffect} from 'react';
-import { TablePti } from "../component/tablePti";
-import { Descriptif } from "../component/descriptif";
-import { SourceFinance } from "../component/sourceFinance";
-import { GaugeChart } from "../component/charts";
-import { RessourceRequise } from "../component/ressource";
-import { Impacts } from "../component/impactbudget";
+import { TablePti } from "../component/detailProjet/tablePti";
+import { Descriptif } from "../component/detailProjet/descriptif";
+import { SourceFinance } from "../component/detailProjet/sourceFinance";
+import { GaugeChart } from "../component/common/charts";
+import { RessourceRequise } from "../component/detailProjet/ressource";
+import { Impacts } from "../component/detailProjet/impactbudget";
 import { getRessources } from '../util';
 import { modJalon } from '../util';
 
@@ -84,11 +84,15 @@ export function DetailProjet(props) {
     }, [currentProject, props])
 
 
+    
+
     return (
         
         <Grid  templateRows='repeat(3, 1fr, 3fr, 3fr)' templateColumns='2fr, 3fr, 1fr' gap={6} >
-            <GridItem marginLeft='35%' marginTop='5px' colSpan='3'>
-                    <SelectProjet projets={projet} onChange={selectProjet}/>                    
+            <GridItem  margin='5px' colSpan='3'>
+                    <Stack direction='row'><SelectProjet projets={projet} onChange={selectProjet} defaultValue={currentProject.id?(currentProject.id).toString():''}/>
+                    <Heading borderWidth='2px' borderRadius='lg' size='lg' width='lg' padding='1'>{currentProject.desc}</Heading>
+                    </Stack>                    
             </GridItem>
 
             <GridItem marginLeft='2%' display='flex'>

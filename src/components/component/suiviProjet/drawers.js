@@ -11,10 +11,10 @@ import {
   } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons'
 import { Button, Input, FormControl, IconButton, VStack } from '@chakra-ui/react';
-import { JalonInput } from './JalonInput';
-import {modJalon} from "../util";
-import { ContextSelectProject } from '../container/suiviProjet';
-import { AddJalonInput } from './JalonInput';
+import { JalonInput } from '../suiviProjet/JalonInput';
+import {modJalon} from "../../util";
+import { ContextSelectProject } from '../../container/suiviProjet';
+import { AddJalonInput } from '../suiviProjet/JalonInput';
 
 export function EditJalon(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
