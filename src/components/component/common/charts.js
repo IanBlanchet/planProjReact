@@ -65,7 +65,7 @@ export const optionsGauge = {
   minorTicks: 5,
 };
 
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0}
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}
 
 export function GaugeChart(props) {
  

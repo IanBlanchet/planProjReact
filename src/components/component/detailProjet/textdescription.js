@@ -3,26 +3,16 @@ import { FcPlus } from "react-icons/fc";
 import { useState, useEffect } from 'react';
 
 
-export function TextDescriptif(props) {
-
-
-    return (
-        <Box >
-        <Heading size='md'>{props.titre}</Heading><UnorderedList fontSize='md'>{props.detail&&props.detail.map(item => <ListItem key={item}>{item}</ListItem>)}</UnorderedList>
-        </Box>
-    )
-}
-
-
 export function EditTextDescriptif(props) {
 
     const [detail, setDetail] = useState([])
 
     
     const handleClick = () => {
-        let newDetail = detail;
+        let newDetail = [...detail];
         setDetail([]);
-        newDetail = [...newDetail, '']
+        newDetail = [...newDetail, ' ']
+        console.log(newDetail)
         setDetail(newDetail);
     }
 
@@ -41,14 +31,23 @@ export function EditTextDescriptif(props) {
     }
 
     useEffect( () => {
-       //setDetail([])
-       setDetail(props.detail)       
-    }, [])
+       
+       setDetail(props.detail);       
+         
+    },[props])
 
     return (
         <Box>
-        <Heading size='md' >{props.titre}</Heading><UnorderedList fontSize='md'>{detail.map((item, index) => <ListItem key={index}>
-                                    <Input size='sm' type='text' name={props.titre} index={index} value={item} onChange={handleChange}/></ListItem>)}</UnorderedList><IconButton icon={<FcPlus/>} onClick={handleClick}/>
+        {!props.isChecked?
+            <Box>
+                <Heading size='md'>{props.titre}</Heading><UnorderedList fontSize='md'>{detail.map(item => <ListItem key={item}>{item}</ListItem>)}</UnorderedList>
+            </Box>:
+            <Box>
+                <Heading size='md' >{props.titre}</Heading><UnorderedList fontSize='md'>{detail.map((item, index) => <ListItem key={index}>
+                                        <Input size='sm' type='text' name={props.titre} index={index} value={item} onChange={handleChange}/></ListItem>)}</UnorderedList><IconButton icon={<FcPlus/>} onClick={handleClick}/>
+            </Box>
+        }
         </Box>
+        
     )
 }

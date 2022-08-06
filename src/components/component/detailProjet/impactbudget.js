@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { modJalon } from '../../util';
 import { List, ListItem, ListIcon, OrderedList, UnorderedList, Stack, Box, IconButton, Heading } from '@chakra-ui/react';
-import { TextDescriptif, EditTextDescriptif } from './textdescription';
+import { EditTextDescriptif } from './textdescription';
 import { FcSettings, FcFeedIn } from "react-icons/fc";
 
-
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}
 
 export function Impacts(props) {
 
     const [isChecked, setIschecked] = useState(false);
     const [listDesc, setlistDesc] = useState([]);
-    const [nature, setNature] = useState({'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]});    
+    const [nature, setNature] = useState(blanckNature);    
 
     
     const buttonClick = () => {
@@ -30,9 +30,8 @@ export function Impacts(props) {
     }
 
     useEffect(() => {
-        //setlisDesc({});        
-        //setNature({})
-        setNature(!props.projet.nature?{'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}:props.projet.nature)
+        
+        setNature(!props.projet.nature?blanckNature:{...blanckNature,...props.projet.nature})
                 
     },[props, isChecked])
     
@@ -44,7 +43,7 @@ export function Impacts(props) {
                     <Heading size='lg' marginBottom='2'>Impacts sur le budget de fonctionnement<IconButton onClick={buttonClick} variant={isChecked?'solid':'outline'} colorScheme='whiteAlpha' icon={!isChecked?<FcSettings/>:<FcFeedIn/>}/></Heading>
                     
                     <Stack orientation='vertical'>
-                    <TextDescriptif titre='Impacts' detail={nature.impacts} />
+                    <EditTextDescriptif titre='Impacts' detail={nature.impacts} />
                     
                     
                     </Stack>
