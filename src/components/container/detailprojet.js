@@ -96,7 +96,7 @@ export function DetailProjet(props) {
             </GridItem>
 
             <GridItem marginLeft='2%' display='flex'>
-                <Descriptif projet={currentProject} lesprojet={projet} updateProjet={selectProjet}/>
+                <Descriptif projet={currentProject} lesprojet={projet} updateNature={updateNature}/>
             </GridItem>
 
             <GridItem marginLeft='2%' marginTop='5px' display='flex' gap='100px'>                               
@@ -125,4 +125,4 @@ export function DetailProjet(props) {
     )
 }
 
-//
+//<Descriptif projet={currentProject} lesprojet={projet} updateNature={updateNature}/>

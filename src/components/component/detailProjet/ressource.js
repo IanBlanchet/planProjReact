@@ -6,7 +6,7 @@ const year = new Date().getFullYear();
 
 const options = ['Ingénierie', 'Travaux publics', 'Environnement', 'SRC', 'Urbanisme', 'Développement Économique', 'Greffe', 'Finance', 'Communications']
 
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0}
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}
 
 export function RessourceRequise (props) {
 
@@ -73,7 +73,7 @@ export function RessourceRequise (props) {
                 <Heading size='md'>Services impliqués<IconButton icon={<FcSettings/>} onClick={handleCheck} /></Heading>
                 {isChecked&&<Stack >
                 <Select placeholder='Selectionne un service' onDoubleClick={addService}> 
-                    {options.map(item => <option value={item} >{item}</option>)}                   
+                    {options.map(item => !nature.services.includes(item)&&(<option value={item} >{item}</option>))}                   
                 </Select>
                 </Stack>}
                 <Text><List>{nature.services?nature.services.map(item => <ListItem>{item}</ListItem>):''}</List></Text>

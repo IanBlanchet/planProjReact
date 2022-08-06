@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { modJalon } from '../../util';
 import { List, ListItem, ListIcon, OrderedList, UnorderedList, Stack, Box, IconButton, Heading } from '@chakra-ui/react';
-import { TextDescriptif, EditTextDescriptif } from './textdescription';
+import { EditTextDescriptif } from './textdescription';
 import { FcSettings, FcFeedIn } from "react-icons/fc";
 
 
@@ -24,38 +24,35 @@ import { FcSettings, FcFeedIn } from "react-icons/fc";
         }
     }
 
-
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}
 
 export function Descriptif(props) {
 
     const [isChecked, setIschecked] = useState(false);
-    const [listDesc, setlistDesc] = useState([]);
-    const [nature, setNature] = useState({'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0});    
+    //const [listDesc, setlistDesc] = useState([]);
+    const [nature, setNature] = useState(blanckNature);    
 
     
     const buttonClick = () => {
-        setIschecked(isChecked?false:true)
-        //setlisDesc(renderListDesc(nature));
-        props.updateProjet(props.projet.id);
+        setIschecked(isChecked?false:true)        
         
     }
 
     const updateNature = (data) => {
-        let newNature = nature;
-        newNature = {...nature, ...data}
-        setNature({...props.projet.nature, ...newNature})        
-        const objectNature = {"nature":{...props.projet.nature, ...newNature}}
+        let newNature = {...nature};
+        newNature = {...newNature, ...data}
+        setNature(newNature);        
+        props.updateNature(newNature);
         
-        modJalon(`/api/v1/projet/${props.projet.id}`, {}, objectNature, 'PUT');
     }
 
     useEffect(() => {
         //setlisDesc({});
-        setlistDesc(renderListDesc(props.projet.nature));
+        //setlistDesc(renderListDesc(props.projet.nature));
         //setNature({})
-        setNature(!props.projet.nature?{'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0}:props.projet.nature)
+        setNature(!props.projet.nature?blanckNature:{...blanckNature, ...props.projet.nature})
                 
-    },[props, isChecked])
+    },[props.projet])
     
 
     return (
@@ -63,21 +60,15 @@ export function Descriptif(props) {
         
         <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' overflow='hidden'>
                     <Heading size='lg' marginBottom='2'>Description générale <IconButton onClick={buttonClick} variant={isChecked?'solid':'outline'} colorScheme='whiteAlpha' icon={!isChecked?<FcSettings/>:<FcFeedIn/>}/></Heading>
-                    {!isChecked?
+                    
                     <Stack orientation='vertical'>
-                    <TextDescriptif titre='nature' detail={nature.nature} />
-                    <TextDescriptif titre='justification' detail={nature.justification} />
-                    <TextDescriptif titre='refus' detail={nature.refus} />
-                    </Stack>:
-                    <Stack orientation='vertical'>
-                    <EditTextDescriptif titre='nature' detail={nature.nature} updateNature={updateNature}/>
-                    <EditTextDescriptif titre='justification' detail={nature.justification} updateNature={updateNature}/>
-                    <EditTextDescriptif titre='refus' detail={nature.refus} updateNature={updateNature}/>
+                    <EditTextDescriptif titre='nature' detail={nature.nature} updateNature={updateNature} isChecked={isChecked}/>
+                    <EditTextDescriptif titre='justification' detail={nature.justification} updateNature={updateNature} isChecked={isChecked}/>
+                    <EditTextDescriptif titre='refus' detail={nature.refus} updateNature={updateNature} projet={props.projet} isChecked={isChecked}/>
                     </Stack>
-                    }
+                    
                    
-                    
-                    
+                                        
                       
         </Box> 
         
@@ -87,4 +78,3 @@ export function Descriptif(props) {
 
 
 
-//{listDesc.map(item => !isChecked?<TextDescriptif titre={item.titre} detail={item.detail} />:<EditTextDescriptif titre={item.titre} detail={item.detail} updateNature={updateNature}/>)}

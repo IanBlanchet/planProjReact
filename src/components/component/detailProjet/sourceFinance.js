@@ -19,15 +19,15 @@ export function SourceFinance(props) {
                     <Heading size='lg'>Sources de financement</Heading>
                     <Heading size='md' color='blue.500'>Règlements</Heading>
                         <UnorderedList>
-                            {finance.reglements?finance.reglements.map(item => <ListItem>{item.no} -- {item.montant}</ListItem>):<ListItem>-</ListItem>}                        
+                            {finance.reglements?finance.reglements.map(item => <ListItem>{item.no} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>):<ListItem>-</ListItem>}                        
                         </UnorderedList>
                     <Heading size='md' color='blue.500'>Subventions</Heading>
                         <UnorderedList>
-                            {finance.subventions?finance.subventions.map(item => <ListItem>{item.nom} -- {item.montant}</ListItem>):<ListItem>-</ListItem>}                        
+                            {finance.subventions?finance.subventions.map(item => <ListItem>{item.nom} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>):<ListItem>-</ListItem>}                        
                         </UnorderedList>
                     <Heading size='md' color='blue.500'>Fonds</Heading>
                         <UnorderedList>
-                            {finance.fonds?finance.fonds.map(item => <ListItem>{item.nom} -- {item.montant}</ListItem>):<ListItem>-</ListItem>}                        
+                            {finance.fonds?finance.fonds.map(item => <ListItem>{item.nom} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>):<ListItem>-</ListItem>}                        
                         </UnorderedList>
                     
                     
