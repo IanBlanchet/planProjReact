@@ -3,48 +3,56 @@ import { FcPlus } from "react-icons/fc";
 import { useState, useEffect } from 'react';
 
 
-export function EditTextDescriptif(props) {
 
-    const [detail, setDetail] = useState([])
+export function EditTextDescriptif({titre, detail, updateNature, isChecked}) {
+
+    const [modDetail, setModDetail] = useState([])
+   
 
     
     const handleClick = () => {
-        let newDetail = [...detail];
-        setDetail([]);
-        newDetail = [...newDetail, ' ']
-        console.log(newDetail)
-        setDetail(newDetail);
+        let newDetail = [...modDetail];
+        setModDetail([]);
+        newDetail = [...newDetail, ' ']        
+        setModDetail(newDetail);
     }
 
     const handleChange = (e) => {
      
         //update detail state
-        let editDetail = [...detail];
-        setDetail([])        
+        let editDetail = [...modDetail];
+        setModDetail([])        
         editDetail[e.target.getAttribute('index')] = e.target.value;        
-        setDetail(editDetail);
+        setModDetail(editDetail);
         //update nature
         let editNature = {};
-        editNature[props.titre] = editDetail
-        props.updateNature(editNature);
+        editNature[titre] = editDetail
+        updateNature(editNature);
 
     }
 
     useEffect( () => {
        
-       setDetail(props.detail);       
+       setModDetail(detail);       
          
-    },[props])
+    },[isChecked, detail])
 
     return (
         <Box>
-        {!props.isChecked?
+        {!isChecked?
             <Box>
-                <Heading size='md'>{props.titre}</Heading><UnorderedList fontSize='md'>{detail.map(item => <ListItem key={item}>{item}</ListItem>)}</UnorderedList>
+                <Heading size='md'>{titre}</Heading><UnorderedList fontSize='md'>{modDetail.map(item => <ListItem key={item}>{item}</ListItem>)}</UnorderedList>
             </Box>:
             <Box>
-                <Heading size='md' >{props.titre}</Heading><UnorderedList fontSize='md'>{detail.map((item, index) => <ListItem key={index}>
-                                        <Input size='sm' type='text' name={props.titre} index={index} value={item} onChange={handleChange}/></ListItem>)}</UnorderedList><IconButton icon={<FcPlus/>} onClick={handleClick}/>
+                <Heading size='md' >{titre}</Heading>
+                            <UnorderedList fontSize='md'>{modDetail.map((item, index) => 
+                                <ListItem key={index}>
+                                    
+                                    <Input size='sm' type='text' name={titre} index={index} value={item} onChange={handleChange}/>
+                                   
+                                </ListItem>)}
+                            </UnorderedList>
+                            <IconButton icon={<FcPlus/>} onClick={handleClick}/>
             </Box>
         }
         </Box>
