@@ -4,36 +4,34 @@ import { List, ListItem, ListIcon, OrderedList, UnorderedList, Stack, Box, IconB
 import { EditTextDescriptif } from './textdescription';
 import { FcSettings, FcFeedIn } from "react-icons/fc";
 
+
 const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}
 
 export function Impacts(props) {
 
-    const [isChecked, setIschecked] = useState(false);
-    const [listDesc, setlistDesc] = useState([]);
+    const [isChecked, setIschecked] = useState(false);    
     const [nature, setNature] = useState(blanckNature);    
 
     
     const buttonClick = () => {
-        setIschecked(isChecked?false:true)
-        //setlisDesc(renderListDesc(nature));
-        props.updateProjet(props.projet.id);
+        setIschecked(isChecked?false:true)      
+        
         
     }
 
     const updateNature = (data) => {
-        let newNature = nature;
-        newNature = {...nature, ...data}
-        setNature({...props.projet.nature, ...newNature})        
-        const objectNature = {"nature":{...props.projet.nature, ...newNature}}
-        
-        modJalon(`/api/v1/projet/${props.projet.id}`, {}, objectNature, 'PUT');
+        let newNature = {...nature};
+        newNature = {...newNature, ...data}
+        setNature(newNature);        
+        props.updateNature(newNature);
+       
     }
 
     useEffect(() => {
         
         setNature(!props.projet.nature?blanckNature:{...blanckNature,...props.projet.nature})
                 
-    },[props, isChecked])
+    },[props.projet])
     
 
     return (
@@ -43,12 +41,10 @@ export function Impacts(props) {
                     <Heading size='lg' marginBottom='2'>Impacts sur le budget de fonctionnement<IconButton onClick={buttonClick} variant={isChecked?'solid':'outline'} colorScheme='whiteAlpha' icon={!isChecked?<FcSettings/>:<FcFeedIn/>}/></Heading>
                     
                     <Stack orientation='vertical'>
-                    <EditTextDescriptif titre='Impacts' detail={nature.impacts} />
+                    <EditTextDescriptif titre='impacts' detail={nature.impacts} updateNature={updateNature} isChecked={isChecked}/>
                     
                     
-                    </Stack>
-                   
-                         
+                    </Stack>              
                     
                     
                       

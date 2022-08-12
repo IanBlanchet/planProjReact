@@ -46,12 +46,17 @@ function App() {
   };
 
 
-  const afficheDetailprojet = (projet_id) => {    
-    const selectedProjet = projet.find(item => item.id == projet_id);    
-    let newSelected = [...selected]
-    newSelected[1] = selectedProjet
-    newSelected[0] = true
-    setSelected(newSelected)
+  const afficheDetailprojet = (projet_id) => {
+    let selectedProjet = {}
+    getRessources('/api/v1/projet').then(   
+      projets => {
+        selectedProjet = projets.find(item => item.id == projet_id);
+        let newSelected = [...selected]
+        newSelected[1] = selectedProjet
+        newSelected[0] = true
+        setSelected(newSelected)
+       })   
+    
     
   }
  

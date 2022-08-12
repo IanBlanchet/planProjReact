@@ -47,7 +47,7 @@ export function Pti(props) {
     }
 
     useEffect(() => {
-        console.log(CurrentYear-1);
+        
         document.body.style.cursor = "wait";
         getRessources('/api/v1/pti/all/'+(CurrentYear-1)).then(
              lesPti => {setPtis(lesPti);setDonneeBase(lesPti)});

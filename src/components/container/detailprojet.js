@@ -113,7 +113,7 @@ export function DetailProjet(props) {
                 <RessourceRequise projet={currentProject} updateNature={updateNature} user={user}/>
             </GridItem>
             <GridItem>
-                <Impacts projet={currentProject} lesprojet={projet} updateProjet={selectProjet}/>
+                <Impacts projet={currentProject} lesprojet={projet} updateNature={updateNature}/>
             </GridItem>
             <GridItem display='flex'>
                 <GaugeChart projet={currentProject} onClick={updateAvancement('plus')} onDoubleClick={updateAvancement('moins')} updateNature={updateNature}/>
