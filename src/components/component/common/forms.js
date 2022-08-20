@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form, useField } from 'formik';
-import { Input, Select, Checkbox } from '@chakra-ui/react';
+import { Input, Select, Checkbox, Text, Switch , Box} from '@chakra-ui/react';
 
  
  export const MyTextInput = ({ label, ...props }) => {
@@ -9,13 +9,13 @@ import { Input, Select, Checkbox } from '@chakra-ui/react';
    // message if the field is invalid and it has been touched (i.e. visited)
    const [field, meta] = useField(props);
    return (
-     <>
-       <label htmlFor={props.id || props.name}>{label}</label>
+     <Box margin='10px' >
+       <label htmlFor={props.id || props.name} style={{fontFamily:'fantasy'}}>{label}</label>
        <Input className="text-input" {...field} {...props} />
        {meta.touched && meta.error ? (
-         <div className="error">{meta.error}</div>
+         <div className="error"><Text color='red.500'>{meta.error}</Text></div>
        ) : null}
-     </>
+     </Box>
    );
  };
  
@@ -26,27 +26,27 @@ import { Input, Select, Checkbox } from '@chakra-ui/react';
    // in `field` alongside `name`, `value`, `onChange`, and `onBlur`
    const [field, meta] = useField({ ...props, type: 'checkbox' });
    return (
-     <div>
-       <label className="checkbox-input">
-         <Checkbox type="checkbox" {...field} {...props} />
+     <Box margin='10px'>
+       <label className="checkbox-input" style={{fontFamily:'fantasy'}}>
+         <Switch  {...field} {...props} />
          {children}
        </label>
        {meta.touched && meta.error ? (
-         <div className="error">{meta.error}</div>
+         <div className="error"><Text color='red.500'>{meta.error}</Text></div>
        ) : null}
-     </div>
+     </Box>
    );
  };
  
  export const MySelect = ({ label, ...props }) => {
    const [field, meta] = useField(props);
    return (
-     <div>
-       <label htmlFor={props.id || props.name}>{label}</label>
+     <Box margin='10px'>
+       <label htmlFor={props.id || props.name} style={{fontFamily:'fantasy'}} >{label}</label>
        <Select {...field} {...props} />
        {meta.touched && meta.error ? (
-         <div className="error">{meta.error}</div>
+         <div className="error"><Text color='red.500'>{meta.error}</Text></div>
        ) : null}
-     </div>
+     </Box>
    );
  };
