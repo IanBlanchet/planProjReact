@@ -6,6 +6,7 @@
  //const domain = 'https://apiplanproj.herokuapp.com/'
  const domain = process.env.REACT_APP_URI
  console.log(domain)
+ 
  export const postLogin = async (url, params={}, objects={}, method='POST') => {
        
     let responsedata = []
