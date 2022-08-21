@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, IconButton, Heading, Input, InputGroup, InputLeftAddon, InputRightAddon, Stack, Text, List, ListItem, Select } from '@chakra-ui/react';
 import { FcSettings, FcFeedIn } from "react-icons/fc";
+import { EstimateurRessources } from '../modal';
 
 const year = new Date().getFullYear();
 
@@ -39,6 +40,16 @@ export function RessourceRequise (props) {
         !isChecked?setIschecked(true):setIschecked(false)
     }
 
+    const handleApplyEstimation = (tempsCharge, tempsTech) => {
+        let temp = {...nature};
+        let data = {};
+        data['tempsCharge'] = tempsCharge;
+        data['tempsTech'] = tempsTech;       
+        let newnature = { ...temp, ...data};
+        setNature(newnature);
+        props.updateNature(newnature)
+    }
+
     useEffect(()=>{
         
         setNature(!props.projet.nature?blanckNature:{...blanckNature,...props.projet.nature})
@@ -51,7 +62,7 @@ export function RessourceRequise (props) {
     return (
         <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' overflow='hidden'>
             <Heading size='lg' marginBottom='2'>Ressources</Heading>
-            <Heading size='md' marginBottom='2'>Estimation heures requises</Heading>        
+            <Heading size='md' marginBottom='2' >Estimation heures requises<EstimateurRessources projet={props.projet} applyEstimation={handleApplyEstimation}/></Heading>        
             
                 <Stack orientation='vertical'>
                 <InputGroup >

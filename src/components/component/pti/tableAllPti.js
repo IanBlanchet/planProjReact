@@ -44,7 +44,8 @@ export function TableAllPti(props) {
                     <Th>{props.year+2}<IconButton name='cycle2' onClick={handleTrie} icon={tries.cycle2?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>{props.year+3}<IconButton name='cycle3' onClick={handleTrie} icon={tries.cycle3?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>ultérieur</Th>
-                    
+                    <Th>Chargé projet (hr)</Th>
+                    <Th>Technicien (hr)</Th>
                 </Tr>
             </Thead>
             <Tbody >
@@ -58,7 +59,14 @@ export function TableAllPti(props) {
                     <Td>{pti.cycle2/1000000}</Td>
                     <Td>{pti.cycle3/1000000}</Td>
                     <Td>{((pti.cycle4 + pti.cycle5)/1000000).toFixed(2)}</Td>
-                    
+                    <Td>{(((pti.cycleCour+pti.cycle2+pti.cycle3)/
+                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5))*
+                        (pti.nature?pti.nature.tempsCharge?pti.nature.tempsCharge:0:0)).toFixed(0)}
+                    </Td>
+                    <Td>{(((pti.cycleCour+pti.cycle2+pti.cycle3)/
+                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5))*
+                        (pti.nature?pti.nature.tempsTech?pti.nature.tempsTech:0:0)).toFixed(0)}
+                    </Td>
                 </Tr>
                 )}
                 
@@ -87,6 +95,16 @@ export function TableAllPti(props) {
                                 return accumulator + object.cycle5;
                                 }, 0))/1000000).toFixed(2)  }
                                                             </Th>
+                    <Th>{(props.ptis.reduce((accumulator, pti) => {
+                        return accumulator + ((pti.cycleCour+pti.cycle2+pti.cycle3)/
+                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5))*
+                        (pti.nature?pti.nature.tempsCharge?pti.nature.tempsCharge:0:0)}, 0)).toFixed(0)
+                        }</Th>
+                    <Th>{(props.ptis.reduce((accumulator, pti) => {
+                        return accumulator + ((pti.cycleCour+pti.cycle2+pti.cycle3)/
+                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5))*
+                        (pti.nature?pti.nature.tempsTech?pti.nature.tempsTech:0:0)}, 0)).toFixed(0)
+                        }</Th>
 
                 </Tr>
             </Tfoot>
