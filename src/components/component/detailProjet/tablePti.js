@@ -1,7 +1,8 @@
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Text } from '@chakra-ui/react'
 import { Input, InputLeftAddon, InputGroup, IconButton, ButtonGroup, Select, Box} from '@chakra-ui/react'
 import { useState, useEffect } from 'react';
-import { getRessources } from '../../util';
+import { TiDeleteOutline } from "react-icons/ti";
+import {  getRessources } from '../../util';
 
 
 
@@ -10,24 +11,23 @@ const year = new Date().getFullYear();
 
 export function TablePti(props) {
 
-    const [ptiEnPrep, setPtiEnPrep] = useState({})
+    const [ptiEnPrep, setPtiEnPrep] = useState()
     //const [prevCourante, setprevCourante] = useState(props.projet.prev_courante/1000000)
     const [projet, setProjet] = useState({})
     
 
     const handleChange = (e) => {
-        if (ptiEnPrep.id) {
+        if (ptiEnPrep) {
             const item = {};        
             item[e.target.name] = e.target.value*1000000
-            let ptiActuel = ptiEnPrep
+            let ptiActuel = {...ptiEnPrep}
             ptiActuel = {...ptiActuel, ...item}
             setPtiEnPrep(ptiActuel)
             props.updatePti(ptiActuel)
             }
         else {
             let newPti = {'annee':year, 'projet_id':props.projet.id, 'cycleCour':0, 'cycle2':0, 'cycle3':0, 'cycle4':0, 'cycle5':0};
-            const item = {}; 
-            console.log(newPti)
+            const item = {};            
             item[e.target.name] = e.target.value*1000000;
             newPti = {...newPti, ...item}
             console.log(newPti)
@@ -48,6 +48,12 @@ export function TablePti(props) {
             //(leprojet) => setProjet(leprojet));         
     }
 
+    const deletePtiEnPrep = () => {
+        
+        getRessources('/api/v1/pti/one/'+ptiEnPrep.id, {},{}, 'DELETE');
+        setPtiEnPrep();
+    }
+
     useEffect(()=> {
         setPtiEnPrep(props.pti.ptiEnPrep);
         setProjet(props.projet)
@@ -65,6 +71,7 @@ export function TablePti(props) {
                     <Th>{year+2}</Th>
                     <Th>{year+3}</Th>
                     <Th>{year+4}</Th>
+                    <Th></Th>
                 </Tr>
             </Thead>
             <Tbody>
@@ -82,10 +89,11 @@ export function TablePti(props) {
                     <Td>{(props.depense.anterieur/1000000).toFixed(2)}</Td>
                     <Td><Text color='red.400'>{(props.depense.courante/1000000).toFixed(2)}</Text>/
                         <Input size='sm' width='12' type='number' name='prevision' value={projet.prev_courante/1000000} onChange={handleChangePrevison}/></Td>
-                    <Td><Input size='sm' width='12' type='number' name='cycleCour' value={ptiEnPrep?ptiEnPrep.cycleCour/1000000:0} onChange={handleChange} bg='white'/></Td>
-                    <Td><Input size='sm' width='12' type='number' name='cycle2' value={ptiEnPrep?ptiEnPrep.cycle2/1000000:0} onChange={handleChange} bg='white'/></Td>
-                    <Td><Input size='sm' width='12' type='number' name='cycle3' value={ptiEnPrep?ptiEnPrep.cycle3/1000000:0} onChange={handleChange} bg='white'/></Td>
-                    <Td><Input size='sm' width='12' type='number' name='cycle4' value={ptiEnPrep?ptiEnPrep.cycle4/1000000:0} onChange={handleChange} bg='white'/></Td>
+                    <Td><Input size='sm' width='12' type='number' name='cycleCour' value={ptiEnPrep?ptiEnPrep.cycleCour/1000000:''} onChange={handleChange} bg='white'/></Td>
+                    <Td><Input size='sm' width='12' type='number' name='cycle2' value={ptiEnPrep?ptiEnPrep.cycle2/1000000:''} onChange={handleChange} bg='white'/></Td>
+                    <Td><Input size='sm' width='12' type='number' name='cycle3' value={ptiEnPrep?ptiEnPrep.cycle3/1000000:''} onChange={handleChange} bg='white'/></Td>
+                    <Td><Input size='sm' width='12' type='number' name='cycle4' value={ptiEnPrep?ptiEnPrep.cycle4/1000000:''} onChange={handleChange} bg='white'/></Td>
+                    <Td>{ptiEnPrep&&<IconButton icon={<TiDeleteOutline/>} size='xs' bg='red.100' onClick={deletePtiEnPrep} />}</Td>
                 </Tr>
             </Tbody>
         </Table>
