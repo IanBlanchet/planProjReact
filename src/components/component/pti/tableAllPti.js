@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Text, IconButton, Box, Container } from '@chakra-ui/react'
-import { FcExpand, FcCollapse, FcAlphabeticalSortingAz } from "react-icons/fc";
+import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectCat } from '../common/select';
 
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
@@ -46,6 +46,7 @@ export function TableAllPti(props) {
                     <Th>ultérieur</Th>
                     <Th>Chargé projet (hr)</Th>
                     <Th>Technicien (hr)</Th>
+                    
                 </Tr>
             </Thead>
             <Tbody >
@@ -60,13 +61,14 @@ export function TableAllPti(props) {
                     <Td>{pti.cycle3/1000000}</Td>
                     <Td>{((pti.cycle4 + pti.cycle5)/1000000).toFixed(2)}</Td>
                     <Td>{(((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5))*
+                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
                         (pti.nature?pti.nature.tempsCharge?pti.nature.tempsCharge:0:0)).toFixed(0)}
                     </Td>
                     <Td>{(((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5))*
+                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
                         (pti.nature?pti.nature.tempsTech?pti.nature.tempsTech:0:0)).toFixed(0)}
                     </Td>
+                    
                 </Tr>
                 )}
                 
@@ -97,12 +99,12 @@ export function TableAllPti(props) {
                                                             </Th>
                     <Th>{(props.ptis.reduce((accumulator, pti) => {
                         return accumulator + ((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5))*
+                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
                         (pti.nature?pti.nature.tempsCharge?pti.nature.tempsCharge:0:0)}, 0)).toFixed(0)
                         }</Th>
                     <Th>{(props.ptis.reduce((accumulator, pti) => {
                         return accumulator + ((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5))*
+                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
                         (pti.nature?pti.nature.tempsTech?pti.nature.tempsTech:0:0)}, 0)).toFixed(0)
                         }</Th>
 
