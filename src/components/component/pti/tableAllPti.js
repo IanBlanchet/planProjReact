@@ -44,8 +44,8 @@ export function TableAllPti(props) {
                     <Th>{props.year+2}<IconButton name='cycle2' onClick={handleTrie} icon={tries.cycle2?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>{props.year+3}<IconButton name='cycle3' onClick={handleTrie} icon={tries.cycle3?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>ultérieur</Th>
-                    <Th>Chargé projet (hr)</Th>
-                    <Th>Technicien (hr)</Th>
+                    <Th>Chargé projet (hrs)</Th>
+                    <Th>Technicien (hrs)</Th>
                     
                 </Tr>
             </Thead>
