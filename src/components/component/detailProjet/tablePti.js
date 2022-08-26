@@ -17,23 +17,15 @@ export function TablePti(props) {
     
 
     const handleChange = (e) => {
-        if (ptiEnPrep) {
-            const item = {};        
-            item[e.target.name] = e.target.value*1000000
-            let ptiActuel = {...ptiEnPrep}
-            ptiActuel = {...ptiActuel, ...item}
-            setPtiEnPrep(ptiActuel)
-            props.updatePti(ptiActuel)
-            }
-        else {
-            let newPti = {'annee':year, 'projet_id':props.projet.id, 'cycleCour':0, 'cycle2':0, 'cycle3':0, 'cycle4':0, 'cycle5':0};
-            const item = {};            
-            item[e.target.name] = e.target.value*1000000;
-            newPti = {...newPti, ...item}
-            console.log(newPti)
-            setPtiEnPrep(newPti)
-            props.updatePti(newPti);            
-        }
+       
+        let newPti = {'annee':year, 'projet_id':props.projet.id, 'cycleCour':0, 'cycle2':0, 'cycle3':0, 'cycle4':0, 'cycle5':0};
+        newPti = {...newPti, ...ptiEnPrep}
+        const item = {};            
+        item[e.target.name] = e.target.value*1000000;
+        newPti = {...newPti, ...item}        
+        setPtiEnPrep(newPti)
+        props.updatePti(newPti);            
+        
              
         
     }  
@@ -44,8 +36,7 @@ export function TablePti(props) {
         let newprojet = projet;
         newprojet = {...newprojet, ...newprevCourante}
         setProjet(newprojet)
-        //getRessources('/api/v1/projet/'+props.projet.id).then(
-            //(leprojet) => setProjet(leprojet));         
+               
     }
 
     const deletePtiEnPrep = () => {
@@ -56,6 +47,7 @@ export function TablePti(props) {
 
     useEffect(()=> {
         setPtiEnPrep(props.pti.ptiEnPrep);
+              
         setProjet(props.projet)
     }, [props])
     
@@ -93,7 +85,7 @@ export function TablePti(props) {
                     <Td><Input size='sm' width='12' type='number' name='cycle2' value={ptiEnPrep?ptiEnPrep.cycle2/1000000:''} onChange={handleChange} bg='white'/></Td>
                     <Td><Input size='sm' width='12' type='number' name='cycle3' value={ptiEnPrep?ptiEnPrep.cycle3/1000000:''} onChange={handleChange} bg='white'/></Td>
                     <Td><Input size='sm' width='12' type='number' name='cycle4' value={ptiEnPrep?ptiEnPrep.cycle4/1000000:''} onChange={handleChange} bg='white'/></Td>
-                    <Td>{ptiEnPrep&&<IconButton icon={<TiDeleteOutline/>} size='xs' bg='red.100' onClick={deletePtiEnPrep} />}</Td>
+                    <Td><IconButton icon={<TiDeleteOutline/>} size='xs' bg='red.100' onClick={deletePtiEnPrep} /></Td>
                 </Tr>
             </Tbody>
         </Table>
