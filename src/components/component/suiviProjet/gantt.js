@@ -10,7 +10,7 @@ export function GanttProjet(props) {
     useEffect(() => {
         setGraphData([]);
         setGraphData(props.newData);
-    })
+    }, [])
 
     return (
         <Flex>
@@ -39,10 +39,3 @@ export function GanttProjet(props) {
     )
 }
 
-//title={dataProject.no_projet}  jalons={dataJalons.filter(item => item.projet_id === dataProject.id )}
-/*
-<Jalons title={dataProject.currentProject.no_projet}  jalons={dataProject.assJalons.filter(item => item.projet_id === dataProject.currentProject.id).sort(
-                                                                    (a,b) => new Date(a.date) - new Date(b.date))}/>
-{dataProject.assContrat.map(contrat => 
-    <Jalons title={contrat.no} 
-            jalons={dataProject.assJalons.filter(item => item.contrat_id === contrat.id).sort((a, b) => new Date(a.date) - new Date(b.date) )}/>)}*/

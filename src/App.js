@@ -61,7 +61,7 @@ function App() {
   }
  
   let menuChoice = {
-    suiviProjet: <SuiviProjet projet={projet} contrat={contrat} user={user}/>,
+    suiviProjet: <SuiviProjet user={user}/>,
     evenement: <Events projet={projet} contrat={contrat} user={user}/>,
     accueil : <Acceuil />,
     admin : <Admin />,

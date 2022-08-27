@@ -15,9 +15,12 @@ export function InputDuree(props) {
 
     const handleChange = (e) => {        
         const value = e?e:0
+        let increment = duree;
+        increment = value - duree
         setDuree(value);
         const jalonModify = {...props.jalon, duree:value}
-        modJalon(`/api/v1/jalon/${props.jalon.id}`, {}, jalonModify, 'PUT');
+        modJalon(`/api/v1/jalon/${props.jalon.id}`, {}, jalonModify, 'PUT')
+        props.incrementDuree(increment)
         
     }
 

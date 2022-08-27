@@ -113,7 +113,7 @@ export function SuiviProjet(props) {
                 <GridItem padding='5px' paddingTop='10px'>
                     <ContextSelectProject.Provider value={{updateContext, users:props.user, projet:projets, contrat:contrats}} >
                     <GanttProjet currentProject={currentProject} assContrat={assContrat} jalons={jalons} assJalons={assJalons}
-                                    newData={graphData}                                                    
+                                    newData={graphData} users={props.user}                                                    
                          />
                     </ContextSelectProject.Provider>
                 </GridItem>             

@@ -1,6 +1,6 @@
 import { Box, HStack, Grid, GridItem, Input } from '@chakra-ui/react';
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
-import { InputDuree } from '../detailProjet/dureeinput';
+import { InputDuree } from '../events/dureeinput';
 
 const size = 25
 const icons = {
@@ -14,7 +14,7 @@ export function JalonDetail(props) {
     
 
     return (
-        <Box maxW='lg' borderWidth='1px' borderRadius='lg' overflow='hidden' padding='10px' margin='1.5' bg={props.user&&icons[props.user.service].bg}>
+        <Box  borderWidth='1px' borderRadius='lg' overflow='hidden' padding='10px' margin='1.5' bg={props.user&&icons[props.user.service].bg}>
             
                 
                 <Grid   templateRows='repeat(2, 50px)'
@@ -29,7 +29,7 @@ export function JalonDetail(props) {
                     props.contrat?<GridItem fontSize='sm'>{props.contrat.desc}</GridItem>:<GridItem/>
                     } 
                     <GridItem fontSize='sm'>{props.jalon.commentaire}</GridItem>
-                    <GridItem><InputDuree jalon={props.jalon} /></GridItem>
+                    <GridItem><InputDuree jalon={props.jalon} incrementDuree={props.incrementDuree}/></GridItem>
                 </Grid>
             
             
