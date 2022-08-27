@@ -6,7 +6,7 @@ import { SelectContrat } from '../common/select';
 import * as Yup from 'yup';
 import { MyTextInput, MySelect, MyCheckbox, MySwitch } from '../common/forms';
 
-
+const statuts= ['actif', 'complet']
 
 export function EditContrat() {
       const [users, setUsers] = useState([]);
@@ -76,6 +76,7 @@ export function EditContrat() {
             estimation:selectedContrat?selectedContrat.estimation:'',           
             projet_id:selectedContrat?selectedContrat.projet_id:'',//select            
             charge_contrat:selectedContrat?selectedContrat.charge_contrat:'',//select
+            statut:selectedContrat&&selectedContrat.statut,
 
           }}       
           
@@ -153,6 +154,10 @@ export function EditContrat() {
             <span style={{margin:'5px', fontFamily:'fantasy'}}  >Est-ce le contrat principal?</span>
             </label>
             </Box>
+
+            <MySelect label="Statut" name="statut">              
+              {statuts.map(item => <option value={item} key={item}>{item}</option>)}              
+            </MySelect>    
   
             <Button type="submit" bg='blue.500' >Soumettre</Button>
           </Form>

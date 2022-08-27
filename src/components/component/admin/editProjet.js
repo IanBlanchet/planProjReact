@@ -10,6 +10,8 @@ import { MyTextInput, MySelect, MyCheckbox } from '../common/forms';
 const categories = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau', 'Divers']
 
+const statuts= ['Actif', 'Complété', 'Abandonné', 'En suspend']
+
 
 export function EditProjet() {
       const [users, setUsers] = useState([]);
@@ -70,7 +72,8 @@ export function EditProjet() {
             cat:selectedProjet?selectedProjet.cat:'',           
             immo: selectedProjet?selectedProjet.immo:false, // added for our checkbox
             affectation:selectedProjet?selectedProjet.affectation:'',//select            
-            charge:selectedProjet?selectedProjet.charge:''
+            charge:selectedProjet?selectedProjet.charge:'',
+            statut:selectedProjet?selectedProjet.statut:''
 
           }}       
           
@@ -132,8 +135,7 @@ export function EditProjet() {
 
             <MySelect label="catégorie" name="cat" >
               <option value="">Choisi la catégorie</option>
-              {categories.map(item => <option value={item}>{item}</option>)}       
-             
+              {categories.map(item => <option value={item}>{item}</option>)}             
               
             </MySelect>
 
@@ -157,6 +159,12 @@ export function EditProjet() {
             <span style={{margin:'5px', fontFamily:'fantasy'}}  >Le projet implique une immobilisation?</span>
             </label>
             </Box>
+
+            <MySelect label="Statut" name="statut" >
+              
+              {statuts.map(item => <option value={item}>{item}</option>)}           
+              
+            </MySelect>
 
   
             <Button type="submit" bg='blue.500' >Soumettre</Button>
