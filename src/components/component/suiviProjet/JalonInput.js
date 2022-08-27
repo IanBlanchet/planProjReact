@@ -134,7 +134,7 @@ export function AddJalonInput(props) {
     
 
     const handleChange = (e) => {        
-        let jalonDict = data
+        let jalonDict = {...data}
         const mod = {}
         mod[e.target.name] = e.target.value
         jalonDict= {...jalonDict, ...mod}

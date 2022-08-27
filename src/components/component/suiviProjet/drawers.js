@@ -39,11 +39,13 @@ export function EditJalon(props) {
           await modJalon(`/api/v1/jalon/${jalonsMod[jalon].id}`, {}, jalonsMod[jalon], 'PUT');              
         };
         for (const jalon in jalonAdd) {
-            await modJalon('/api/v1/jalon', {}, jalonAdd[jalon]);
+            await modJalon('/api/v1/jalon', {}, jalonAdd[jalon], 'POST');
         }
         context.updateContext();
         setNewJalon([]);
-        setNewJalonId(1)      
+        setJalonAdd({});
+        setJalonsMod({});
+        setNewJalonId(1);      
         onClose();      
       }
     
@@ -56,12 +58,12 @@ export function EditJalon(props) {
     }
 
     const addBlanckJalon = () => {
-        let listNewJalons = newJalon;
+        let listNewJalons = [...newJalon];
         const currentJalonId = newJalonId
         let jalonToAdd = {}
         const projet_id = props.projet_contrat === 'projet'?props.currentProject.id:'';
         const contrat_id = props.projet_contrat === 'contrat'?props.contrat:'';
-        jalonToAdd[newJalonId] = {'date':'2022-04-01', 'commentaire':'', 'jalon':'C_Direction', 'charge_jalon':props.currentProject.charge, projet_id:projet_id, contrat_id:contrat_id }
+        jalonToAdd[newJalonId] = {'date':'2022-08-01', 'commentaire':'', 'jalon':'C_Direction', 'charge_jalon':props.currentProject.charge, projet_id:projet_id, contrat_id:contrat_id }
 
         setNewJalon([]);
         setNewJalon([...listNewJalons, jalonToAdd]);
@@ -80,6 +82,7 @@ export function EditJalon(props) {
   
     useEffect(() => {  
         setNewJalon([]);
+        setJalonAdd({});
         return () => {setJalonsMod({}); setNewJalon([])}
       }, [])
 

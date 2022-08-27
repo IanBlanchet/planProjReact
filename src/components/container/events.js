@@ -31,6 +31,13 @@ export function Events(props) {
             lesjalons => setJalons(lesjalons));
     }
 
+    const incrementDuree = (increment) => {
+        let newDuree = duree;
+        newDuree += increment;
+        setDuree(newDuree);
+
+    }
+
     
     useEffect(() => {
         getRessources('/api/v1/jalon').then(
@@ -50,7 +57,8 @@ export function Events(props) {
                                                             projet={props.projet.find(element => element.id === item.projet_id)}
                                                             contrat={props.contrat.find(element => element.id === item.contrat_id)}
                                                             jalon={item}
-                                                            key={item.id}                                                           
+                                                            key={item.id}
+                                                            incrementDuree={incrementDuree}                                                           
                                                             />)}
             </Box>
             <Box>{duree}</Box>
