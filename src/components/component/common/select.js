@@ -15,6 +15,21 @@ export function SelectProjet(props) {
     )
 }
 
+
+
+export function SelectContrat(props) {
+
+    const handleSelect = (e) => {
+        props.onChange(e.target.value)        
+    }
+
+    return (
+    <Select placeholder='Select contrat' onChange={handleSelect} w='fit-content' defaultValue={props.defaultValue} size='sm'>
+        {props.contrats.map(item => <option key={item.id} value={item.id} >{item.no} -- {item.desc}</option>)}
+    </Select>
+    )
+}
+
 export function SelectEvent(props) {
     const handleSelect = (e) => {
         props.onChange(e.target.value)

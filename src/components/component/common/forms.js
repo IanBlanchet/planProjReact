@@ -19,7 +19,7 @@ import { Input, Select, Checkbox, Text, Switch , Box} from '@chakra-ui/react';
    );
  };
  
- export const MyCheckbox = ({ children, ...props }) => {
+ export const MySwitch = ({ children, ...props }) => {
    // React treats radios and checkbox inputs differently other input types, select, and textarea.
    // Formik does this too! When you specify `type` to useField(), it will
    // return the correct bag of props for you -- a `checked` prop will be included
@@ -50,3 +50,24 @@ import { Input, Select, Checkbox, Text, Switch , Box} from '@chakra-ui/react';
      </Box>
    );
  };
+
+ export const MyCheckbox = ({ children, ...props }) => {
+  // React treats radios and checkbox inputs differently other input types, select, and textarea.
+  // Formik does this too! When you specify `type` to useField(), it will
+  // return the correct bag of props for you -- a `checked` prop will be included
+  // in `field` alongside `name`, `value`, `onChange`, and `onBlur`
+  const [field, meta] = useField({ ...props, type: 'checkbox' });
+  return (
+    <Box margin='10px'>
+      <label className="checkbox-input" style={{fontFamily:'fantasy'}}>
+        <Checkbox {...field} {...props} />
+        {children}
+      </label>
+      {meta.touched && meta.error ? (
+        <div className="error"><Text color='red.500'>{meta.error}</Text></div>
+      ) : null}
+    </Box>
+  );
+};
+
+ 
