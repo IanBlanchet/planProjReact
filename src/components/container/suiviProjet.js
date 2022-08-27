@@ -27,8 +27,9 @@ export const ContextSelectProject = createContext();
 * @return {React Component} A react component.
 */
 export function SuiviProjet(props) {
-    
-    const [currentProject, setCurrentProject] = useState(props.projet[0]);    
+    const [projets, setProjets] = useState([])
+    const [contrats, setContrats] = useState([])
+    const [currentProject, setCurrentProject] = useState([]);    
     const [assContrat, setAssContrat] = useState([]);
     const [jalons, setJalons] = useState([]);    
     const [assJalons, setAssJalons] = useState([]);
@@ -39,14 +40,14 @@ export function SuiviProjet(props) {
         setAssJalons([]);
         setCurrentProject([]);        
         setGraphData([]);
-        const le_projet = props.projet.find(item => item.id == project_id);
+        const le_projet = projets.find(item => item.id == project_id);
 
         //uitilisation de la donnée direct pour éviter le décalage avec le state
         const lesjalons = await getRessources('/api/v1/jalon').then( (lesjalons) => {
             setJalons(lesjalons); return lesjalons;});
 
         setCurrentProject(le_projet);          
-        const selectContrats = props.contrat.filter(item => item.projet_id == project_id);    
+        const selectContrats = contrats.filter(item => item.projet_id == project_id);    
         let assjalon = [];
         assjalon = [...assjalon, ...(lesjalons.filter(item => item.projet_id == project_id))];
         selectContrats.forEach(element => {
@@ -63,7 +64,7 @@ export function SuiviProjet(props) {
         //ajouter un element sur le timeline pour chacun des projet et contrats
         const jalonData = assjalon.map((jalon) => {
             const id = (jalon.projet_id ? jalon.projet_id : jalon.contrat_id);
-            const contrat = props.contrat.find(item => item.id == id)
+            const contrat = contrats.find(item => item.id == id)
             const description = jalon.projet_id ? le_projet.desc : contrat.desc;            
             return [description, jalon.jalon, createToolTips(jalon), new Date(jalon.date), new Date(jalon.date)]
                                 });
@@ -82,22 +83,35 @@ export function SuiviProjet(props) {
     }     
 
     useEffect(() => {
+        getRessources('/api/v1/contrat').then(
+            contrats => setContrats(contrats));
+        getRessources('/api/v1/projet').then(
+            projets => setProjets(projets.filter(item => item.statut === 'Actif').sort( (a,b) => {
+                                                  if (a.no_projet < b.no_projet){
+                                                    return -1;
+                                                  } 
+                                                  if (a.no_projet > b.no_projet) {
+                                                    return 1;
+                                                  }
+                                                  return 0
+                                              }
+                                              )));
         getRessources('/api/v1/jalon').then(
       lesjalons => setJalons(lesjalons));      
         
-    }, [])
+    }, [currentProject])
 
     return (
         
             <Grid  templateRows='50px'>
 
                 <GridItem marginLeft='35%' marginTop='5px'>
-                    <SelectProjet projets={props.projet} onChange={selectProjet}/>                    
+                    <SelectProjet projets={projets} onChange={selectProjet}/>                    
                 </GridItem>                                              
                 
                             
                 <GridItem padding='5px' paddingTop='10px'>
-                    <ContextSelectProject.Provider value={{updateContext, users:props.user, projet:props.projet, contrat:props.contrat}} >
+                    <ContextSelectProject.Provider value={{updateContext, users:props.user, projet:projets, contrat:contrats}} >
                     <GanttProjet currentProject={currentProject} assContrat={assContrat} jalons={jalons} assJalons={assJalons}
                                     newData={graphData}                                                    
                          />
