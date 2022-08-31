@@ -53,14 +53,14 @@
         responsedata = await response.json()     
             
     } else {
-        console.log('erreur')
+        
         responsedata = await response.json() //[{'error':'error'}]
         if (response.status == 400)  {
           sessionStorage.isLogin = false;
-          alert(responsedata.message)
+          //alert(responsedata.message)
         }
-        //sessionStorage.isLogin = false
-        alert(responsedata.message)
+        sessionStorage.isLogin = false
+        
     };
     
     return responsedata;
