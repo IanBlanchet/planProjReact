@@ -60,8 +60,9 @@ export function Events(props) {
                                                             key={item.id}
                                                             incrementDuree={incrementDuree}                                                           
                                                             />)}
+            <Box >Durée estimée des discussions : {duree}</Box>
             </Box>
-            <Box>{duree}</Box>
+            
         </Box>
     )
 }
