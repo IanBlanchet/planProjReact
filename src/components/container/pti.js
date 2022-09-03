@@ -1,5 +1,6 @@
-import { Grid, GridItem, Box, Text, Stack} from '@chakra-ui/react';
+import { Grid, GridItem, Box, Text, Stack, Button} from '@chakra-ui/react';
 import { TableAllPti } from '../component/pti/tableAllPti';
+import { TableFinance } from '../component/pti/tablefinance';
 import { getRessources } from '../util';
 import { useState, useEffect } from 'react';
 import { Radio, RadioGroup } from '@chakra-ui/react'
@@ -14,6 +15,12 @@ export function Pti(props) {
     const [ptis, setPtis] = useState([]);
     const [ptisEnPrep, setPtisEnPrep] = useState([])    
     const [year, setYear] = useState((CurrentYear-1));
+    const [isFinance, setIsFinance] = useState(false);
+    const [assReglements, setAssReglements] = useState([]);
+    const [assFonds, setAssFonds] = useState([]);
+    const [assSubvention, setAssSubvention] = useState([]);
+    const [reglement, setReglement] = useState([]);
+    const [fonds, setFonds] = useState([])
 
     
     const changePti = (e) => {
@@ -46,6 +53,10 @@ export function Pti(props) {
         !(year === CurrentYear)?setPtis(ptiTrie):setPtisEnPrep(ptiTrie);
     }
 
+    const handleClickFinance = () => {
+        setIsFinance(isFinance?false:true)
+    }
+
     useEffect(() => {
         
         document.body.style.cursor = "wait";
@@ -53,7 +64,17 @@ export function Pti(props) {
              lesPti => {setPtis(lesPti);setDonneeBase(lesPti)});
         getRessources('/api/v1/pti/all/'+CurrentYear).then(
                 lesPtiEnPrep => {setPtisEnPrep(lesPtiEnPrep);setDonneeBaseEnPrep(lesPtiEnPrep); document.body.style.cursor = "default"});
-              
+        getRessources('/api/v1/reglement').then( reglements => {
+                    setReglement(reglements)
+                });
+        getRessources('/api/v1/fonds').then( fonds => {
+            setFonds(fonds)
+        });
+        getRessources('/api/v1/assfinance').then( association => {            
+                    setAssReglements(association.assReglement);
+                    setAssFonds(association.assFonds);
+                    setAssSubvention(association.assSubvention)
+                });   
      },[])
 
 
@@ -67,10 +88,23 @@ export function Pti(props) {
                 <Radio value={(CurrentYear)}>En préparation</Radio>                
                 </Stack>
             </RadioGroup>
+            <Button onClick={handleClickFinance}>Modes de financement</Button>
             
             
-                <TableAllPti year={year} projet={props.projet} ptis={!(year === CurrentYear)?ptis:ptisEnPrep} afficheProjet={props.afficheProjet} filter={filtrePti} trie={triPti}/>
-            
+                {isFinance?
+                <TableFinance ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
+                             assReglements={assReglements}
+                             assFonds={assFonds}
+                             assSubvention={assSubvention}
+                             reglement={reglement}/>
+                             :
+                <TableAllPti year={year} projet={props.projet} 
+                            ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
+                            afficheProjet={props.afficheProjet} 
+                            filter={filtrePti} trie={triPti}
+                            reglement={reglement}
+                            assReglements={assReglements}/>
+                }
             
         </Grid>
     )

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Text, IconButton, Box, Container } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectCat } from '../common/select';
-import { getRessources } from '../../util';
+
 
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau', 'Divers']
@@ -11,8 +11,8 @@ const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 export function TableAllPti(props) {
 
     const [tries, setTries] =useState({'no_projet':true, 'description':true, 'cycleCour': true, 'cycle2': true, 'cycle3':true})    
-    const [assReglements, setAssReglements] = useState({});
-    const [reglement, setReglement] = useState({})
+    const [assReglements, setAssReglements] = useState([]);
+    const [reglement, setReglement] = useState([])
 
     const handleSelectProjet = (e) => {
         
@@ -31,14 +31,10 @@ export function TableAllPti(props) {
     }
 
     useEffect(() => {
-        getRessources('/api/v1/reglement').then( reglements => {
-            setReglement(reglements)
-        });
-        getRessources('/api/v1/assreglement').then( association => {            
-            setAssReglements(association)
-        });
-        
-    }, [])
+        setReglement(props.reglement);
+        setAssReglements(props.assReglements);
+    }, [props])
+
 
     return (
         
@@ -80,11 +76,11 @@ export function TableAllPti(props) {
                     <Td>{pti.cycle3/1000000}</Td>
                     <Td>{((pti.cycle4 + pti.cycle5)/1000000).toFixed(2)}</Td>
                     <Td>{(((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
+                        (pti.anterieur+ pti.prev_courante + pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
                         (pti.nature?pti.nature.tempsCharge?pti.nature.tempsCharge:0:0)).toFixed(0)}
                     </Td>
                     <Td>{(((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
+                        (pti.anterieur+ pti.prev_courante + pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
                         (pti.nature?pti.nature.tempsTech?pti.nature.tempsTech:0:0)).toFixed(0)}
                     </Td>
                     
@@ -136,8 +132,3 @@ export function TableAllPti(props) {
     )
 }
 
-/*<Td>{assReglements.find(item => item.projet_id === pti.projet_id)&&
-reglement.find( lereglement =>
-    lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id)
-    .numero}
-</Td>*/
