@@ -4,6 +4,7 @@ import { TableFinance } from '../component/pti/tablefinance';
 import { getRessources } from '../util';
 import { useState, useEffect } from 'react';
 import { Radio, RadioGroup } from '@chakra-ui/react'
+import { FcSynchronize } from "react-icons/fc";
 
 
 const CurrentYear = new Date().getFullYear();
@@ -88,7 +89,7 @@ export function Pti(props) {
                 <Radio value={(CurrentYear)}>En préparation</Radio>                
                 </Stack>
             </RadioGroup>
-            <Button size='sm' onClick={handleClickFinance}>{isFinance?'MODES DE FINANCEMENT':'PROGRAMME TRIENNAL D\'IMMOBILISATION'}</Button>
+            <Button size='sm' onClick={handleClickFinance}>{isFinance?'MODES DE FINANCEMENT':'PROGRAMME TRIENNAL D\'IMMOBILISATION'}<FcSynchronize/></Button>
             
             
                 {isFinance?

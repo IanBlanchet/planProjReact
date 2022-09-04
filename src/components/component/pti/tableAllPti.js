@@ -43,7 +43,7 @@ export function TableAllPti(props) {
             <Box display='grid'>
            <SelectCat cat={cat} onChange={handleFilter}/>
            </Box>
-        <Table colorScheme='blue' overflowY='scroll' size='sm'>
+        <Table colorScheme='blue' overflowY='scroll'  size='sm' display='inline-block' maxHeight='600px'>
             <Thead position='sticky' top='0'>
                 <Tr bg='blue.200'>
                     <Th>no projet<IconButton name='no_projet' onClick={handleTrie} icon={tries.no_projet?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Text, IconButton, Box, Container } from '@chakra-ui/react';
+import { useState} from 'react';
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, IconButton } from '@chakra-ui/react';
 import { FcExpand, FcCollapse } from "react-icons/fc";
 
 const calculRatioPti = (pti, montantFinancement) => {
