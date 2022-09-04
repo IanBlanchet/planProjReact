@@ -14,7 +14,7 @@ export function Pti(props) {
     const [donneeBaseEnPrep, setDonneeBaseEnPrep] = useState([])
     const [ptis, setPtis] = useState([]);
     const [ptisEnPrep, setPtisEnPrep] = useState([])    
-    const [year, setYear] = useState((CurrentYear-1));
+    const [year, setYear] = useState((CurrentYear));
     const [isFinance, setIsFinance] = useState(false);
     const [assReglements, setAssReglements] = useState([]);
     const [assFonds, setAssFonds] = useState([]);
@@ -80,7 +80,7 @@ export function Pti(props) {
 
 
     return (
-        <Grid >
+        <Grid justifyItems='center'>
             
             <RadioGroup onChange={changePti} value={year} >
                 <Stack direction='row'>
@@ -88,15 +88,18 @@ export function Pti(props) {
                 <Radio value={(CurrentYear)}>En préparation</Radio>                
                 </Stack>
             </RadioGroup>
-            <Button onClick={handleClickFinance}>Modes de financement</Button>
+            <Button size='sm' onClick={handleClickFinance}>{isFinance?'MODES DE FINANCEMENT':'PROGRAMME TRIENNAL D\'IMMOBILISATION'}</Button>
             
             
                 {isFinance?
+                <GridItem  >
                 <TableFinance ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
                              assReglements={assReglements}
                              assFonds={assFonds}
                              assSubvention={assSubvention}
-                             reglement={reglement}/>
+                             reglement={reglement}
+                             fonds={fonds}/>
+                </GridItem>
                              :
                 <TableAllPti year={year} projet={props.projet} 
                             ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
