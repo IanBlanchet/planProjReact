@@ -90,9 +90,10 @@ export function DetailProjet(props) {
         
         <Grid  templateRows='repeat(3, 1fr, 3fr, 3fr)' templateColumns='2fr, 3fr, 1fr' gap={6} >
             <GridItem  margin='5px' colSpan='3'>
-                    <Stack direction='row'><SelectProjet projets={projet} onChange={selectProjet} defaultValue={currentProject.id?(currentProject.id).toString():''}/>
+                    <Grid templateColumns='1fr 2fr' gap='6'>
+                    <SelectProjet projets={projet} onChange={selectProjet} defaultValue={currentProject.id?(currentProject.id).toString():''}/>
                     <Heading borderWidth='2px' borderRadius='lg' size='lg' width='lg' padding='1'>{currentProject.desc}</Heading>
-                    </Stack>                    
+                    </Grid>                    
             </GridItem>
 
             <GridItem marginLeft='2%' display='flex'>
@@ -125,4 +126,3 @@ export function DetailProjet(props) {
     )
 }
 
-//<Descriptif projet={currentProject} lesprojet={projet} updateNature={updateNature}/>

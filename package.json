@@ -26,6 +26,7 @@
     "react-icons": "^4.3.1",
     "react-multi-date-picker": "^3.3.0",
     "react-scripts": "5.0.0",
+    "react-select": "^5.4.0",
     "react-validation": "^3.0.7",
     "validator": "^13.7.0",
     "web-vitals": "^2.1.4",
