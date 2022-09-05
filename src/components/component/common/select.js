@@ -1,17 +1,24 @@
 import { Select } from '@chakra-ui/react'
-
+import  SearchSelect from 'react-select' 
 
 
 export function SelectProjet(props) {
 
+    let options = [];       
+    
+    props.projets.map(item => options.push({value:item.id, label:item.no_projet + ' -- ' + item.desc}))
+
     const handleSelect = (e) => {
-        props.onChange(e.target.value)        
+         
+        props.onChange(e.value) 
+             
     }
 
     return (
-    <Select placeholder='Select projet' onChange={handleSelect} w='fit-content' defaultValue={props.defaultValue} size='sm'>
-        {props.projets.map(item => <option key={item.id} value={item.id} >{item.no_projet} -- {item.desc}</option>)}
-    </Select>
+    <SearchSelect isSearchable placeholder='Choisir un projet ou écrire un mot clé' onChange={handleSelect} w='fit-content' defaultValue={props.defaultValue} size='sm' 
+            options={options} 
+             />        
+    
     )
 }
 
@@ -19,14 +26,21 @@ export function SelectProjet(props) {
 
 export function SelectContrat(props) {
 
+    let options = [];       
+    
+    props.contrats.map(item => options.push({value:item.id, label:item.no + ' -- ' + item.desc}))
+
+
     const handleSelect = (e) => {
         props.onChange(e.target.value)        
     }
 
     return (
-    <Select placeholder='Select contrat' onChange={handleSelect} w='fit-content' defaultValue={props.defaultValue} size='sm'>
-        {props.contrats.map(item => <option key={item.id} value={item.id} >{item.no} -- {item.desc}</option>)}
-    </Select>
+    <SearchSelect isSearchable placeholder='Choisir un contrat ou écrire un mot clé' onChange={handleSelect} w='fit-content' defaultValue={props.defaultValue} size='sm'
+                    options={options}         
+    />
+       
+    
     )
 }
 
