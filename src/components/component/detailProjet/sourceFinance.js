@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { getRessources, modJalon } from '../../util';
-import { List, ListItem, ListIcon, OrderedList, UnorderedList, Text, Box, IconButton, Heading, Button, Select, HStack } from '@chakra-ui/react';
+import { List, ListItem, ListIcon, OrderedList, UnorderedList, Text, Box, IconButton, Heading, Button, Select, HStack, Input } from '@chakra-ui/react';
 import { Formik, Form,  } from 'formik';
 import { MySelect, MyTextInput } from '../common/forms';
 import { FcSettings, FcFeedIn, FcPlus } from "react-icons/fc";
+import { CloseIcon } from '@chakra-ui/icons'
+
+
+
 
 export function SourceFinance(props) {
 
@@ -13,10 +17,41 @@ export function SourceFinance(props) {
     const [fonds, setFonds] = useState([]);
     const [ajoutFinance, setAjoutFinance]= useState({});    
     const [isChecked, setIschecked] = useState(false);
+    
 
 
     const handleCheck = () => {
         !isChecked?setIschecked(true):setIschecked(false)
+    }
+
+    const handleChange = (e) => {
+        
+        let newFinance ={}
+        let financemod = []      
+        if (e.target.name === 'reglements') {
+            newFinance = {'reglements' : finance[e.target.name].map(item => (item.no === e.target.attributes.identifiant.value)?{'montant':parseInt(e.target.value), 'no':e.target.attributes.identifiant.value}:item )}
+            financemod = {...finance, ...newFinance};
+            setFinance(financemod)
+            const idReglement = reglements.find(item => item.numero === e.target.attributes.identifiant.value).id
+            modJalon('/api/v1/affectefinance', {}, {'reglements':{'id':idReglement,'montant':e.target.value, 'projet':props.projet.id}}, 'PUT')
+        } else if (e.target.name === 'subventions') {
+            newFinance = {'subventions' : finance[e.target.name].map(item => (item.nom === e.target.attributes.identifiant.value)?{'montant':parseInt(e.target.value), 'nom':e.target.attributes.identifiant.value}:item )}
+            financemod = {...finance, ...newFinance};
+            setFinance(financemod);
+            const idSubvention = subventions.find(item => item.nomProg === e.target.attributes.identifiant.value).id
+            modJalon('/api/v1/affectefinance', {}, {'subventions':{'id':idSubvention,'montant':e.target.value, 'projet':props.projet.id}}, 'PUT')
+        } else if (e.target.name === 'fonds') {
+            newFinance = {'fonds' : finance[e.target.name].map(item => (item.nom === e.target.attributes.identifiant.value)?{'montant':parseInt(e.target.value), 'nom':e.target.attributes.identifiant.value}:item )}
+            financemod = {...finance, ...newFinance};
+            setFinance(financemod);
+            const idFonds = fonds.find(item => item.nom === e.target.attributes.identifiant.value).id
+            modJalon('/api/v1/affectefinance', {}, {'fonds':{'id':idFonds,'montant':e.target.value, 'projet':props.projet.id}}, 'PUT')
+        }
+
+    }
+
+    const handleDelete = (e) => {
+        console.log(e.target.attributes.itemReglement.value)
     }
 
 
@@ -60,7 +95,20 @@ export function SourceFinance(props) {
             <Form>
             <Heading size='md' color='blue.500'>Règlements</Heading>
                         <UnorderedList>
-                            {finance.reglements?finance.reglements.map(item => <ListItem>{item.no} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>):<ListItem>-</ListItem>}                        
+                            {finance.reglements&&finance.reglements.map(item => 
+                                
+                                    !isChecked?
+                                    <ListItem>{item.no} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>:
+                                    <ListItem><HStack ><Text>{item.no}-</Text>-<Input size='sm' type='currency' name={'reglements'} identifiant={item.no} value={item.montant} onChange={handleChange}></Input>
+                                    <Button colorScheme='red'
+                                            identifiant={item.no}                                                                                                                   
+                                            size='xs'
+                                            icon={<CloseIcon />}                                                
+                                            onClick={handleDelete}>
+                                    </Button></HStack>
+                                    </ListItem>)
+                            
+                            }                        
                         </UnorderedList>
                         {isChecked&&<HStack>                                    
                                     <MySelect label='Ajout règlement' name='reglements'>
@@ -94,7 +142,18 @@ export function SourceFinance(props) {
             <Form>
             <Heading size='md' color='blue.500'>Subventions</Heading>
                         <UnorderedList>
-                            {finance.subventions?finance.subventions.map(item => <ListItem>{item.nom} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>):<ListItem>-</ListItem>}                        
+                                { finance.subventions&&finance.subventions.map(item =>                                    
+                                    !isChecked?<ListItem>{item.nom} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>:
+                                    <ListItem>{item.nom} --<Input size='sm' type='currency' name={'subventions'} identifiant={item.nom} value={item.montant} onChange={handleChange}></Input>
+                                    <Button colorScheme='red'
+                                            identifiant={item.nom}                                                                                                                   
+                                            size='xs'
+                                            icon={<CloseIcon />}                                                
+                                            onClick={handleDelete}>
+                                    </Button>
+                                    </ListItem>)
+                                }
+                                                           
                         </UnorderedList>
                         {isChecked&&<HStack>
                                     <MySelect label='Ajout subvention' name='subventions'>
@@ -131,7 +190,18 @@ export function SourceFinance(props) {
             <Form>
             <Heading size='md' color='blue.500'>Fonds</Heading>
                         <UnorderedList>
-                            {finance.fonds?finance.fonds.map(item => <ListItem>{item.nom} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>):<ListItem>-</ListItem>}                        
+                                {finance.fonds&&finance.fonds.map(item => 
+                                !isChecked?<ListItem>{item.nom} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>:
+                                <ListItem>{item.nom} --<Input size='sm' type='currency' name={'fonds'} identifiant={item.nom} value={item.montant} onChange={handleChange}></Input>
+                                <Button colorScheme='red'
+                                        identifiant={item.nom}                                                                                                                   
+                                        size='xs'
+                                        icon={<CloseIcon />}                                                
+                                        onClick={handleDelete}>
+                                </Button>
+                                </ListItem>)
+                            }
+                                                      
                         </UnorderedList>
                         {isChecked&&<HStack>
                                     <MySelect label='Ajout fonds' name='fonds'>
