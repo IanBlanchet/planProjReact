@@ -5,6 +5,7 @@ import { Formik, Form,  } from 'formik';
 import { MySelect, MyTextInput } from '../common/forms';
 import { FcSettings, FcFeedIn, FcPlus } from "react-icons/fc";
 import { CloseIcon } from '@chakra-ui/icons'
+import { DeleteButton } from './buttondelete';
 
 
 
@@ -50,8 +51,23 @@ export function SourceFinance(props) {
 
     }
 
-    const handleDelete = (e) => {
-        console.log(e.target.attributes.itemReglement.value)
+    const handleDelete = (type, identifiant) => {
+        let newFinance ={}
+        let financemod = []      
+        if (type === 'reglements') {
+            newFinance = {'reglements' : finance[type].filter(item => !(item.no === identifiant) )}
+            financemod = {...finance, ...newFinance};
+            setFinance(financemod)
+        }else if (type === 'subventions') {
+            newFinance = {'subventions' : finance[type].filter(item => !(item.nom === identifiant))}
+            financemod = {...finance, ...newFinance};
+            setFinance(financemod)
+        }else if (type === 'fonds') {
+            newFinance = {'fonds' : finance[type].filter(item => !(item.nom === identifiant))}
+            financemod = {...finance, ...newFinance};
+            setFinance(financemod)
+        }
+        
     }
 
 
@@ -84,10 +100,8 @@ export function SourceFinance(props) {
                       let addReglement = {'reglements':{'id':values.reglements,'montant':values.montantReglement, 'projet':props.projet.id}}
                       modJalon('/api/v1/affectefinance', {}, addReglement, 'POST').then(item =>
                         {getRessources('/api/v1/finance/'+props.projet.id).then(
-                            lesfinance => setFinance(lesfinance));} );
-                           
-                      
-                                     
+                            lesfinance => setFinance(lesfinance));} );                     
+                                                  
             actions.resetForm();          
             actions.setSubmitting(false);
             }}   
@@ -100,12 +114,7 @@ export function SourceFinance(props) {
                                     !isChecked?
                                     <ListItem>{item.no} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>:
                                     <ListItem><HStack ><Text>{item.no}-</Text>-<Input size='sm' type='currency' name={'reglements'} identifiant={item.no} value={item.montant} onChange={handleChange}></Input>
-                                    <Button colorScheme='red'
-                                            identifiant={item.no}                                                                                                                   
-                                            size='xs'
-                                            icon={<CloseIcon />}                                                
-                                            onClick={handleDelete}>
-                                    </Button></HStack>
+                                    <DeleteButton identifiant={item.no} type='reglements' projet_id={props.projet.id} listSources={reglements} handleDelete={handleDelete}/></HStack>
                                     </ListItem>)
                             
                             }                        
@@ -144,13 +153,9 @@ export function SourceFinance(props) {
                         <UnorderedList>
                                 { finance.subventions&&finance.subventions.map(item =>                                    
                                     !isChecked?<ListItem>{item.nom} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>:
-                                    <ListItem>{item.nom} --<Input size='sm' type='currency' name={'subventions'} identifiant={item.nom} value={item.montant} onChange={handleChange}></Input>
-                                    <Button colorScheme='red'
-                                            identifiant={item.nom}                                                                                                                   
-                                            size='xs'
-                                            icon={<CloseIcon />}                                                
-                                            onClick={handleDelete}>
-                                    </Button>
+                                    <ListItem><HStack><Text>{item.nom} --</Text><Input size='sm' type='currency' name={'subventions'} identifiant={item.nom} value={item.montant} onChange={handleChange}></Input>
+                                    <DeleteButton identifiant={item.nom} type='subventions' projet_id={props.projet.id} listSources={subventions} handleDelete={handleDelete}/>
+                                    </HStack>
                                     </ListItem>)
                                 }
                                                            
@@ -192,13 +197,9 @@ export function SourceFinance(props) {
                         <UnorderedList>
                                 {finance.fonds&&finance.fonds.map(item => 
                                 !isChecked?<ListItem>{item.nom} -- {item.montant.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' })}</ListItem>:
-                                <ListItem>{item.nom} --<Input size='sm' type='currency' name={'fonds'} identifiant={item.nom} value={item.montant} onChange={handleChange}></Input>
-                                <Button colorScheme='red'
-                                        identifiant={item.nom}                                                                                                                   
-                                        size='xs'
-                                        icon={<CloseIcon />}                                                
-                                        onClick={handleDelete}>
-                                </Button>
+                                <ListItem><HStack><Text>{item.nom} --</Text><Input size='sm' type='currency' name={'fonds'} identifiant={item.nom} value={item.montant} onChange={handleChange}></Input>
+                                <DeleteButton identifiant={item.nom} type='fonds' projet_id={props.projet.id} listSources={fonds} handleDelete={handleDelete}/>
+                                </HStack>
                                 </ListItem>)
                             }
                                                       
