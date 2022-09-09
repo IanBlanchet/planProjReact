@@ -81,7 +81,7 @@ export function RessourceRequise (props) {
                 </Stack>
 
 
-                <Heading size='md'>Services impliqués<IconButton icon={<FcSettings/>} onClick={handleCheck} /></Heading>
+                <Heading size='md'>Services impliqués<IconButton icon={isChecked?<FcFeedIn/>:<FcSettings/>} onClick={handleCheck} /></Heading>
                 {isChecked&&<Stack >
                 <Select placeholder='Selectionne un service' onDoubleClick={addService}> 
                     {options.map(item => !nature.services.includes(item)&&(<option value={item} >{item}</option>))}                   

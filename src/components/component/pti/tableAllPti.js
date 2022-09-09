@@ -5,7 +5,7 @@ import { SelectCat } from '../common/select';
 
 
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
-'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau', 'Divers']
+'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
 
 
 export function TableAllPti(props) {

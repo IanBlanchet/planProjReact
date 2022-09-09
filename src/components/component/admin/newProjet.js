@@ -7,7 +7,7 @@ import { MyTextInput, MySelect, MyCheckbox, MySwitch } from '../common/forms';
 
 
 const categories = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
-'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau', 'Divers']
+'Infrastructures existantes', 'Developpement', 'Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
 
 
 export function NewProjet() {

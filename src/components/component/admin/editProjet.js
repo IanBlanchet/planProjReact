@@ -8,7 +8,7 @@ import { MyTextInput, MySelect, MyCheckbox } from '../common/forms';
 
 
 const categories = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
-'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau', 'Divers']
+'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
 
 const statuts= ['Actif', 'Complété', 'Abandonné', 'En suspend']
 
