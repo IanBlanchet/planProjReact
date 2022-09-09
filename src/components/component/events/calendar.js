@@ -22,6 +22,7 @@ export function CalendarPicker(props) {
     }
 
     const selectEvent = (e) => {
+        
         props.onSelect(e.target.attributes.eventid.value)
         
     }

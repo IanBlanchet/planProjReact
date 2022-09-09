@@ -8,7 +8,6 @@ export function EditTextDescriptif({titre, detail, updateNature, isChecked}) {
 
     const [modDetail, setModDetail] = useState([])
    
-
     
     const handleClick = () => {
         let newDetail = [...modDetail];
