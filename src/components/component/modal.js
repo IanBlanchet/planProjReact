@@ -276,7 +276,7 @@ const useDidMountEffect = (func, deps) => {
 }
 
 export function AddPointage({rating, projet}) {
-  const { isOpen, onOpen, onClose } = useDisclosure();  
+  const {isOpen, onOpen, onClose } = useDisclosure();  
   const [newRating, setNewRating] = useState({});
   const [pointage, setPointage] = useState(0);
 
