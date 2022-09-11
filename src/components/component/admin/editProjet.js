@@ -100,7 +100,7 @@ export function EditProjet() {
                 alert('le numéro de projet existe déjà')
                 return
               }else {
-                console.log(values)
+                
                 modJalon('/api/v1/projet/'+selectedProjet.id, {}, values, 'PUT');
               }
               const allNoProjet = [...noProjet];
