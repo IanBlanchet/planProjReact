@@ -10,14 +10,16 @@ import {
     useDisclosure,
     Checkbox,      
   } from '@chakra-ui/react';
-import { Button, Input, FormControl, IconButton, Link, Text, Box, InputLeftAddon } from '@chakra-ui/react';
+import { Button, Input, FormControl, IconButton, Link, Text, Box, Heading } from '@chakra-ui/react';
 import {postLogin } from "../util";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { modJalon } from '../util';
 import { useToast } from '@chakra-ui/react';
 import { GrPowerShutdown, GrMore, GrMemory } from 'react-icons/gr';
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useFormik, Formik, Form,  } from 'formik';
-import { MyTextInput, MySelect, MyCheckbox } from './common/forms';
+import { MyTextInput, MySelect, MyCheckbox, MyRatingInput } from './common/forms';
+
 
 
 export function Connexion(props) {
@@ -243,6 +245,148 @@ export function EstimateurRessources({projet, applyEstimation}) {
     </>
   )
 }
+
+
+
+
+
+const correspondance = {
+  "A":"La santé et la sécurité des personnes",
+  "B":"La fin de la vie utile de actif",
+  "C":"La continuité ou la performance des services",
+  "D":"Impact sur l\'environnement",
+  "E":"Alignement avec la planification stratégique",
+  "F":"Amélioration ou l\'optimisation de l\'actif",
+  "G":"La mise aux normes (un actif ou une procédure)",
+  "H":"La présence d\'une aide financière",
+  "I":"Amélioration de l'\environnement urbain ou le redéploiement urbain",
+  "J":"Amélioration de l\'efficience de l\'organisation",
+  "K":"La création de richesse foncière",
+  "L":"Le rendement de l\'investissement",
+}
+const criteres = [["A",1.5],["B",1.5], ["C",1], ["D",1], ["E",1], ["F",0.75], ["G",0.75], ["H",0.5], ["I",0.5], ["J",0.5], ["K", 0.5], ["L", 0.5]];
+
+const useDidMountEffect = (func, deps) => {
+  const didMount = useRef(false);
+
+  useEffect(() => {
+      if (didMount.current) func();
+      else didMount.current = true;
+  }, deps);
+}
+
+export function AddPointage({rating, projet}) {
+  const { isOpen, onOpen, onClose } = useDisclosure();  
+  const [newRating, setNewRating] = useState({});
+  const [pointage, setPointage] = useState(0);
+
+  
+
+  useEffect(()=>{   
+    setNewRating({
+      "A":rating?rating["A"]:0,
+      "B":rating?rating["B"]:0,
+      "C":rating?rating["C"]:0,
+      "D":rating?rating["D"]:0,
+      "E":rating?rating["E"]:0,
+      "F":rating?rating["F"]:0,
+      "G":rating?rating["G"]:0,
+      "H":rating?rating["H"]:0,
+      "I":rating?rating["I"]:0,
+      "J":rating?rating["J"]:0,
+      "K":rating?rating["K"]:0,
+      "L":rating?rating["L"]:0
+    }); 
+  },[rating])
+
+  useDidMountEffect(()=> {
+    
+      setPointage(criteres.reduce((accumulator, currentValue) => {
+        
+        return accumulator + (newRating[currentValue[0]]*currentValue[1]);    
+        
+      }, 0));     
+    
+  }, [newRating])
+
+
+  return (
+    <>
+      <Button size='sm' onClick={onOpen} bg='green.200' margin='2'>{pointage}</Button>
+      <Modal          
+        isOpen={isOpen}
+        onClose={onClose}
+        size='lg'
+        scrollBehavior='inside'
+      >
+        <ModalOverlay />
+        
+        <ModalContent>
+        
+          <ModalHeader color='blue.400'>POINTAGE</ModalHeader>
+          <ModalCloseButton />
+          
+          <ModalBody pb={6} >
+          <Heading size='sm'>Entrez l'impact du projet sur le critère de -3 à 10</Heading>
+
+          <Formik
+          initialValues={
+            newRating            
+            
+          }
+          
+          validate={(values) => {
+            const errors = {};
+            const keys = Object.keys(values)
+            keys.forEach(value => {
+              console.log(value, values[value])
+                if (values[value] > 10) {
+                  errors[value] = 'max 10';
+              } else if (values[value] < -3) {
+                  errors[value] = 'min -3';
+            }
+            })  
+            console.log(errors)
+            return errors;
+          }          }
+          
+          onSubmit={(values, actions) => {
+              //applique la formule logarithmique selon le cas
+              //let tempsChargeEstime = values.montant;
+              console.log(values)
+              setNewRating(values)
+              modJalon('/api/v1/projet/'+projet.id, {}, {'rating':values}, 'PUT');
+              
+              actions.setSubmitting(false);                         
+              actions.resetForm();
+              onClose() 
+          }}
+        >
+        
+
+            <Form>
+           {criteres.map(item => <MyRatingInput
+              label={correspondance[item[0]]}
+              name={item[0]}
+              type='number'  
+              />)}           
+          
+          
+          <ModalFooter>
+        
+            <Button  colorScheme='green' mr={3} type='submit'>Enregistrer</Button>
+          </ModalFooter>
+          
+          </Form>
+          </Formik>
+          </ModalBody>
+        </ModalContent>
+      
+      </Modal>
+    </>
+  )
+}
+
 
 
 

@@ -1,5 +1,5 @@
 import { SelectProjet } from "../component/common/select";
-import { Grid, GridItem, Box, Text, Flex, Stack, Heading } from '@chakra-ui/react';
+import { Grid, GridItem, Box, Text, Flex, Stack, Heading, Badge, HStack } from '@chakra-ui/react';
 import { List, ListItem, ListIcon, OrderedList, UnorderedList } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react'
 import { useState, useEffect} from 'react';
@@ -11,6 +11,8 @@ import { RessourceRequise } from "../component/detailProjet/ressource";
 import { Impacts } from "../component/detailProjet/impactbudget";
 import { getRessources } from '../util';
 import { modJalon } from '../util';
+import { AddPointage } from "../component/modal";
+import { GaugeChartSimple } from "../component/detailProjet/gaugechart";
 
 
 export function DetailProjet(props) {
@@ -92,7 +94,13 @@ export function DetailProjet(props) {
             <GridItem  margin='5px' colSpan='3'>
                     <Grid templateColumns='1fr 2fr' gap='6'>
                     <SelectProjet projets={projet} onChange={selectProjet} defaultValue={currentProject.id?(currentProject.id).toString():''}/>
-                    <Heading borderWidth='2px' borderRadius='lg' size='lg' width='lg' padding='1'>{currentProject.desc}</Heading>
+                    <HStack>
+                    <Heading borderWidth='2px' borderRadius='lg' size='lg' width='lg' padding='1'>{currentProject.desc}            
+                    
+                    </Heading>
+                    <AddPointage pointage={currentProject.rating?currentProject.rating.A:0} rating={currentProject.rating} projet={currentProject}/>                   
+                    </HStack>
+                   
                     </Grid>                    
             </GridItem>
 
@@ -117,7 +125,7 @@ export function DetailProjet(props) {
                 <Impacts projet={currentProject} lesprojet={projet} updateNature={updateNature}/>
             </GridItem>
             <GridItem display='flex'>
-                <GaugeChart projet={currentProject} onClick={updateAvancement('plus')} onDoubleClick={updateAvancement('moins')} updateNature={updateNature}/>
+                <GaugeChartSimple projet={currentProject} onClick={updateAvancement('plus')} onDoubleClick={updateAvancement('moins')} updateNature={updateNature}/>
             </GridItem>
             
         </Grid>

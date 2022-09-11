@@ -1,6 +1,6 @@
 import React from 'react';
-import { Formik, Form, useField } from 'formik';
-import { Input, Select, Checkbox, Text, Switch , Box} from '@chakra-ui/react';
+import { useField } from 'formik';
+import { Input, Select, Checkbox, Text, Switch , Box, HStack, Table, Tr, Td} from '@chakra-ui/react';
 
  
  export const MyTextInput = ({ label, ...props }) => {
@@ -10,14 +10,38 @@ import { Input, Select, Checkbox, Text, Switch , Box} from '@chakra-ui/react';
    const [field, meta] = useField(props);
    return (
      <Box margin='10px' >
+        <HStack>
        <label htmlFor={props.id || props.name} style={{fontFamily:'fantasy'}}>{label}</label>
        <Input className="text-input" {...field} {...props} />
        {meta.touched && meta.error ? (
          <div className="error"><Text color='red.500'>{meta.error}</Text></div>
        ) : null}
+       </HStack>
      </Box>
    );
  };
+
+ export const MyRatingInput = ({ label, ...props }) => {
+  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+  // which we can spread on <input>. We can use field meta to show an error
+  // message if the field is invalid and it has been touched (i.e. visited)
+  const [field, meta] = useField(props);
+  return (
+    <Box margin='3px' >
+       <Table size='md'>
+      <Tr>
+      <Td><label htmlFor={props.id || props.name} style={{fontFamily:'serif'}}>{label}</label></Td>
+      <Td><Input className="text-input" {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <div className="error"><Text color='red.500'>{meta.error}</Text></div>
+      ) : null}</Td>
+      </Tr>
+      </Table>
+      
+    </Box>
+  );
+};
+
  
  export const MySwitch = ({ children, ...props }) => {
    // React treats radios and checkbox inputs differently other input types, select, and textarea.
