@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, IconButton, Heading, Input, InputGroup, InputLeftAddon, InputRightAddon, Stack, Text, List, ListItem, Select } from '@chakra-ui/react';
 import { FcSettings, FcFeedIn } from "react-icons/fc";
 import { EstimateurRessources } from '../modal';
+import { modJalon } from '../../util';
 
 const year = new Date().getFullYear();
 
@@ -13,6 +14,7 @@ export function RessourceRequise (props) {
 
     const [nature, setNature] = useState(blanckNature)
     const [isChecked, setIschecked] = useState(false);
+    const [charge, setCharge] = useState('')
 
     const handleChange = (e) => {
         let temp = {...nature};
@@ -50,12 +52,19 @@ export function RessourceRequise (props) {
         props.updateNature(newnature)
     }
 
+    const changeResponsable = (e) => {               
+       setCharge(props.users.find(item => item.id == e.target.value).username);
+       modJalon(`/api/v1/projet/${props.projet.id}`, {}, {'charge':e.target.value}, 'PUT');
+    }
+
     useEffect(()=>{
         
         setNature(!props.projet.nature?blanckNature:{...blanckNature,...props.projet.nature})
+        setCharge(props.user.username)
         return () => {
             setNature(blanckNature);
-        }
+        };
+        
     }, [props.projet])
     
 
@@ -76,8 +85,14 @@ export function RessourceRequise (props) {
                 <Input type='number'  value={nature.tempsTech} name='tempsTech' onChange={handleChange}/>
                 <InputRightAddon children='hrs'/>
                 </InputGroup>
-                <Heading size='md'>Chargé de projet</Heading>
-                <Text>{props.user.username}</Text>               
+                <Heading size='md'>Chargé de projet<IconButton icon={isChecked?<FcFeedIn/>:<FcSettings/>} onClick={handleCheck} /></Heading>
+                {isChecked?<Stack >
+                <Text>{charge}</Text> 
+                <Select placeholder='choisir un chargé de projet' onChange={changeResponsable}> 
+                    {props.users.map(item => (<option value={item.id} >{item.username}</option>))}                   
+                </Select>
+                </Stack>:<Text>{charge}</Text> }
+                              
                 </Stack>
 
 

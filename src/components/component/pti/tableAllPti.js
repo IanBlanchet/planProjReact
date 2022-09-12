@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Text, IconButton, Box, Container } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Text, IconButton, Box, HStack } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
-import { SelectCat } from '../common/select';
+import { SelectFiltre } from '../common/select';
 
 
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
@@ -19,8 +19,12 @@ export function TableAllPti(props) {
         props.afficheProjet(parseInt(e.target.getAttribute('value')))
     }
 
-    const handleFilter = (filter) => {        
-        props.filter(filter);
+    const handleFilter = (filter, column) => {        
+        props.filter(filter, column);
+    }
+
+    const handleFilterSimple = (filter, column) => {
+        props.filterSimple(filter, column);
     }
 
     const handleTrie = (e) => {
@@ -40,9 +44,10 @@ export function TableAllPti(props) {
         
         
         <Box >
-            <Box display='grid'>
-           <SelectCat cat={cat} onChange={handleFilter}/>
-           </Box>
+            <HStack >
+           <SelectFiltre items={cat} column='cat' placeHolder='catégories' onChange={handleFilter}/>
+           <SelectFiltre items={props.user.map(user => user.username)} column='responsable' placeHolder='responsable' onChange={handleFilterSimple}/>
+           </HStack>
         <Table colorScheme='blue' overflowY='scroll'  size='sm' display='inline-block' maxHeight='600px'>
             <Thead position='sticky' top='0'>
                 <Tr bg='blue.200'>

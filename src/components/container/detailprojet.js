@@ -98,7 +98,7 @@ export function DetailProjet(props) {
                     <Heading borderWidth='2px' borderRadius='lg' size='lg' width='lg' padding='1'>{currentProject.desc}            
                     
                     </Heading>
-                    <AddPointage pointage={currentProject.rating?currentProject.rating.A:0} rating={currentProject.rating} projet={currentProject}/>                   
+                    <AddPointage rating={currentProject.rating} projet={currentProject}/>                   
                     </HStack>
                    
                     </Grid>                    
@@ -119,7 +119,7 @@ export function DetailProjet(props) {
             </GridItem>
 
             <GridItem display='flex' marginLeft='2%' marginTop='5px'>
-                <RessourceRequise projet={currentProject} updateNature={updateNature} user={user}/>
+                <RessourceRequise projet={currentProject} updateNature={updateNature} user={user} users={users}/>
             </GridItem>
             <GridItem>
                 <Impacts projet={currentProject} lesprojet={projet} updateNature={updateNature}/>

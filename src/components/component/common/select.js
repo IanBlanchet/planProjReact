@@ -59,15 +59,15 @@ export function SelectEvent(props) {
 
 }
 
-export function SelectCat(props) {
+export function SelectFiltre(props) {
     const handleSelect = (e) => {
-        props.onChange(e.target.value)
+        props.onChange(e.target.value, e.target.name)
                 
     }
 
     return (
-    <Select placeholder='Filtre par catégorie' onChange={handleSelect} w='30%'>
-        {props.cat.map(item => <option key={item} value={item} >{item}</option>)}
+    <Select name={props.column} placeholder={'Filtre par '+props.placeHolder} onChange={handleSelect} w='30%'>
+        {props.items.map(item => <option key={item} value={item} >{item}</option>)}
     </Select>
     )
 

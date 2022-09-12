@@ -8,7 +8,7 @@ import { Events } from './components/container/events';
 import { Admin } from './components/container/admin';
 import { DetailProjet } from './components/container/detailprojet';
 import { Pti } from './components/container/pti';
-
+import { TableauPriorisation } from './components/container/priorisation';
 
 
 
@@ -21,7 +21,7 @@ function App() {
   const [contrat, setContrat] = useState([]);
   const [projet, setProjet] = useState([]);
   const [view, setView ] = useState('accueil');
-  const [selected, setSelected] = useState([false,{}])
+  const [selected, setSelected] = useState([false,{}])//le choix du menu.  true if projet select in pti
   
     
 
@@ -67,7 +67,8 @@ function App() {
     admin : <Admin />,
     detailProjet : <DetailProjet projet={projet} isSelected={false} selected=''/>,
     detailProjetSelected : <DetailProjet projet={projet} isSelected={true} selected={''}/>,
-    pti : <Pti projet={projet} afficheProjet={afficheDetailprojet}/>
+    pti : <Pti projet={projet} user={user} afficheProjet={afficheDetailprojet}/>,
+    priorisation : <TableauPriorisation user={user} afficheProjet={afficheDetailprojet}/>
   }
 
   const menuClick = (container) => {

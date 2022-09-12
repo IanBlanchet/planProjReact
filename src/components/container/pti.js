@@ -30,11 +30,11 @@ export function Pti(props) {
         setPtisEnPrep(donneeBaseEnPrep);
     }
 
-    const filtrePti = (filtre) => {
+    const filtrePtiCat = (filtre, column) => {
         const donnee = !(year === CurrentYear)?donneeBase:donneeBaseEnPrep
         if (filtre) {         
             let newPti = [];
-            const projetFiltre = props.projet.filter(item => item.cat === filtre);
+            const projetFiltre = props.projet.filter(item => item[column] === filtre);
             projetFiltre.forEach(element => {
                 const pti = donnee.find(pti => pti.projet_id === element.id)
                 pti&&newPti.push(pti)
@@ -42,10 +42,23 @@ export function Pti(props) {
                 !(year === CurrentYear)?setPtis(newPti):setPtisEnPrep(newPti)
             } else {
                 !(year === CurrentYear)?setPtis(donneeBase):setPtisEnPrep(donneeBaseEnPrep)
-            }               
+            }          
             
         
     }
+
+    const filtrePtiSimple = (filtre, column) => {
+        const newProjet = [...donneeBase];
+        console.log(filtre, column)
+        if (filtre) {    
+            const projetFiltre = newProjet.filter(item => item[column] === filtre);
+            !(year === CurrentYear)?setPtis(projetFiltre):setPtisEnPrep(projetFiltre);                
+        } else {
+            !(year === CurrentYear)?setPtis(donneeBase):setPtisEnPrep(donneeBaseEnPrep); 
+            };         
+    }
+
+
 
     const triPti = (column, sens) => {
         let ptiTrie = !(year === CurrentYear)?[...ptis]:[...ptisEnPrep];
@@ -62,9 +75,20 @@ export function Pti(props) {
         
         document.body.style.cursor = "wait";
         getRessources('/api/v1/pti/all/'+(CurrentYear-1)).then(
-             lesPti => {setPtis(lesPti);setDonneeBase(lesPti)});
+             lesPti => {
+                lesPti.map(pti => {
+                    const leuser = props.user.find(user => user.id === pti.responsable_id);
+                    pti['responsable'] = leuser?leuser.username:'';
+                })
+                setPtis(lesPti);setDonneeBase(lesPti)});
         getRessources('/api/v1/pti/all/'+CurrentYear).then(
-                lesPtiEnPrep => {setPtisEnPrep(lesPtiEnPrep);setDonneeBaseEnPrep(lesPtiEnPrep); document.body.style.cursor = "default"});
+                lesPtiEnPrep => {
+                    lesPtiEnPrep.map(pti => {
+                        const leuser = props.user.find(user => user.id === pti.responsable_id);
+                        pti['responsable'] = leuser?leuser.username:'';
+                    })                    
+                setPtisEnPrep(lesPtiEnPrep);setDonneeBaseEnPrep(lesPtiEnPrep); document.body.style.cursor = "default"});
+        
         getRessources('/api/v1/reglement').then( reglements => {
                     setReglement(reglements)
                 });
@@ -99,15 +123,20 @@ export function Pti(props) {
                              assFonds={assFonds}
                              assSubvention={assSubvention}
                              reglement={reglement}
-                             fonds={fonds}/>
+                             fonds={fonds}
+                             />
+                             
                 </GridItem>
                              :
                 <TableAllPti year={year} projet={props.projet} 
                             ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
                             afficheProjet={props.afficheProjet} 
-                            filter={filtrePti} trie={triPti}
+                            filter={filtrePtiCat} 
+                            trie={triPti}
+                            filterSimple={filtrePtiSimple}
                             reglement={reglement}
-                            assReglements={assReglements}/>
+                            assReglements={assReglements}
+                            user={props.user}/>
                 }
             
         </Grid>
