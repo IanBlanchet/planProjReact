@@ -52,8 +52,8 @@ export function RessourceRequise (props) {
         props.updateNature(newnature)
     }
 
-    const changeResponsable = (e) => {
-       setCharge(e.target.value);
+    const changeResponsable = (e) => {               
+       setCharge(props.users.find(item => item.id == e.target.value).username);
        modJalon(`/api/v1/projet/${props.projet.id}`, {}, {'charge':e.target.value}, 'PUT');
     }
 
@@ -87,6 +87,7 @@ export function RessourceRequise (props) {
                 </InputGroup>
                 <Heading size='md'>Chargé de projet<IconButton icon={isChecked?<FcFeedIn/>:<FcSettings/>} onClick={handleCheck} /></Heading>
                 {isChecked?<Stack >
+                <Text>{charge}</Text> 
                 <Select placeholder='choisir un chargé de projet' onChange={changeResponsable}> 
                     {props.users.map(item => (<option value={item.id} >{item.username}</option>))}                   
                 </Select>
