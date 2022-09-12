@@ -48,7 +48,7 @@ export function Pti(props) {
     }
 
     const filtrePtiSimple = (filtre, column) => {
-        const newProjet = [...donneeBase];
+        const newProjet = !(year === CurrentYear)?[...donneeBase]:[...donneeBaseEnPrep];
         console.log(filtre, column)
         if (filtre) {    
             const projetFiltre = newProjet.filter(item => item[column] === filtre);
