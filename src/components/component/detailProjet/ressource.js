@@ -61,6 +61,8 @@ export function RessourceRequise (props) {
         
         setNature(!props.projet.nature?blanckNature:{...blanckNature,...props.projet.nature})
         setCharge(props.user.username)
+        
+        
         return () => {
             setNature(blanckNature);
         };

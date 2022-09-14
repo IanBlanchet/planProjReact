@@ -35,7 +35,7 @@ export function DetailProjet(props) {
         if (user) {
             setUser(user)
         } else {
-            setUser({'username':'', 'service':'', 'email':''})
+            setUser({'id':'', 'username':'', 'service':'','statut':'', 'email':''})
         }
 
     }
@@ -79,7 +79,9 @@ export function DetailProjet(props) {
         getRessources('/api/v1/pti/'+currentProject.id).then(
             lesPti => setPti(lesPti));
         getRessources('/api/v1/user').then(
-            lesUser => setUsers(lesUser));
+            lesUser => setUsers(lesUser)).then(
+                
+            );
    
             
         

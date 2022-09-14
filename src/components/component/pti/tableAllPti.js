@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Text, IconButton, Box, HStack } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Select, IconButton, Box, HStack } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectFiltre } from '../common/select';
 
@@ -22,9 +22,10 @@ export function TableAllPti(props) {
     const handleFilter = (filter, column) => {        
         props.filter(filter, column);
     }
-
-    const handleFilterSimple = (filter, column) => {
-        props.filterSimple(filter, column);
+    
+    const handleFilterSimple = (e) => {
+        
+        props.filter(parseInt(e.target.value), e.target.name);
     }
 
     const handleTrie = (e) => {
@@ -46,7 +47,9 @@ export function TableAllPti(props) {
         <Box >
             <HStack >
            <SelectFiltre items={cat} column='cat' placeHolder='catégories' onChange={handleFilter}/>
-           <SelectFiltre items={props.user.map(user => user.username)} column='responsable' placeHolder='responsable' onChange={handleFilterSimple}/>
+           <Select name='charge' placeholder='responsable' onChange={handleFilterSimple} >
+                {props.user.map(item => <option key={item.id} value={item.id} >{item.username}</option>)}
+           </Select>
            </HStack>
         <Table colorScheme='blue' overflowY='scroll'  size='sm' display='inline-block' maxHeight='600px'>
             <Thead position='sticky' top='0'>
@@ -70,11 +73,13 @@ export function TableAllPti(props) {
                 <Tr>
                     <Td onClick={handleSelectProjet}  value={pti.projet_id} textColor='blue' _hover={{background: "white", color: "teal.500",}}>{pti.no_projet}</Td>
                     <Td>{pti.description}</Td>
-                    <Td>{assReglements.find(item => item.projet_id === pti.projet_id)&&
-                        reglement.find( lereglement =>
-                        lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id)
-                        .numero}
-                    </Td>
+                    <Td>{assReglements.find(item => item.projet_id === pti.projet_id)?
+                        reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id)?
+                        reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id).numero:
+                        "":""                
+                    }</Td>
+                  
+                    
                     <Td>{(pti.anterieur/1000000).toFixed(2)}</Td>
                     <Td>{pti.cycleCour/1000000}</Td>
                     <Td>{pti.cycle2/1000000}</Td>

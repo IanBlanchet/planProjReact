@@ -32,6 +32,7 @@ export function Pti(props) {
 
     const filtrePtiCat = (filtre, column) => {
         const donnee = !(year === CurrentYear)?donneeBase:donneeBaseEnPrep
+        
         if (filtre) {         
             let newPti = [];
             const projetFiltre = props.projet.filter(item => item[column] === filtre);
@@ -49,7 +50,7 @@ export function Pti(props) {
 
     const filtrePtiSimple = (filtre, column) => {
         const newProjet = !(year === CurrentYear)?[...donneeBase]:[...donneeBaseEnPrep];
-        console.log(filtre, column)
+        
         if (filtre) {    
             const projetFiltre = newProjet.filter(item => item[column] === filtre);
             !(year === CurrentYear)?setPtis(projetFiltre):setPtisEnPrep(projetFiltre);                
