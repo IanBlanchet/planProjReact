@@ -1,26 +1,36 @@
 import { useState, useEffect } from 'react';
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, IconButton, Box, HStack  } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, IconButton, Box, HStack, Select  } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectFiltre } from '../common/select';
 import { AddPointage } from '../modal';
+import { modJalon } from '../../util';
 
 
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
 
+const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonné']
 
 export function TableAllProjet(props) {
 
     const [tries, setTries] =useState({'no_projet':true, 'desc':true, 'charge': true, 'pointage': true, 'statut':true})    
-    
+    const [projets, setProjets] = useState([])
 
-    const handleSelectProjet = (e) => {
-        
+    const handleSelectProjet = (e) => {        
         props.afficheProjet(parseInt(e.target.getAttribute('value')))
     }
 
     const handleFilter = (filter, column) => {        
         props.filter(filter, column);
+    }
+
+    const handleChangeStatut = (e) => {
+        let newProjets = [...projets]
+        const leProjet = newProjets.find(projet => projet.id === parseInt(e.target.name))
+        leProjet.statut = e.target.value;
+        newProjets = [...newProjets, leProjet]
+        setProjets(newProjets)
+        modJalon(`/api/v1/projet/${e.target.name}`, {}, {'statut':e.target.value}, 'PUT')
     }
 
     const handleTrie = (e) => {
@@ -33,7 +43,7 @@ export function TableAllProjet(props) {
 
 
     useEffect(() => {
-       
+       setProjets(props.projets)
     }, [props])
 
 
@@ -59,14 +69,17 @@ export function TableAllProjet(props) {
                 </Tr>
             </Thead>
             <Tbody >
-                {props.projets.map(projet =>
+                {projets.map(projet =>
                 
                 <Tr>
                     <Td onClick={handleSelectProjet}  value={projet.id} textColor='blue' _hover={{background: "white", color: "teal.500",}}>{projet.no_projet}</Td>
                     <Td>{projet.desc}</Td>
                     <Td>{projet.responsable?projet.responsable:''}</Td>
                     <Td>{<AddPointage rating={projet.rating} projet={projet} />}</Td>
-                    <Td>{projet.statut}</Td>
+                        <Td><Select size='xs' name={projet.id} onChange={handleChangeStatut} value={projet.statut}>
+                                {statut.map(item => <option key={item} value={item} >{item}</option>)}
+                            </Select>
+                        </Td>
                     <Td>{projet.nature?projet.nature.tempsCharge:0}</Td>
                     <Td>{projet.nature?projet.nature.tempsTech:0}</Td>                    
                     

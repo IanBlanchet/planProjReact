@@ -29,9 +29,7 @@ export function TableauPriorisation(props) {
                 
         } else {
                 setProjets(donneeBase);
-            }               
-            
-        
+            }      
     }
 
 
@@ -39,7 +37,7 @@ export function TableauPriorisation(props) {
     useEffect(() => {
         getRessources('/api/v1/projet').then(
             projets => {
-                const filtreProjet = projets.filter(item => (item.statut === 'Actif' || item.statut === 'En suspend'))
+                const filtreProjet = projets.filter(item => (item.statut === 'Actif' || item.statut === 'En approbation' || item.statut === 'En suspend'))
                 filtreProjet.map(projet => {
                     let counter = 0
                     if (projet.rating) {                        

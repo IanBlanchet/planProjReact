@@ -24,6 +24,7 @@ export function EditContrat() {
             }   
     }
 
+
     const selectContrat= (contrat_id) => {
         const lecontrat = contrats.find(item => item.id == contrat_id);        
         setSelectedContrat(lecontrat)
@@ -43,7 +44,7 @@ export function EditContrat() {
               setProjet(lesProjet) 
             }
             );
-        getRessources('/api/v1/contrat').then(
+          getRessources('/api/v1/contrat').then(
                 lesContrats => {
                   setContrats(lesContrats)
                   const allNoContrat = []
@@ -98,17 +99,19 @@ export function EditContrat() {
               
               if (validate(values.no)) {
                 alert('le numéro de contrat existe déjà')
-                retour
+                return
               }else {
-                console.log(values);
-                modJalon('/api/v1/contrat/'+selectedContrat.id, {}, values, 'PUT');
+                
+                modJalon('/api/v1/contrat/'+selectedContrat.id, {}, values, 'PUT').then(
+                  value => {const allNoContrat = [...noContrat];
+                  allNoContrat.push(values.no);
+                  setNoContrat(allNoContrat);
+                  actions.setSubmitting(false);
+                  setSelectedContrat();
+                  actions.resetForm();} 
+                );
               }
-              const allNoContrat = [...noContrat];
-              allNoContrat.push(values.no);
-              setNoContrat(allNoContrat);
-              actions.setSubmitting(false);
-              setSelectedContrat();
-              actions.resetForm();              
+                           
             
           }}
         >
