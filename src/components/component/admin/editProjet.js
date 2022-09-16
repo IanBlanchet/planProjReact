@@ -4,13 +4,13 @@ import { Button, Box, Grid, GridItem, Heading } from '@chakra-ui/react';
 import { getRessources, modJalon } from '../../util';
 import { SelectProjet } from '../common/select';
 import * as Yup from 'yup';
-import { MyTextInput, MySelect, MyCheckbox } from '../common/forms';
+import { MyTextInput, MySelect } from '../common/forms';
 
 
 const categories = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
 
-const statuts= ['Actif', 'Complété', 'Abandonné', 'En suspend']
+const statuts= ['Actif', 'Complété', 'Abandonné', 'En suspend', 'En approbation']
 
 
 export function EditProjet() {
@@ -101,14 +101,18 @@ export function EditProjet() {
                 return
               }else {
                 
-                modJalon('/api/v1/projet/'+selectedProjet.id, {}, values, 'PUT');
+                modJalon('/api/v1/projet/'+selectedProjet.id, {}, values, 'PUT').then(
+                  value => {
+                    const allNoProjet = [...noProjet];
+                    allNoProjet.push(values.no_projet);
+                    setNoProjet(allNoProjet)
+                    actions.setSubmitting(false);
+                    setSelectedProjet();
+                    actions.resetForm();
+                  }
+                );
               }
-              const allNoProjet = [...noProjet];
-              allNoProjet.push(values.no_projet);
-              setNoProjet(allNoProjet)
-              actions.setSubmitting(false);
-              setSelectedProjet();
-              actions.resetForm();              
+                            
             
            
       

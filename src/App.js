@@ -21,7 +21,7 @@ function App() {
   const [contrat, setContrat] = useState([]);
   const [projet, setProjet] = useState([]);
   const [view, setView ] = useState('accueil');
-  const [selected, setSelected] = useState([false,{}])//le choix du menu.  true if projet select in pti
+  const [selected, setSelected] = useState([false,{}, {}])//le choix du menu.  true if projet select in pti
   
     
 
@@ -54,6 +54,13 @@ function App() {
         let newSelected = [...selected]
         newSelected[1] = selectedProjet
         newSelected[0] = true
+        const leuser = user.find(item => item.id == selectedProjet.charge)
+
+        if (leuser) {
+            newSelected[2] = leuser
+        } else {
+          newSelected[2] = {'id':'', 'username':'', 'service':'','statut':'', 'email':''}
+        }
         setSelected(newSelected)
        })   
     
@@ -94,7 +101,7 @@ function App() {
         <loginContext.Provider value={sessionStorage.getItem('isLogin')}>
           <NavBar onLogin={getData} onLogout={showAccueil} onMenuSelect={menuClick}/>  
         
-        {selected[0]?<DetailProjet projet={projet} isSelected={true} selected={selected[1]}/>:menuChoice[view]}    
+        {selected[0]?<DetailProjet projet={projet} isSelected={true} user={selected[2]} selected={selected[1]}/>:menuChoice[view]}    
         </loginContext.Provider>
     </div>
    

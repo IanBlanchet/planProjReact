@@ -1,6 +1,7 @@
 import React from 'react';
 import { useField } from 'formik';
 import { Input, Select, Checkbox, Text, Switch , Box, HStack, Table, Tr, Td} from '@chakra-ui/react';
+import  SearchSelect from 'react-select'
 
  
  export const MyTextInput = ({ label, ...props }) => {
