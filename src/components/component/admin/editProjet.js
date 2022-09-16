@@ -4,7 +4,7 @@ import { Button, Box, Grid, GridItem, Heading } from '@chakra-ui/react';
 import { getRessources, modJalon } from '../../util';
 import { SelectProjet } from '../common/select';
 import * as Yup from 'yup';
-import { MyTextInput, MySelect, MyCheckbox } from '../common/forms';
+import { MyTextInput, MySelect } from '../common/forms';
 
 
 const categories = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
@@ -101,14 +101,18 @@ export function EditProjet() {
                 return
               }else {
                 
-                modJalon('/api/v1/projet/'+selectedProjet.id, {}, values, 'PUT');
+                modJalon('/api/v1/projet/'+selectedProjet.id, {}, values, 'PUT').then(
+                  value => {
+                    const allNoProjet = [...noProjet];
+                    allNoProjet.push(values.no_projet);
+                    setNoProjet(allNoProjet)
+                    actions.setSubmitting(false);
+                    setSelectedProjet();
+                    actions.resetForm();
+                  }
+                );
               }
-              const allNoProjet = [...noProjet];
-              allNoProjet.push(values.no_projet);
-              setNoProjet(allNoProjet)
-              actions.setSubmitting(false);
-              setSelectedProjet();
-              actions.resetForm();              
+                            
             
            
       

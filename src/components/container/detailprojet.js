@@ -21,7 +21,7 @@ export function DetailProjet(props) {
     const [depense, setDepense] = useState({});
     const [pti, setPti] = useState({});
     const [users, setUsers] = useState([])
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState(props.isSelected?props.user:{'id':'', 'username':'', 'service':'','statut':'', 'email':''})
     
     
     const year = new Date().getFullYear();
