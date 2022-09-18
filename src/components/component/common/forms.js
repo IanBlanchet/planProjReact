@@ -1,6 +1,6 @@
 import React from 'react';
 import { useField } from 'formik';
-import { Input, Select, Checkbox, Text, Switch , Box, HStack, Table, Tr, Td} from '@chakra-ui/react';
+import { Input, Select, Checkbox, Text, Switch , Box, HStack, Table, Tr, Td, GridItem, Grid} from '@chakra-ui/react';
 import  SearchSelect from 'react-select'
 
  
@@ -28,16 +28,17 @@ import  SearchSelect from 'react-select'
   // message if the field is invalid and it has been touched (i.e. visited)
   const [field, meta] = useField(props);
   return (
-    <Box margin='3px' >
-       <Table size='md'>
-      <Tr>
-      <Td><label htmlFor={props.id || props.name} style={{fontFamily:'serif'}}>{label}</label></Td>
-      <Td><Input className="text-input" {...field} {...props} />
+    <Box margin='5px' >
+       
+      
+      <Grid templateRows='1fr' templateColumns='3fr 1fr'>
+      <GridItem><label htmlFor={props.id || props.name} style={{fontFamily:'serif'}}>{label}</label></GridItem>
+      <GridItem><Input className="text-input" {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error"><Text color='red.500'>{meta.error}</Text></div>
-      ) : null}</Td>
-      </Tr>
-      </Table>
+      ) : null}</GridItem>
+      </Grid>
+      
       
     </Box>
   );
