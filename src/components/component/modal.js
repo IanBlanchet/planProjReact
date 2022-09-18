@@ -10,7 +10,7 @@ import {
     useDisclosure,
     Checkbox,      
   } from '@chakra-ui/react';
-import { Button, Input, FormControl, IconButton, Link, Text, Box, Heading } from '@chakra-ui/react';
+import { Button, Input, FormControl, IconButton, Link, Text, Box, Heading, Table, Tbody } from '@chakra-ui/react';
 import {postLogin } from "../util";
 import { useEffect, useState, useRef } from 'react';
 import { modJalon } from '../util';
@@ -339,21 +339,19 @@ export function AddPointage({rating, projet}) {
             const errors = {};
             const keys = Object.keys(values)
             keys.forEach(value => {
-              console.log(value, values[value])
+              
                 if (values[value] > 10) {
                   errors[value] = 'max 10';
               } else if (values[value] < -3) {
                   errors[value] = 'min -3';
             }
             })  
-            console.log(errors)
+            
             return errors;
           }          }
           
           onSubmit={(values, actions) => {
-              //applique la formule logarithmique selon le cas
-              //let tempsChargeEstime = values.montant;
-              console.log(values)
+                            
               setNewRating(values)
               modJalon('/api/v1/projet/'+projet.id, {}, {'rating':values}, 'PUT');
               
@@ -365,11 +363,13 @@ export function AddPointage({rating, projet}) {
         
 
             <Form>
+            
            {criteres.map(item => <MyRatingInput
               label={correspondance[item[0]]}
               name={item[0]}
               type='number'  
-              />)}           
+              />)}
+                      
           
           
           <ModalFooter>

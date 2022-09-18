@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Box, IconButton, Heading, Input, InputGroup, InputLeftAddon, InputRightAddon, Stack, Text, List, ListItem, Select } from '@chakra-ui/react';
-import { FcSettings, FcFeedIn } from "react-icons/fc";
+import { Box, IconButton, Heading, Input, InputGroup, InputLeftAddon, InputRightAddon, HStack, Stack, Text, List, ListItem, Select} from '@chakra-ui/react';
+import { FcSettings, FcFeedIn, FcPlus } from "react-icons/fc";
 import { EstimateurRessources } from '../modal';
 import { modJalon } from '../../util';
+import { ButtonAddService } from './buttonAddService';
 
 const year = new Date().getFullYear();
 
@@ -14,7 +15,8 @@ export function RessourceRequise (props) {
 
     const [nature, setNature] = useState(blanckNature)
     const [isChecked, setIschecked] = useState(false);
-    const [charge, setCharge] = useState('')
+    const [charge, setCharge] = useState('');
+    const [selectedService, setSelectedService] = useState('')
 
     const handleChange = (e) => {
         let temp = {...nature};
@@ -27,15 +29,22 @@ export function RessourceRequise (props) {
         
     }
 
-    const addService = (e) => {
-        let temp = {...nature};
-        let service =[]
-        nature.services&&(service = [...nature.services])
-        service.push(e.target.value)
-        const newService = {'services':service}
-        let newnature = {...temp, ...newService}
-        setNature(newnature)
-        props.updateNature(newnature)
+    const handleChangeService = (e) => {
+        setSelectedService(e.target.value)
+    }
+
+    const addService = (value) => {
+        if(value) {
+            let temp = {...nature};
+            let service =[];
+            nature.services&&(service = [...nature.services]);
+            service.push(value)
+            const newService = {'services':service};
+            let newnature = {...temp, ...newService}
+            setNature(newnature);
+            props.updateNature(newnature);
+            setSelectedService('')
+        }
     }
 
     const handleCheck = () => {
@@ -50,6 +59,7 @@ export function RessourceRequise (props) {
         let newnature = { ...temp, ...data};
         setNature(newnature);
         props.updateNature(newnature)
+        
     }
 
     const changeResponsable = (e) => {               
@@ -99,11 +109,13 @@ export function RessourceRequise (props) {
 
 
                 <Heading size='md'>Services impliqués<IconButton icon={isChecked?<FcFeedIn/>:<FcSettings/>} onClick={handleCheck} /></Heading>
-                {isChecked&&<Stack >
-                <Select placeholder='Selectionne un service' onDoubleClick={addService}> 
+                {isChecked&&<HStack >
+                <Select placeholder='Selectionne un service' onChange={handleChangeService} onDoubleClick={addService}> 
                     {options.map(item => !nature.services.includes(item)&&(<option value={item} >{item}</option>))}                   
                 </Select>
-                </Stack>}
+                <ButtonAddService service={selectedService} addService={addService}/>
+                
+                </HStack>}
                 <Text><List>{nature.services?nature.services.map(item => <ListItem>{item}</ListItem>):''}</List></Text>
 
                             
