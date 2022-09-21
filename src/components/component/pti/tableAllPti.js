@@ -12,7 +12,8 @@ export function TableAllPti(props) {
 
     const [tries, setTries] =useState({'no_projet':true, 'description':true, 'cycleCour': true, 'cycle2': true, 'cycle3':true})    
     const [assReglements, setAssReglements] = useState([]);
-    const [reglement, setReglement] = useState([])
+    const [reglement, setReglement] = useState([]);
+    const [format, setFormat] = useState('sm');
 
     const handleSelectProjet = (e) => {
         
@@ -51,7 +52,8 @@ export function TableAllPti(props) {
                 {props.user.map(item => <option key={item.id} value={item.id} >{item.username}</option>)}
            </Select>
            </HStack>
-        <Table colorScheme='blue' overflowY='scroll'  size='sm' display='inline-block' maxHeight='600px'>
+        <Table colorScheme='blue' overflowY='scroll'  size={format} display='inline-block' maxHeight='600px' 
+                onDoubleClick={()=>(format === 'sm')?setFormat('md'):setFormat('sm')} >
             <Thead position='sticky' top='0'>
                 <Tr bg='blue.200'>
                     <Th>no projet<IconButton name='no_projet' onClick={handleTrie} icon={tries.no_projet?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
