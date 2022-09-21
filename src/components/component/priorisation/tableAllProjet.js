@@ -27,8 +27,7 @@ export function TableAllProjet(props) {
     const handleChangeStatut = (e) => {
         let newProjets = [...projets]
         const leProjet = newProjets.find(projet => projet.id === parseInt(e.target.name))
-        leProjet.statut = e.target.value;
-        newProjets = [...newProjets, leProjet]
+        leProjet.statut = e.target.value;        
         setProjets(newProjets)
         modJalon(`/api/v1/projet/${e.target.name}`, {}, {'statut':e.target.value}, 'PUT')
     }
