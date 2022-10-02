@@ -10,7 +10,7 @@ import {
     useDisclosure,
     Checkbox,      
   } from '@chakra-ui/react';
-import { Button, Input, FormControl, IconButton, Link, Text, Box, Heading, Table, Tbody } from '@chakra-ui/react';
+import { Button, Input, FormControl, IconButton, Link, Text, Box, Heading, Table, Tbody, VStack } from '@chakra-ui/react';
 import {postLogin } from "../util";
 import { useEffect, useState, useRef } from 'react';
 import { modJalon } from '../util';
@@ -27,7 +27,7 @@ export function Connexion(props) {
     const [user, setUser] = useState({'username':'', 'password':''})
     const toast = useToast({
                             status: 'error',
-                            position: 'top-right',
+                            position: '',
                             duration: 1000,
                             isClosable: true
                           })
@@ -38,17 +38,18 @@ export function Connexion(props) {
       const data = async () => {        
         postLogin('/api/v1/autorize', {}, object, "POST").then((data) =>
         {
-          sessionStorage.token = data.token;
-          sessionStorage.username = user.username;
-          sessionStorage.msToken = data.msToken;
-          sessionStorage.isLogin = true
-          setUser({'username':'', 'password':''});
-          if (data.isUser === 'false') {
+          
+          setUser({'username':'', 'password':''});          
+          if (!data.isUser) {
             toast({description:'usager inexistant'})
-          } else if (data.isLogged === 'false') {
+          } else if (!data.isLogged) {
             toast({description:'mauvais mot de passe'})
           } else {
             toast({status:'success', description:'bienvenue '+user.username});
+            sessionStorage.token = data.token;
+            sessionStorage.username = user.username;
+            sessionStorage.msToken = data.msToken;
+            sessionStorage.isLogin = true
             onClose();
             props.onLogin()
           };
@@ -99,11 +100,14 @@ export function Connexion(props) {
               <FormControl mt={4}>
                 <Input placeholder='Mot de passe' name='pass' value={user.password} onChange={handlePassChange} type='password'/>
               </FormControl>
-              <Box marginTop='20px'>
+              <VStack marginTop='20px'>
               <Link href='https://planproj.herokuapp.com/register' isExternal >
                 Pas encore inscrit?<ExternalLinkIcon mx='2px' />
               </Link>
-              </Box>
+              <Link href='https://planproj.herokuapp.com/reset_password_request' isExternal>
+                Pour réinitialiser ton mot de passe <ExternalLinkIcon mx='2px' />
+              </Link>
+              </VStack>
             </ModalBody>)
             : 
             (<ModalBody>
