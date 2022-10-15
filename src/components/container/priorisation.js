@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Grid, GridItem, Box, Text, Stack, Button} from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 import { TableAllProjet } from '../component/priorisation/tableAllProjet';
 import { getRessources } from '../util';
 
@@ -33,7 +33,6 @@ export function TableauPriorisation(props) {
     }
 
 
-
     useEffect(() => {
         getRessources('/api/v1/projet').then(
             projets => {
@@ -47,7 +46,9 @@ export function TableauPriorisation(props) {
                     }
                     projet['pointage'] = counter
                     const leUser = props.user.find(user => user.id === projet.charge)
-                    projet['responsable'] = leUser?leUser.username:''
+                    projet['responsable'] = leUser?leUser.username:'';
+                    projet['tempsCharge'] = projet.nature?projet.nature.tempsCharge:0;
+                    projet['tempsTech'] = projet.nature?projet.nature.tempsTech:0;
                 })
                 setDonneeBase(filtreProjet)
                 setProjets(filtreProjet)

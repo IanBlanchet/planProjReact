@@ -13,7 +13,7 @@ const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonn
 
 export function TableAllProjet(props) {
 
-    const [tries, setTries] =useState({'no_projet':true, 'desc':true, 'charge': true, 'pointage': true, 'statut':true})    
+    const [tries, setTries] =useState({'no_projet':true, 'desc':true, 'charge': true, 'pointage': true, 'statut':true, 'immo':true, 'tempsCharge':true, 'tempsTech':true })    
     const [projets, setProjets] = useState([])
 
     const handleSelectProjet = (e) => {        
@@ -54,16 +54,17 @@ export function TableAllProjet(props) {
            <SelectFiltre items={cat} column='cat' placeHolder='catégorie' onChange={handleFilter}/>
            <SelectFiltre items={props.user.map(user => user.username)} column='responsable' placeHolder='responsable' onChange={handleFilter} />
            </HStack>
-        <Table colorScheme='blue' overflowY='scroll'  size='sm' display='inline-block' maxHeight='1000px'>
+        <Table colorScheme='blue' overflowY='scroll'  size='sm' display='inline-block' maxHeight='800px'>
             <Thead position='sticky' top='0' zIndex='banner'>
                 <Tr bg='blue.200'>
                     <Th>no projet<IconButton name='no_projet' onClick={handleTrie} icon={tries.no_projet?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     <Th>Description<IconButton name='desc' onClick={handleTrie} icon={tries.description?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     <Th >Responsable<IconButton name='charge' onClick={handleTrie} icon={tries.charge?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     <Th>Pointage<IconButton name='pointage' onClick={handleTrie} icon={tries.pointage?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
-                    <Th>Statut<IconButton name='statut' onClick={handleTrie} icon={tries.statut?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>                   
-                    <Th>Chargé projet (hrs)</Th>
-                    <Th>Technicien (hrs)</Th>
+                    <Th>Statut<IconButton name='statut' onClick={handleTrie} icon={tries.statut?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
+                    <Th>Immobilisation<IconButton name='immo' onClick={handleTrie} icon={tries.immo?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>                   
+                    <Th>Chargé projet (hrs)<IconButton name='tempsCharge' onClick={handleTrie} icon={tries.tempsCharge?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
+                    <Th>Technicien (hrs)<IconButton name='tempsTech' onClick={handleTrie} icon={tries.tempsTech?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     
                 </Tr>
             </Thead>
@@ -75,10 +76,12 @@ export function TableAllProjet(props) {
                     <Td>{projet.desc}</Td>
                     <Td>{projet.responsable?projet.responsable:''}</Td>
                     <Td>{<AddPointage rating={projet.rating} projet={projet} />}</Td>
-                        <Td><Select size='xs' name={projet.id} onChange={handleChangeStatut} value={projet.statut}>
+                    <Td>
+                        <Select size='xs' name={projet.id} onChange={handleChangeStatut} value={projet.statut}>
                                 {statut.map(item => <option key={item} value={item} >{item}</option>)}
-                            </Select>
-                        </Td>
+                        </Select>
+                    </Td>
+                    <Td>{projet.immo?'oui':'non'}</Td>
                     <Td>{projet.nature?projet.nature.tempsCharge:0}</Td>
                     <Td>{projet.nature?projet.nature.tempsTech:0}</Td>                    
                     
@@ -86,6 +89,34 @@ export function TableAllProjet(props) {
                 )}
                 
             </Tbody>
+            <Tfoot position='sticky' bottom='0'  zIndex='1' background='#fff'>
+                <Tr>
+                    <Th></Th>
+                    <Th></Th>
+                    <Th></Th>
+                    <Th></Th>
+                    <Th></Th>
+                    <Th>TOTAL</Th>
+                    <Th>{(projets.reduce((accumulator, object) => {
+                            if (object.nature) {
+                                return accumulator + parseInt(object.nature.tempsCharge);
+                            } else {
+                                return accumulator
+                            }                            
+                            }, 0)) }
+                                                            </Th>
+                    <Th>{(projets.reduce((accumulator, object) => {
+                            if (object.nature) {
+                                return accumulator + parseInt(object.nature.tempsTech);
+                            } else {
+                                return accumulator
+                            }                            
+                            }, 0)) }
+                                                            </Th>
+                    
+
+                </Tr>
+            </Tfoot>
            
 
         </Table>
