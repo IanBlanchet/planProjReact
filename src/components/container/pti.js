@@ -30,12 +30,12 @@ export function Pti(props) {
         setPtisEnPrep(donneeBaseEnPrep);
     }
 
-    const filtrePtiCat = (filtre, column) => {
+    const filtrePti = (filtre, column) => {
         const donnee = !(year === CurrentYear)?donneeBase:donneeBaseEnPrep
         
         if (filtre) {         
             let newPti = [];
-            const projetFiltre = props.projet.filter(item => item[column] === filtre);
+            const projetFiltre = props.projet.filter(item => filtre.find(critere => item[column] === critere));
             projetFiltre.forEach(element => {
                 const pti = donnee.find(pti => pti.projet_id === element.id)
                 pti&&newPti.push(pti)
@@ -46,17 +46,6 @@ export function Pti(props) {
             }          
             
         
-    }
-
-    const filtrePtiSimple = (filtre, column) => {
-        const newProjet = !(year === CurrentYear)?[...donneeBase]:[...donneeBaseEnPrep];
-        
-        if (filtre) {    
-            const projetFiltre = newProjet.filter(item => item[column] === filtre);
-            !(year === CurrentYear)?setPtis(projetFiltre):setPtisEnPrep(projetFiltre);                
-        } else {
-            !(year === CurrentYear)?setPtis(donneeBase):setPtisEnPrep(donneeBaseEnPrep); 
-            };         
     }
 
 
@@ -132,9 +121,8 @@ export function Pti(props) {
                 <TableAllPti year={year} projet={props.projet} 
                             ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
                             afficheProjet={props.afficheProjet} 
-                            filter={filtrePtiCat} 
-                            trie={triPti}
-                            filterSimple={filtrePtiSimple}
+                            filter={filtrePti} 
+                            trie={triPti}                            
                             reglement={reglement}
                             assReglements={assReglements}
                             user={props.user}/>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, IconButton, Box, HStack, Select  } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, IconButton, Box, HStack, Select, Checkbox, CheckboxGroup  } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectFiltre } from '../common/select';
 import { AddPointage } from '../modal';
@@ -14,7 +14,8 @@ const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonn
 export function TableAllProjet(props) {
 
     const [tries, setTries] =useState({'no_projet':true, 'desc':true, 'charge': true, 'pointage': true, 'statut':true, 'immo':true, 'tempsCharge':true, 'tempsTech':true })    
-    const [projets, setProjets] = useState([])
+    const [projets, setProjets] = useState([]);
+    const [listStatut, setListStatut] = useState(['Actif']);
 
     const handleSelectProjet = (e) => {        
         props.afficheProjet(parseInt(e.target.getAttribute('value')))
@@ -39,6 +40,17 @@ export function TableAllProjet(props) {
         setTries(newTries)
     }
 
+    const handleFilterStatut = ({target}) => {
+
+       if (listStatut.find(item => item === target.value)) {
+        setListStatut(listStatut.filter(item => item !== target.value))
+        handleFilter(listStatut.filter(item => item !== target.value), 'statut')
+       } else {
+        setListStatut([...listStatut, target.value]);
+        handleFilter([...listStatut, target.value], 'statut')
+       }
+    }
+
 
 
     useEffect(() => {
@@ -53,6 +65,14 @@ export function TableAllProjet(props) {
             <HStack >
            <SelectFiltre items={cat} column='cat' placeHolder='catégorie' onChange={handleFilter}/>
            <SelectFiltre items={props.user.map(user => user.username)} column='responsable' placeHolder='responsable' onChange={handleFilter} />
+           <CheckboxGroup colorScheme='green' defaultValue={['Actif']}>
+            <HStack spacing={[1, 5]} direction={['column', 'row']}>
+                <Checkbox value='Actif' onChange={handleFilterStatut}>Actif</Checkbox>
+                <Checkbox value='En approbation' onChange={handleFilterStatut}>En approbation</Checkbox>
+                <Checkbox value='En suspend' onChange={handleFilterStatut}>En suspend</Checkbox>
+                <Checkbox value='En réception' onChange={handleFilterStatut}>En réception</Checkbox>
+            </HStack>
+            </CheckboxGroup>
            </HStack>
         <Table colorScheme='blue' overflowY='scroll'  size='sm' display='inline-block' maxHeight='800px'>
             <Thead position='sticky' top='0' zIndex='banner'>

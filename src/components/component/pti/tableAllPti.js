@@ -26,7 +26,7 @@ export function TableAllPti(props) {
     
     const handleFilterSimple = (e) => {
         
-        props.filter(parseInt(e.target.value), e.target.name);
+        props.filter(e.target.value?[parseInt(e.target.value)]:e.target.value, e.target.name);
     }
 
     const handleTrie = (e) => {

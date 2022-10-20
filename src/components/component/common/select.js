@@ -60,8 +60,9 @@ export function SelectEvent(props) {
 }
 
 export function SelectFiltre(props) {
-    const handleSelect = (e) => {
-        props.onChange(e.target.value, e.target.name)
+    const handleSelect = ({target}) => {
+        
+        props.onChange(target.value?[target.value]:target.value, target.name)
                 
     }
 

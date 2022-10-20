@@ -6,7 +6,7 @@ import { getRessources } from '../util';
 
 
 
-const criteres = [["A",1.5],["B",1.5], ["C",1], ["D",1], ["E",1], ["F",0.75], ["G",0.75], ["H",0.5], ["I",0.5], ["J",0.5], ["K", 0.5], ["L", 0.5]];
+const criteres = [["A",1.5],["B",1.5], ["C",1.5], ["D",1.5], ["E",1.5], ["F",1], ["G",0.75], ["H",0.75]];
 
 export function TableauPriorisation(props) {
     const [projets, setProjets] = useState([]);
@@ -24,7 +24,7 @@ export function TableauPriorisation(props) {
         
         const newProjet = [...donneeBase]
         if (filtre) {    
-            const projetFiltre = newProjet.filter(item => item[column] === filtre);
+            const projetFiltre = newProjet.filter(item => filtre.find(critere => item[column] === critere));
             setProjets(projetFiltre)
                 
         } else {

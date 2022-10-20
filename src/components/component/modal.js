@@ -256,19 +256,15 @@ export function EstimateurRessources({projet, applyEstimation}) {
 
 const correspondance = {
   "A":"La santé et la sécurité des personnes",
-  "B":"La fin de la vie utile de actif",
-  "C":"La continuité ou la performance des services",
+  "B":"La fin de la vie utile d\'un actif ou la mise aux normes de l\'actif ou d'un processus",
+  "C":"Amélioration de l\'efficience de l\'organisation",
   "D":"Impact sur l\'environnement",
-  "E":"Alignement avec la planification stratégique",
-  "F":"Amélioration ou l\'optimisation de l\'actif",
-  "G":"La mise aux normes (un actif ou une procédure)",
-  "H":"La présence d\'une aide financière",
-  "I":"Amélioration de l'\environnement urbain ou le redéploiement urbain",
-  "J":"Amélioration de l\'efficience de l\'organisation",
-  "K":"La création de richesse foncière",
-  "L":"Le rendement de l\'investissement",
+  "E":"Amélioration de la qualité de vie des citoyens ou l\'expérience citoyenne",
+  "F":"Alignement avec la planification stratégique",  
+  "G":"La présence d\'une aide financière",
+  "H":"Le rendement de l\'investissement",
 }
-const criteres = [["A",1.5],["B",1.5], ["C",1], ["D",1], ["E",1], ["F",0.75], ["G",0.75], ["H",0.5], ["I",0.5], ["J",0.5], ["K", 0.5], ["L", 0.5]];
+const criteres = [["A",1.5],["B",1.5], ["C",1.5], ["D",1.5], ["E",1.5], ["F",1], ["G",0.75], ["H",0.75]];
 
 const useDidMountEffect = (func, deps) => {
   const didMount = useRef(false);
