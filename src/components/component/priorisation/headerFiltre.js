@@ -10,19 +10,20 @@ import {
       
   } from '@chakra-ui/react';
 import { Button, Text, Box, Heading, Table, Tbody, VStack, Checkbox, CheckboxGroup  } from '@chakra-ui/react';
-import { FcFilledFilter } from "react-icons/fc";
+import { FcFilledFilter, FcEmptyFilter } from "react-icons/fc";
 
 
-export function HeaderFilter({item}) {
+export function HeaderFilter({options, check, column, handleFilter}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
  
-    const handleFilterStatut = () => {
-
+    const handleCheck = ({target}) => {
+      
+      handleFilter(target.value, column)
     }
   
     return (
       <>
-        <Button size='xs' onClick={onOpen} leftIcon={<FcFilledFilter/>} bg='blue.200' margin='2'></Button>
+        <Button size='xs' onClick={onOpen} leftIcon={check.length !== options.length?<FcFilledFilter/>:<FcEmptyFilter/>} bg='blue.200' margin='0' padding='0'></Button>
         <Modal          
           isOpen={isOpen}
           onClose={onClose}
@@ -31,30 +32,19 @@ export function HeaderFilter({item}) {
           
           <ModalContent>
           
-            
             <ModalCloseButton />
             
             <ModalBody pb={6} >
               
-            <CheckboxGroup colorScheme='green' defaultValue={['Actif']}>
+            <CheckboxGroup colorScheme='green' defaultValue={check} >
             <VStack spacing={[1, 5]} direction={['column', 'row']}>
-                <Checkbox value='Actif' onChange={handleFilterStatut}>Actif</Checkbox>
-                <Checkbox value='En approbation' onChange={handleFilterStatut}>En approbation</Checkbox>
-                <Checkbox value='En suspend' onChange={handleFilterStatut}>En suspend</Checkbox>
-                <Checkbox value='En réception' onChange={handleFilterStatut}>En réception</Checkbox>
+                {options.map(item => <Checkbox key={item} value={item} onChange={handleCheck} >{item}</Checkbox>)}
+               
             </VStack>
             </CheckboxGroup>
            
-  
-            
             </ModalBody>
-            
-            <ModalFooter>
-              
-              
-             
-              <Button  colorScheme='green'>Appliquer au projet</Button>
-            </ModalFooter>
+                     
           </ModalContent>
         
         </Modal>

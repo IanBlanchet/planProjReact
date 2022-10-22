@@ -22,9 +22,15 @@ export function TableauPriorisation(props) {
 
     const filtreProjet = (filtre, column) => {
         
-        const newProjet = [...donneeBase]
-        if (filtre) {    
-            const projetFiltre = newProjet.filter(item => filtre.find(critere => item[column] === critere));
+        const newProjet = [...projets]
+
+        if (filtre) {
+            let projetFiltre
+            if (column === 'immo') {
+                filtre.length===0?projetFiltre=[]:filtre.length===2?projetFiltre = newProjet:filtre[0]?projetFiltre = newProjet.filter(item => item[column]):projetFiltre = newProjet.filter(item => !item[column]);
+            }  else {
+                projetFiltre = newProjet.filter(item => filtre.find(critere => item[column] === critere)); 
+            }             
             setProjets(projetFiltre)
                 
         } else {

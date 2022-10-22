@@ -11,18 +11,19 @@ const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
 
 const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonné']
+const immo = ['oui', 'non']
 
 export function TableAllProjet(props) {
 
     const [tries, setTries] =useState({'no_projet':true, 'desc':true, 'charge': true, 'pointage': true, 'statut':true, 'immo':true, 'tempsCharge':true, 'tempsTech':true })    
     const [projets, setProjets] = useState([]);
-    const [listStatut, setListStatut] = useState(['Actif']);
+    const [listCheckbox, setListCheckbox] = useState({'statut':[], 'immo':[]});
 
     const handleSelectProjet = (e) => {        
         props.afficheProjet(parseInt(e.target.getAttribute('value')))
     }
 
-    const handleFilter = (filter, column) => {        
+    const handleFilterSelectValue = (filter, column) => {        
         props.filter(filter, column);
     }
 
@@ -41,21 +42,42 @@ export function TableAllProjet(props) {
         setTries(newTries)
     }
 
-    const handleFilterStatut = ({target}) => {
-
-       if (listStatut.find(item => item === target.value)) {
-        setListStatut(listStatut.filter(item => item !== target.value))
-        handleFilter(listStatut.filter(item => item !== target.value), 'statut')
+    const handleFilterCheckbox = (value, column) => {
+        const newList = {}
+    
+       if (listCheckbox[column].find(item => item === value)) {        
+        newList[column] = listCheckbox[column].filter(item => item !== value);
+        setListCheckbox({...listCheckbox, ...newList});
+        if (column !== 'immo') {
+            handleFilterSelectValue(listCheckbox[column].filter(item => item !== value), column);
+        } else {
+            const booleanArray = newList[column].map(item => item === 'oui');            
+            handleFilterSelectValue(booleanArray, column);
+        }
+        
        } else {
-        setListStatut([...listStatut, target.value]);
-        handleFilter([...listStatut, target.value], 'statut')
+        newList[column] = [...listCheckbox[column], value]
+        setListCheckbox({...listCheckbox, ...newList});
+        if (column !== 'immo') {
+            handleFilterSelectValue([...listCheckbox[column], value], column);
+        } else {
+            const booleanArray = newList[column].map(item => item === 'oui');           
+            handleFilterSelectValue(booleanArray, column);
+        }
        }
+    
     }
 
+    useEffect(() => {
+        
+        setListCheckbox({'statut':statut, 'immo':immo});
+        
+     }, [])
 
 
     useEffect(() => {
-       setProjets(props.projets)
+       setProjets(props.projets);
+       
     }, [props])
 
 
@@ -64,16 +86,8 @@ export function TableAllProjet(props) {
         
         <Box >
             <HStack >
-           <SelectFiltre items={cat} column='cat' placeHolder='catégorie' onChange={handleFilter}/>
-           <SelectFiltre items={props.user.map(user => user.username)} column='responsable' placeHolder='responsable' onChange={handleFilter} />
-           <CheckboxGroup colorScheme='green' defaultValue={['Actif']}>
-            <HStack spacing={[1, 5]} direction={['column', 'row']}>
-                <Checkbox value='Actif' onChange={handleFilterStatut}>Actif</Checkbox>
-                <Checkbox value='En approbation' onChange={handleFilterStatut}>En approbation</Checkbox>
-                <Checkbox value='En suspend' onChange={handleFilterStatut}>En suspend</Checkbox>
-                <Checkbox value='En réception' onChange={handleFilterStatut}>En réception</Checkbox>
-            </HStack>
-            </CheckboxGroup>
+           <SelectFiltre items={cat} column='cat' placeHolder='catégorie' onChange={handleFilterSelectValue}/>
+           <SelectFiltre items={props.user.map(user => user.username)} column='responsable' placeHolder='responsable' onChange={handleFilterSelectValue} />       
            </HStack>
         <Table colorScheme='blue' overflowY='scroll'  size='sm' display='inline-block' maxHeight='800px'>
             <Thead position='sticky' top='0' zIndex='banner'>
@@ -81,9 +95,9 @@ export function TableAllProjet(props) {
                     <Th>no projet<IconButton name='no_projet' onClick={handleTrie} icon={tries.no_projet?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     <Th>Description<IconButton name='desc' onClick={handleTrie} icon={tries.description?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     <Th >Responsable<IconButton name='charge' onClick={handleTrie} icon={tries.charge?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
-                    <Th><HeaderFilter/>Pointage<IconButton name='pointage' onClick={handleTrie} icon={tries.pointage?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
-                    <Th>Statut<IconButton name='statut' onClick={handleTrie} icon={tries.statut?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
-                    <Th>Immobilisation<IconButton name='immo' onClick={handleTrie} icon={tries.immo?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>                   
+                    <Th>Pointage<IconButton name='pointage' onClick={handleTrie} icon={tries.pointage?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
+                    <Th><HeaderFilter options={statut} check={listCheckbox['statut']} column='statut' handleFilter={handleFilterCheckbox}/>Statut<IconButton name='statut' onClick={handleTrie} icon={tries.statut?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
+                    <Th><HeaderFilter options={immo} check={listCheckbox['immo']} column='immo' handleFilter={handleFilterCheckbox}/>Immobilisation<IconButton name='immo' onClick={handleTrie} icon={tries.immo?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>                   
                     <Th>Chargé projet (hrs)<IconButton name='tempsCharge' onClick={handleTrie} icon={tries.tempsCharge?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     <Th>Technicien (hrs)<IconButton name='tempsTech' onClick={handleTrie} icon={tries.tempsTech?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     
@@ -92,7 +106,7 @@ export function TableAllProjet(props) {
             <Tbody >
                 {projets.map(projet =>
                 
-                <Tr>
+                <Tr key={projet.id}>
                     <Td onClick={handleSelectProjet}  value={projet.id} textColor='blue' _hover={{background: "white", color: "teal.500",}}>{projet.no_projet}</Td>
                     <Td>{projet.desc}</Td>
                     <Td>{projet.responsable?projet.responsable:''}</Td>
