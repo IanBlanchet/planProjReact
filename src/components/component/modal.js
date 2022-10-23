@@ -361,6 +361,7 @@ export function AddPointage({rating, projet}) {
             <Form>
             
            {criteres.map(item => <MyRatingInput
+              key={item.key}
               label={correspondance[item[0]][0]}
               description={correspondance[item[0]][1]}
               name={item[0]}

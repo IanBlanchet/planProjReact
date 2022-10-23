@@ -8,6 +8,23 @@ import { getRessources } from '../util';
 
 const criteres = [["A",1.5],["B",1.5], ["C",1.5], ["D",1.5], ["E",1.5], ["F",1], ["G",0.75], ["H",0.75]];
 
+//un hook en préparation pour traiter les filtres
+const useSetFilter = (func, donneeBase, critere, deps) => {
+    
+    const filter = useRef({});
+  
+    useEffect(() => {
+        filter.current = {...filter.current, ...critere};
+        donneeBase.filter(item => filter.current.find(critere => item[column] === critere))
+        func({...filter.current, ...critere});
+        filter.current = {...filter.current, ...critere};
+    }, deps);
+
+    return projets
+  }
+
+
+
 export function TableauPriorisation(props) {
     const [projets, setProjets] = useState([]);
     const [donneeBase, setDonneeBase] = useState([]);
@@ -22,7 +39,7 @@ export function TableauPriorisation(props) {
 
     const filtreProjet = (filtre, column) => {
         
-        const newProjet = [...projets]
+        const newProjet = [...donneeBase]
 
         if (filtre) {
             let projetFiltre
