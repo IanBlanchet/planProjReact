@@ -1,12 +1,29 @@
 
 import { useState, useEffect } from 'react';
-import { Grid, GridItem, Box, Text, Stack, Button} from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 import { TableAllProjet } from '../component/priorisation/tableAllProjet';
 import { getRessources } from '../util';
 
 
 
-const criteres = [["A",1.5],["B",1.5], ["C",1], ["D",1], ["E",1], ["F",0.75], ["G",0.75], ["H",0.5], ["I",0.5], ["J",0.5], ["K", 0.5], ["L", 0.5]];
+const criteres = [["A",1.5],["B",1.5], ["C",1.5], ["D",1.5], ["E",1.5], ["F",1], ["G",0.75], ["H",0.75]];
+
+//un hook en préparation pour traiter les filtres
+const useSetFilter = (func, donneeBase, critere, deps) => {
+    
+    const filter = useRef({});
+  
+    useEffect(() => {
+        filter.current = {...filter.current, ...critere};
+        donneeBase.filter(item => filter.current.find(critere => item[column] === critere))
+        func({...filter.current, ...critere});
+        filter.current = {...filter.current, ...critere};
+    }, deps);
+
+    return projets
+  }
+
+
 
 export function TableauPriorisation(props) {
     const [projets, setProjets] = useState([]);
@@ -23,15 +40,20 @@ export function TableauPriorisation(props) {
     const filtreProjet = (filtre, column) => {
         
         const newProjet = [...donneeBase]
-        if (filtre) {    
-            const projetFiltre = newProjet.filter(item => item[column] === filtre);
+
+        if (filtre) {
+            let projetFiltre
+            if (column === 'immo') {
+                filtre.length===0?projetFiltre=[]:filtre.length===2?projetFiltre = newProjet:filtre[0]?projetFiltre = newProjet.filter(item => item[column]):projetFiltre = newProjet.filter(item => !item[column]);
+            }  else {
+                projetFiltre = newProjet.filter(item => filtre.find(critere => item[column] === critere)); 
+            }             
             setProjets(projetFiltre)
                 
         } else {
                 setProjets(donneeBase);
             }      
     }
-
 
 
     useEffect(() => {
@@ -47,7 +69,9 @@ export function TableauPriorisation(props) {
                     }
                     projet['pointage'] = counter
                     const leUser = props.user.find(user => user.id === projet.charge)
-                    projet['responsable'] = leUser?leUser.username:''
+                    projet['responsable'] = leUser?leUser.username:'';
+                    projet['tempsCharge'] = projet.nature?projet.nature.tempsCharge:0;
+                    projet['tempsTech'] = projet.nature?projet.nature.tempsTech:0;
                 })
                 setDonneeBase(filtreProjet)
                 setProjets(filtreProjet)

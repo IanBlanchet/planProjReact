@@ -255,20 +255,16 @@ export function EstimateurRessources({projet, applyEstimation}) {
 
 
 const correspondance = {
-  "A":"La santé et la sécurité des personnes",
-  "B":"La fin de la vie utile de actif",
-  "C":"La continuité ou la performance des services",
-  "D":"Impact sur l\'environnement",
-  "E":"Alignement avec la planification stratégique",
-  "F":"Amélioration ou l\'optimisation de l\'actif",
-  "G":"La mise aux normes (un actif ou une procédure)",
-  "H":"La présence d\'une aide financière",
-  "I":"Amélioration de l'\environnement urbain ou le redéploiement urbain",
-  "J":"Amélioration de l\'efficience de l\'organisation",
-  "K":"La création de richesse foncière",
-  "L":"Le rendement de l\'investissement",
+  "A":["La santé et la sécurité des personnes", "Amélioration de la sécurité de nos infrastructures ou de nos procédures et processus"],
+  "B":["La fin de la vie utile d\'un actif ou la mise aux normes de l\'actif ou d'un processus", "Le remplacement d'un actif en fin de vie.  La mise aux normes d'un actif ou d'un processus imposé par un intrant externe ou interne. (ex. nouvelle règlementation provinciale)"],
+  "C":["Amélioration de l\'efficience de l\'organisation", "La continuité ou la performance (quantitative et qualitative) des services.  Optimisation d'un actif  (opération, entretien, maintenance) .  Optimisation des ressources."],
+  "D":["Impact sur l\'environnement", "Le projet a un impact positif sur l'environnement au sens 'écologique'"],
+  "E":["Amélioration de la qualité de vie des citoyens ou l\'expérience citoyenne", "L'amélioration de l'environnement urbain ou de l'expérience du citoyen avec son milieu ou avec l'organisation"],
+  "F":["Alignement avec la planification stratégique", "Le projet répond à une ou des aspirations de la planification stratégique"],  
+  "G":["La présence d\'une aide financière", "Une subvention est anticipée ou confirmée"],
+  "H":["Le rendement de l\'investissement", "L'appréciation du retour sur l'investissement du projet par exemple un impact positif sur le budget."],
 }
-const criteres = [["A",1.5],["B",1.5], ["C",1], ["D",1], ["E",1], ["F",0.75], ["G",0.75], ["H",0.5], ["I",0.5], ["J",0.5], ["K", 0.5], ["L", 0.5]];
+const criteres = [["A",1.5],["B",1.5], ["C",1.5], ["D",1.5], ["E",1.5], ["F",1], ["G",0.75], ["H",0.75]];
 
 const useDidMountEffect = (func, deps) => {
   const didMount = useRef(false);
@@ -295,11 +291,7 @@ export function AddPointage({rating, projet}) {
       "E":rating?rating["E"]:0,
       "F":rating?rating["F"]:0,
       "G":rating?rating["G"]:0,
-      "H":rating?rating["H"]:0,
-      "I":rating?rating["I"]:0,
-      "J":rating?rating["J"]:0,
-      "K":rating?rating["K"]:0,
-      "L":rating?rating["L"]:0
+      "H":rating?rating["H"]:0      
     }); 
   },[rating])
 
@@ -369,7 +361,9 @@ export function AddPointage({rating, projet}) {
             <Form>
             
            {criteres.map(item => <MyRatingInput
-              label={correspondance[item[0]]}
+              key={item.key}
+              label={correspondance[item[0]][0]}
+              description={correspondance[item[0]][1]}
               name={item[0]}
               type='number'  
               />)}

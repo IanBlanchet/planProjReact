@@ -1,6 +1,6 @@
 import React from 'react';
 import { useField } from 'formik';
-import { Input, Select, Checkbox, Text, Switch , Box, HStack, Table, Tr, Td, GridItem, Grid} from '@chakra-ui/react';
+import { Input, Select, Checkbox, Text, Switch , Box, HStack, Table, Tr, Td, GridItem, Grid, Tooltip } from '@chakra-ui/react';
 import  SearchSelect from 'react-select'
 
  
@@ -31,8 +31,13 @@ import  SearchSelect from 'react-select'
     <Box margin='5px' >
        
       
-      <Grid templateRows='1fr' templateColumns='3fr 1fr'>
-      <GridItem><label htmlFor={props.id || props.name} style={{fontFamily:'serif'}}>{label}</label></GridItem>
+      <Grid templateRows='1fr' templateColumns='3fr 1fr' >
+      <GridItem margin='3'><label htmlFor={props.id || props.name} style={{fontFamily:'serif'}}>
+                              <Tooltip label={props.description} placement='left-start' >
+                                  {label}
+                              </Tooltip>
+                          </label>
+      </GridItem>
       <GridItem><Input className="text-input" {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error"><Text color='red.500'>{meta.error}</Text></div>

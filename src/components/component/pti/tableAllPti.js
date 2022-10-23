@@ -26,7 +26,7 @@ export function TableAllPti(props) {
     
     const handleFilterSimple = (e) => {
         
-        props.filter(parseInt(e.target.value), e.target.name);
+        props.filter(e.target.value?[parseInt(e.target.value)]:e.target.value, e.target.name);
     }
 
     const handleTrie = (e) => {
@@ -52,7 +52,7 @@ export function TableAllPti(props) {
                 {props.user.map(item => <option key={item.id} value={item.id} >{item.username}</option>)}
            </Select>
            </HStack>
-        <Table colorScheme='blue' overflowY='scroll'  size={format} display='inline-block' maxHeight='600px' 
+        <Table colorScheme='blue' overflowY='scroll'  size={format} display='inline-block' maxHeight='700px' 
                 onDoubleClick={()=>(format === 'sm')?setFormat('md'):setFormat('sm')} >
             <Thead position='sticky' top='0'>
                 <Tr bg='blue.200'>
