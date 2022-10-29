@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, filter } from '@chakra-ui/react'
 import { SelectEvent } from '../component/common/select';
 import { useState, useEffect, createContext  } from 'react'
 import { getRessources } from '../util';
@@ -30,6 +30,9 @@ export function Events(props) {
         getRessources('/api/v1/jalon').then(
             lesjalons => setJalons(lesjalons));
     }
+    const refresh = (id) => {
+        setFilterJalons(filterJalons.filter(jalon => jalon.id !== id ))
+    }
 
     const incrementDuree = (increment) => {
         let newDuree = duree;
@@ -37,6 +40,7 @@ export function Events(props) {
         setDuree(newDuree);
 
     }
+
 
     
     useEffect(() => {
@@ -46,7 +50,7 @@ export function Events(props) {
             lesEvents => { setEvents(lesEvents);
             }
         );
-    }, [])
+    }, [filterJalons])
 
     return (
         <Box display='flex'>
@@ -58,7 +62,9 @@ export function Events(props) {
                                                             contrat={props.contrat.find(element => element.id === item.contrat_id)}
                                                             jalon={item}
                                                             key={item.id}
-                                                            incrementDuree={incrementDuree}                                                           
+                                                            incrementDuree={incrementDuree}
+                                                            refresh={refresh}
+                                                            events={events}                                                           
                                                             />)}
             <Box >Durée estimée des discussions : {duree}</Box>
             </Box>
