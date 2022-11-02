@@ -3,7 +3,8 @@ import { Input, InputLeftAddon, InputGroup, IconButton, ButtonGroup, Select, Box
 import { useState, useEffect } from 'react';
 import { TiDeleteOutline } from "react-icons/ti";
 import {  getRessources } from '../../util';
-
+import { InputMillionAlert } from '../common/alert';
+import { useToast } from '@chakra-ui/react';
 
 
 const year = new Date().getFullYear();
@@ -14,17 +15,28 @@ export function TablePti(props) {
     const [ptiEnPrep, setPtiEnPrep] = useState()
     //const [prevCourante, setprevCourante] = useState(props.projet.prev_courante/1000000)
     const [projet, setProjet] = useState({})
-    
+    const toast = useToast({
+        status: 'error',
+        position: 'center',
+        duration: 1000,
+        isClosable: true
+      })
 
     const handleChange = (e) => {
        
+       if (e.target.value > 2100 || e.target.value < 0) {
+            window.alert('Attention, le montant doit être entré en millions. Votre chiffre ne semble pas réaliste!')
+            return
+        }
         let newPti = {'annee':year, 'projet_id':props.projet.id, 'cycleCour':0, 'cycle2':0, 'cycle3':0, 'cycle4':0, 'cycle5':0};
         newPti = {...newPti, ...ptiEnPrep}
         const item = {};            
         item[e.target.name] = e.target.value*1000000;
         newPti = {...newPti, ...item}        
         setPtiEnPrep(newPti)
-        props.updatePti(newPti);            
+        props.updatePti(newPti);
+        
+        
         
              
         
