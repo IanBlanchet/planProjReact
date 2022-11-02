@@ -43,6 +43,10 @@ export function TablePti(props) {
     }  
 
     const handleChangePrevison = (e) => {
+        if (e.target.value > 2100 || e.target.value < 0) {
+            window.alert('Attention, le montant doit être entré en millions. Votre chiffre ne semble pas réaliste!')
+            return
+        }
         const newprevCourante = {'prev_courante':e.target.value*1000000}        
         props.updatePrevision(newprevCourante);
         let newprojet = projet;
