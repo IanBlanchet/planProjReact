@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import  { JalonDetail } from '../component/events/box';
 import { getRessources } from '../util';
-import { Table, Thead, Tbody, Tr, Th, TableContainer, Box } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, TableContainer, Box, Heading } from '@chakra-ui/react';
+import { GrWindows } from 'react-icons/gr';
 
 export const ListJalons = ({projets, contrats, users}) => {
 
@@ -16,9 +17,11 @@ export const ListJalons = ({projets, contrats, users}) => {
     );
     }, [])
 
+    
 
     return (
         <Box marginLeft='200px' >
+            <Heading color='red'>  Ce tableau est en développement</Heading>
         <Table colorScheme='blue' overflowY='scroll'  display='inline-block' maxHeight='700px'>
 
                 <Thead position='sticky' top='0'>
