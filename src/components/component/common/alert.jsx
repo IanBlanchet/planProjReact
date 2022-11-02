@@ -53,4 +53,42 @@ const { isOpen, onOpen, onClose } = useDisclosure()
     </>
   )
 }
+
+
+export const InputMillionAlert = () => {
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+    const cancelRef = React.useRef()
+  
+   
+    return (
+      <>
+        <Button onClick={onOpen} title='Limitation input millions' size='xs' bg='red'><CloseIcon/></Button>
+        
+        <AlertDialog
+          motionPreset='slideInRight'
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+          isOpen={isOpen}        
+          isCentered
+        >
+          <AlertDialogOverlay />
+  
+          <AlertDialogContent>
+            <AlertDialogHeader>Montant du PTI</AlertDialogHeader>
+            <AlertDialogCloseButton />
+            <AlertDialogBody>
+              Attention, le montant doit être entré en millions. Votre chiffre ne semble pas réaliste!
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Ok, je vais faire attention
+              </Button>
+              
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </>
+    )
+  }
   
