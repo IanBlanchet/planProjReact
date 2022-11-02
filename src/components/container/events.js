@@ -57,7 +57,7 @@ export function Events(props) {
         
             <CalendarPicker events={events} onSelect={selectEvent} onSelectDate={handleSelectDate}></CalendarPicker>
             <Box display='grid'>
-            {filterJalons.map(item => <JalonDetail user={props.user.find(element => element.id === item.charge_jalon)}
+            {filterJalons.map(item => <JalonDetail          user={props.user.find(element => element.id === item.charge_jalon)}
                                                             projet={props.projet.find(element => element.id === item.projet_id)}
                                                             contrat={props.contrat.find(element => element.id === item.contrat_id)}
                                                             jalon={item}

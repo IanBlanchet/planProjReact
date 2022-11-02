@@ -9,7 +9,7 @@ import { Admin } from './components/container/admin';
 import { DetailProjet } from './components/container/detailprojet';
 import { Pti } from './components/container/pti';
 import { TableauPriorisation } from './components/container/priorisation';
-
+import { ListJalons } from './components/container/listjalons';
 
 
 const loginContext = createContext()
@@ -75,7 +75,8 @@ function App() {
     detailProjet : <DetailProjet projet={projet} isSelected={false} selected=''/>,
     detailProjetSelected : <DetailProjet projet={projet} isSelected={true} selected={''}/>,
     pti : <Pti projet={projet} user={user} afficheProjet={afficheDetailprojet}/>,
-    priorisation : <TableauPriorisation user={user} afficheProjet={afficheDetailprojet}/>
+    priorisation : <TableauPriorisation user={user} afficheProjet={afficheDetailprojet}/>,
+    listJalons : <ListJalons projets={projet} contrats={contrat} users={user}/>
   }
 
   const menuClick = (container) => {

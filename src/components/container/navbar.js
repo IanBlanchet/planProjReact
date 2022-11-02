@@ -30,12 +30,13 @@ export function NavBar(props) {
         <Flex bg='#022958' h='12' padding='1'>
             <Box fontFamily='fantasy' bg='blue.200' w='50px' ><img src={logo}  alt="logo" /></Box>
             <Spacer />
-            <ButtonGroup spacing='4' variant='outline' size='sm'>           
+            <ButtonGroup spacing='4' variant='outline' size='sm'>
+                <Button leftIcon={<GrFlag/>} onClick={handleClick} value='listJalons' variant='solid' borderWidth={1} borderColor="white">Liste jalons</Button>          
                 <Button leftIcon={<GrFlag />} onClick={handleClick} value='suiviProjet' variant='solid' borderWidth={1} borderColor="white">Suivi projets</Button>
                 <Button leftIcon={<GrSchedules />} onClick={handleClick} value='evenement' variant='solid' borderWidth={1} borderColor="white">Évènement</Button>
                 <Button leftIcon={<GrTable/>} onClick={handleClick} value='detailProjet' variant='solid' borderWidth={1} borderColor="white">Détail projet</Button>
                 <Button leftIcon={<GrMoney/>} onClick={handleClick} value='pti' variant='solid' borderWidth={1} borderColor="white">Pti</Button>
-                <Button leftIcon={<GrSort/>} onClick={handleClick} value='priorisation' variant='solid' borderWidth={1} borderColor="white">Priorisation</Button>
+                <Button leftIcon={<GrSort/>} onClick={handleClick} value='priorisation' variant='solid' borderWidth={1} borderColor="white">Priorisation</Button>                
                 {sessionStorage.username=== 'Ian'&& <Button leftIcon={<GrUserAdmin />} onClick={handleClick} value='admin' variant='solid' borderWidth={1} borderColor="white">Admin</Button>}
                 
                 
