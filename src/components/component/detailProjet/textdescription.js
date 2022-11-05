@@ -1,4 +1,4 @@
-import { Box, HStack, Grid, GridItem, Input, IconButton, Text, List, ListItem, ListIcon, OrderedList, UnorderedList, Heading } from '@chakra-ui/react';
+import { Box, Textarea, Input, IconButton, Text, List, ListItem, ListIcon, OrderedList, UnorderedList, Heading } from '@chakra-ui/react';
 import { FcPlus } from "react-icons/fc";
 import { useState, useEffect } from 'react';
 
@@ -47,7 +47,7 @@ export function EditTextDescriptif({titre, detail, updateNature, isChecked}) {
                             <UnorderedList fontSize='md'>{modDetail.map((item, index) => 
                                 <ListItem key={index}>
                                     
-                                    <Input size='sm' type='text' name={titre} index={index} value={item} onChange={handleChange}/>
+                                    <Textarea size='sm' type='text' name={titre} index={index} value={item} onChange={handleChange}/>
                                    
                                 </ListItem>)}
                             </UnorderedList>
