@@ -31,12 +31,13 @@ export const TableListJalons = ({projets, contrats, users}) => {
     const [events, setEvents] = useState([]);
     const [jalons, setJalons] = useState([]);
     const [filters, setFilters] = useState({});
-    const [filterJalons, setFilterJalons] = useState([])
+    let [isrefresh, setIsrefresh] = useState(0);
     let jalonFiltre = useFilter(filters, jalons)
     
 
-    const refresh = (id) => {
-        setJalons(jalons.filter(jalon => jalon.id !== id ))
+    const refresh = () => {
+        const newRefresh = isrefresh += 1
+        setIsrefresh(newRefresh);
     };
 
     const handleFilter =  ({target}) => {
@@ -52,7 +53,7 @@ export const TableListJalons = ({projets, contrats, users}) => {
 
     useEffect(() => {getRessources('/api/v1/jalon').then(
         (lesjalons) => {
-        //let lesjalonsClean = lesjalons.map(jalon => {...jalon, ...(jalon.charge_jalon?jalon['service'] = users.find(element => element.id === jalon.charge_jalon).service:jalon.service = "")})
+       
         for (let i = 0; i < lesjalons.length; i++) {
             lesjalons[i].charge_jalon?lesjalons[i].service = users.find(element => element.id === lesjalons[i].charge_jalon).service:lesjalons[i].service = ""
         }
@@ -68,7 +69,7 @@ export const TableListJalons = ({projets, contrats, users}) => {
         lesEvents => { setEvents(lesEvents);
         }
     );
-    }, [])
+    }, [isrefresh])
 
     
     return (

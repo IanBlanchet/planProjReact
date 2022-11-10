@@ -4,7 +4,6 @@ import { Box, HStack, Grid, GridItem, Input, IconButton, Select, Tooltip } from 
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
 import { InputDuree } from '../events/dureeinput';
 import { DeleteJalonAlert } from '../common/alert';
-import { FcSettings, FcFeedIn } from "react-icons/fc";
 import { CheckCircleIcon, CloseIcon} from '@chakra-ui/icons'
 import { MdRestorePage } from "react-icons/md";
 import { Events } from '../../container/events';
@@ -25,18 +24,15 @@ const icons = {
 
 export function JalonDetail(props) {
     
-    const [activated, setActivated] = useState(false)
+    
     const [jalon, setJalon] = useState(props.jalon);
     const [dateChange, setDateChange] = useState(false)
 
-    const activateChange = () => {
-        activated?setActivated(false):setActivated(true)
-        dateChange&&props.refresh(jalon.id);
-    };
+    
 
     const deleteJalon = () => {
         modJalon(`/api/v1/jalon/${jalon.id}`, {}, {}, 'DELETE');
-        props.refresh(jalon.id)
+        props.refresh()
     };
 
     const completeJalon = () => {
@@ -48,13 +44,7 @@ export function JalonDetail(props) {
     const reactivateJalon = () => {
         modJalon(`/api/v1/jalon/${jalon.id}`, {}, {...jalon, ...{etat:'travail'}}, 'PUT');
         setJalon({...jalon, ...{etat:'travail'}})
-    }
-
-    const changeDateJalon = ({target}) => {
-        modJalon(`/api/v1/jalon/${jalon.id}`, {}, {...jalon, ...{date:target.value}}, 'PUT');
-        target.value !== jalon.date&&setDateChange(true)
-       
-    }    
+    }  
 
 
     return (
@@ -69,26 +59,25 @@ export function JalonDetail(props) {
                 <Grid   templateRows='repeat(2)'
                         templateColumns='repeat(3, 175px) auto'
                         gap={1}>
+
                     <GridItem margin={param.margin}>{props.user&&icons[props.user.service].icon}</GridItem>
                     {props.projet?<GridItem margin={param.margin}>{props.projet.no_projet}</GridItem>:
                     props.contrat?<GridItem margin={param.margin}>{props.contrat.no}</GridItem>:<GridItem/>
-                    }                    
-                    <GridItem margin={param.margin}>{props.user&&props.user.username}</GridItem>
-                    <GridItem><IconButton icon={!activated?<FcSettings/>:<FcFeedIn/>} size='sm' bg={props.user&&icons[props.user.service].bg} onClick={activateChange}></IconButton></GridItem>
+                    }
+                    <GridItem></GridItem>                   
+                    
+                    
                     {props.projet?<GridItem fontSize='sm' margin={param.margin}>{props.projet.desc}</GridItem>:
                     props.contrat?<GridItem fontSize='sm' margin={param.margin}>{props.contrat.desc}</GridItem>:<GridItem/>
                     } 
+                    <GridItem margin={param.margin}>{props.user&&props.user.username}</GridItem>
                     
-                    <GridItem fontSize='sm' margin={param.margin}>{props.jalon.commentaire}</GridItem>
+                    
                     <GridItem margin={param.margin}><InputDuree jalon={props.jalon} incrementDuree={props.incrementDuree}/></GridItem>
                     
-                    {activated&&
-                    <><GridItem>
-                        <Select size='xs' onChange={changeDateJalon} defaultValue={jalon.date}>
-                            {props.events.filter(event => event.title === jalon.jalon).map(item => 
-                                <option value={item.date} key={item.id}>{item.date}</option>
-                            )}
-                        </Select>
+                    
+                    <GridItem>
+                        
                         <HStack gap='2'>
                         <IconButton icon={jalon.etat!=='complet'?
                                             <CheckCircleIcon/>:
@@ -107,10 +96,10 @@ export function JalonDetail(props) {
                         </HStack>    
                         
                     </GridItem>
-                    <GridItem>
-                        
-                    </GridItem>
-                    </>}
+                
+
+                    <GridItem fontSize='sm' margin={param.margin}>{props.jalon.commentaire}</GridItem>
+                    
                 
                 </Grid>           
              
