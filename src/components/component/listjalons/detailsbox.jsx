@@ -1,4 +1,4 @@
-import { useEffect, useState} from 'react';
+import { useEffect, useState, useReducer} from 'react';
 import { modJalon } from '../../util';
 import { Box, HStack, Grid, GridItem, Input, IconButton, Select, Tooltip } from '@chakra-ui/react';
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
@@ -22,37 +22,86 @@ const icons = {
     GEN: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'}
 }
 
+const reducer = (state, action) => {
+    switch (action.type) {
+        case "edit":
+          for (const key in state) {
+            if (key === action.param) {
+                const newValue = {}
+                newValue[key] = action.value
+                console.log({...state, ...newValue})
+                modJalon(`/api/v1/jalon/${action.id}`, {}, {...state, ...newValue}, 'PUT');
+                return {...state, ...newValue}
+            }
+          }     
+        
+        case "delete":
+            modJalon(`/api/v1/jalon/${action.id}`, {}, {}, 'DELETE');
+            return state
+        
+        default:
+          return state;
+      }
+}
+
 export function JalonDetail(props) {
     
-    
-    const [jalon, setJalon] = useState(props.jalon);
-    const [dateChange, setDateChange] = useState(false)
-
-    
+    const [jalon, dispatch] = useReducer(reducer, props.jalon);    
+        
 
     const deleteJalon = () => {
-        modJalon(`/api/v1/jalon/${jalon.id}`, {}, {}, 'DELETE');
+        dispatch({ type: "delete", id: jalon.id })        
         props.refresh()
     };
 
     const completeJalon = () => {
-        modJalon(`/api/v1/jalon/${jalon.id}`, {}, {...jalon, ...{etat:'complet'}}, 'PUT');
-        setJalon({...jalon, ...{etat:'complet'}})
+        dispatch({ type: "edit", id: jalon.id, param:'etat', value:'complet' })
+        
         
     };
 
     const reactivateJalon = () => {
-        modJalon(`/api/v1/jalon/${jalon.id}`, {}, {...jalon, ...{etat:'travail'}}, 'PUT');
-        setJalon({...jalon, ...{etat:'travail'}})
+        dispatch({ type: "edit", id: jalon.id, param:'etat', value:'travail' })
+        
     }  
+
+    const changeDate = ({target}) => {
+        dispatch({ type: "edit", id: jalon.id, param:'date', value:target.value })
+    }
 
 
     return (
+        <Grid templateColumns='1fr 1fr 10fr'>
+        <Box 
+            borderWidth='1px 0px 1px 1px'
+             
+            borderRadius='lg' 
+            overflow='hidden' 
+            padding='5px'            
+            bg='#fefde6'
+            
+            >
+        <Input position='relative' top='50%' type='date' value={jalon.date} onChange={changeDate} size='xs'/>
+        
+        </Box>
+        <Box 
+            borderWidth='1px 1px 1px 0px' 
+            borderRadius='lg' 
+            overflow='hidden' 
+            padding='5px'            
+            bg='#fefde6'
+            >
+        <Box position='relative' top='50%'>{jalon.jalon}</Box>
+        
+        </Box>
+
+
+
         <Box  borderWidth='1px' 
             borderRadius='lg' 
             overflow='hidden' 
             padding='10px' 
-            margin='1.5' 
+            margin='0.5' 
             bg={jalon.etat==='complet'?'gray':props.user&&icons[props.user.service].bg}>
             
                 
@@ -105,5 +154,6 @@ export function JalonDetail(props) {
              
 
         </Box>
+        </Grid>
     )
 }

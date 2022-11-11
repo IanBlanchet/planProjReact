@@ -51,6 +51,9 @@ export const TableListJalons = ({projets, contrats, users}) => {
         setFilters({...filters, ...filter})
     }
 
+
+
+
     useEffect(() => {getRessources('/api/v1/jalon').then(
         (lesjalons) => {
        
@@ -78,17 +81,17 @@ export const TableListJalons = ({projets, contrats, users}) => {
             <HStack>
             
             <Select onChange={handleFilter} name='charge_jalon' placeholder='Filtrer par chargé de projet'>
-                <option value={''} >Tous</option>
+                
                 {users.map(item => <option value={item.id} key={item.id}>{item.username}</option>)}
             </Select>
            
             <Select onChange={handleFilter} name='jalon' placeholder='Filtrer par jalon'>
-                <option value={''} >Tous</option>
+                
                 {jalonsDesc.map(item => <option value={item} key={item}>{item}</option>)}
             </Select>
             
             <Select onChange={handleFilter} name='service' placeholder='Filtrer par service'>
-                <option value={''} >Tous</option>
+                
                 {services.map(item => <option value={item} key={item}>{item}</option>)}
             </Select>
             </HStack>
@@ -98,22 +101,17 @@ export const TableListJalons = ({projets, contrats, users}) => {
 
                 <Thead position='sticky' top='0'>
                 <Tr bg='blue.200'>
-                    <Th>Date</Th>
-                    <Th>Jalon</Th>
-                    <Th>Détails</Th>
+                    
+                    <Th>Jalons actifs</Th>
+                    
                 </Tr>
 
             </Thead>
             <Tbody>
                     {jalonFiltre.map(item => 
                     <Tr key={item.id}>
-                        <Th>
-                            {item.date}
-                        </Th>
-                        <Th>
-                            {item.jalon}
-                        </Th>
-                        <Th>
+                      
+                        <Th colSpan='3'>
                         <JalonDetail 
                             user={users.find(element => element.id === item.charge_jalon)}
                             projet={projets.find(element => element.id === item.projet_id)}
