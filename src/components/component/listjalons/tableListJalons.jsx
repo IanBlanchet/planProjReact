@@ -1,26 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
+import { useFilter } from '../../../hooks/useFilter';
 import  { JalonDetail } from './detailsbox';
 import { getRessources } from '../../util';
 import { Table, Thead, Tbody, Tr, Th, TableContainer, Box, Heading, Select, HStack, VStack} from '@chakra-ui/react';
 import { GrWindows } from 'react-icons/gr';
-
-const useFilter = (filterDict, list) => {
-
-    const [filterJalons, setFilterJalons] = useState(list);
-
-    useEffect(() => {
-        let filterList = [...list]        
-        for (const key in filterDict) {
-            if (filterDict[key]) {                
-                filterList = [...filterList.filter(item => item[key] === filterDict[key])]       
-                
-        }};        
-                
-        setFilterJalons(filterList)
-    },[filterDict])
-
-    return filterJalons
-}
 
 
 const jalonsDesc = ['C_Direction', 'Conseil', 'Commission', 'AO', 'Livrable', 'D_travaux', 'F_travaux', 'Fermeture']
@@ -33,7 +16,7 @@ export const TableListJalons = ({projets, contrats, users}) => {
     const [filters, setFilters] = useState({});
     let [isrefresh, setIsrefresh] = useState(0);
     let jalonFiltre = useFilter(filters, jalons)
-    
+            
 
     const refresh = () => {
         const newRefresh = isrefresh += 1

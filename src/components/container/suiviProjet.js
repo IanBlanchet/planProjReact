@@ -86,7 +86,7 @@ export function SuiviProjet(props) {
         getRessources('/api/v1/contrat').then(
             contrats => setContrats(contrats));
         getRessources('/api/v1/projet').then(
-            projets => setProjets(projets.filter(item => item.statut === 'Actif').sort( (a,b) => {
+            projets => setProjets(projets.filter(item => !(['Complété', 'En suspend', 'Abandonné'].includes(item.statut))).sort( (a,b) => {
                                                   if (a.no_projet < b.no_projet){
                                                     return -1;
                                                   } 

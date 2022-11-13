@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Select, IconButton, Box, HStack } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, Text, TableCaption, TableContainer,Grid, Select, IconButton, Box, HStack, Badge, Switch } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectFiltre } from '../common/select';
 
@@ -14,6 +14,7 @@ export function TableAllPti(props) {
     const [assReglements, setAssReglements] = useState([]);
     const [reglement, setReglement] = useState([]);
     const [format, setFormat] = useState('sm');
+    const [isOnlyNew, setIsOnlyNew] = useState(false)
 
     const handleSelectProjet = (e) => {
         
@@ -27,6 +28,16 @@ export function TableAllPti(props) {
     const handleFilterSimple = (e) => {
         
         props.filter(e.target.value?[parseInt(e.target.value)]:e.target.value, e.target.name);
+    }
+
+    const handleFilterStatus = () => {
+        if (!isOnlyNew) {
+            setIsOnlyNew(true);
+            props.filter(['En approbation'], 'statut')
+        } else {
+            setIsOnlyNew(false)
+            props.filter(false, 'statut')
+        }
     }
 
     const handleTrie = (e) => {
@@ -46,11 +57,13 @@ export function TableAllPti(props) {
         
         
         <Box >
-            <HStack >
+            <HStack gap='6'>
            <SelectFiltre items={cat} column='cat' placeHolder='catégories' onChange={handleFilter}/>
-           <Select name='charge' placeholder='responsable' onChange={handleFilterSimple} >
+           <Select name='charge' placeholder='responsable' onChange={handleFilterSimple} flexBasis='300px'>
                 {props.user.map(item => <option key={item.id} value={item.id} >{item.username}</option>)}
            </Select>
+           <Grid templateColumns='3fr 1fr'><Text>Voir seulement nouveaux projets </Text><Switch onChange={handleFilterStatus}></Switch></Grid>
+           
            </HStack>
         <Table colorScheme='blue' overflowY='scroll'  size={format} display='inline-block' maxHeight='700px' 
                 onDoubleClick={()=>(format === 'sm')?setFormat('md'):setFormat('sm')} >
@@ -74,7 +87,7 @@ export function TableAllPti(props) {
                 
                 <Tr>
                     <Td onClick={handleSelectProjet}  value={pti.projet_id} textColor='blue' _hover={{background: "white", color: "teal.500",}}>{pti.no_projet}</Td>
-                    <Td>{pti.description}</Td>
+                    <Td>{pti.description}  {pti.statut==='En approbation'?<Badge colorScheme='blue' variant='solid'>Nouveau</Badge>:""}</Td>
                     <Td>{assReglements.find(item => item.projet_id === pti.projet_id)?
                         reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id)?
                         reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id).numero:
