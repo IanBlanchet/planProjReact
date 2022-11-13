@@ -32,7 +32,7 @@ function App() {
     getRessources('/api/v1/contrat').then(
       contrats => setContrat(contrats));
     getRessources('/api/v1/projet').then(
-      projets => setProjet(projets.filter(item => item.statut === 'Actif').sort( (a,b) => {
+      projets => setProjet(projets.filter(item => !(['Complété', 'En suspend', 'Abandonné'].includes(item.statut))).sort( (a,b) => {
                                             if (a.no_projet < b.no_projet){
                                               return -1;
                                             } 

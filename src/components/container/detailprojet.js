@@ -1,5 +1,5 @@
 import { SelectProjet } from "../component/common/select";
-import { Grid, GridItem, Box, Text, Flex, Stack, Heading, Badge, HStack } from '@chakra-ui/react';
+import { Grid, GridItem, Box, Select, Text, Flex, Stack, Heading, Badge, HStack } from '@chakra-ui/react';
 import { List, ListItem, ListIcon, OrderedList, UnorderedList } from '@chakra-ui/react';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react'
 import { useState, useEffect} from 'react';
@@ -15,6 +15,9 @@ import { AddPointage } from "../component/modal";
 import { GaugeChartSimple } from "../component/detailProjet/gaugechart";
 
 
+
+const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonné', 'En réception']
+
 export function DetailProjet(props) {
     const [projet, setProjet] = useState([])
     const [currentProject, setCurrentProject] = useState(props.isSelected?props.selected:{});
@@ -29,6 +32,7 @@ export function DetailProjet(props) {
     
     const selectProjet = (projet_id) => {             
         const leprojet = projet.find(item => item.id == projet_id)
+        
         setCurrentProject(leprojet)
         const user = users.find(item => item.id == leprojet.charge)
 
@@ -56,13 +60,23 @@ export function DetailProjet(props) {
 
     }
 
-    const updateAvancement = (indicateur) => {
+    const updateStatut = ({target}) => {
+        const updateCurrentprojet = {...currentProject, 'statut':target.value};
+        console.log(updateCurrentprojet)
+        modJalon(`/api/v1/projet/${currentProject.id}`, {}, {'statut':target.value}, 'PUT').then(            
+            returnValue => setCurrentProject(returnValue)       
+        );
+        
+          
+        
 
     }
 
+    
+
     useEffect(() => {
         getRessources('/api/v1/projet').then(
-            projets => setProjet(projets.filter(item => item.statut === 'Actif').sort( (a,b) => {
+            projets => setProjet(projets.filter(item => !(['Complété', 'En suspend', 'Abandonné'].includes(item.statut))).sort( (a,b) => {
                                                   if (a.no_projet < b.no_projet){
                                                     return -1;
                                                   } 
@@ -92,18 +106,25 @@ export function DetailProjet(props) {
 
     return (
         
-        <Grid  templateRows='repeat(3, 1fr, 3fr, 3fr)' templateColumns='2fr, 3fr, 1fr' gap={6} >
-            <GridItem  margin='5px' colSpan='3'>
-                    <Grid templateColumns='1fr 2fr' gap='6'>
-                    <SelectProjet projets={projet} onChange={selectProjet} defaultValue={currentProject.id?(currentProject.id).toString():''}/>
-                    <HStack>
-                    <Heading borderWidth='2px' borderRadius='lg' size='lg' width='lg' padding='1'>{currentProject.desc}            
+        <Grid  templateRows='1fr, 1fr, 3fr, 3fr' templateColumns='2fr, 3fr, 1fr' gap={1} >
+            <GridItem  margin='5px' colStart='2'>
+                <SelectProjet projets={projet} onChange={selectProjet} defaultValue={currentProject.id}/>
+            </GridItem>
+            <GridItem  margin='5px' colSpan='3'>                    
                     
+                    <HStack justifyContent='left'>
+                    <Heading borderWidth='2px' borderRadius='lg' size='lg' width='lg' padding='1' flexBasis='50rem'>
+                        {currentProject.desc}                        
+                        
                     </Heading>
-                    <AddPointage rating={currentProject.rating} projet={currentProject}/>                   
+                    <Select name='statut' value={currentProject.statut} size='xs' onChange={updateStatut} flexBasis='100px'>
+                        {statut.map(item => <option value={item} key={item}>{item}</option>)}
+                    </Select>
+                    
+                    <AddPointage rating={currentProject.rating} projet={currentProject} />                   
                     </HStack>
-                   
-                    </Grid>                    
+                    
+                                       
             </GridItem>
 
             <GridItem marginLeft='2%' display='flex'>
@@ -127,7 +148,7 @@ export function DetailProjet(props) {
                 <Impacts projet={currentProject} lesprojet={projet} updateNature={updateNature}/>
             </GridItem>
             <GridItem display='flex'>
-                <GaugeChartSimple projet={currentProject} onClick={updateAvancement('plus')} onDoubleClick={updateAvancement('moins')} updateNature={updateNature}/>
+                <GaugeChartSimple projet={currentProject}  updateNature={updateNature}/>
             </GridItem>
             
         </Grid>

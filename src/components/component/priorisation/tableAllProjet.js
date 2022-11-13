@@ -10,7 +10,7 @@ import { HeaderFilter } from './headerFiltre';
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
 
-const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonné']
+const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonné', 'En réception']
 const immo = ['oui', 'non']
 
 export function TableAllProjet(props) {

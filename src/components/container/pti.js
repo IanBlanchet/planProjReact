@@ -31,8 +31,7 @@ export function Pti(props) {
     }
 
     const filtrePti = (filtre, column) => {
-        const donnee = !(year === CurrentYear)?donneeBase:donneeBaseEnPrep
-        
+        const donnee = !(year === CurrentYear)?donneeBase:donneeBaseEnPrep        
         if (filtre) {         
             let newPti = [];
             const projetFiltre = props.projet.filter(item => filtre.find(critere => item[column] === critere));
@@ -43,12 +42,9 @@ export function Pti(props) {
                 !(year === CurrentYear)?setPtis(newPti):setPtisEnPrep(newPti)
             } else {
                 !(year === CurrentYear)?setPtis(donneeBase):setPtisEnPrep(donneeBaseEnPrep)
-            }          
-            
+            } 
         
     }
-
-
 
     const triPti = (column, sens) => {
         let ptiTrie = !(year === CurrentYear)?[...ptis]:[...ptisEnPrep];
