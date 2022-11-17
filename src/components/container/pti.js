@@ -98,7 +98,7 @@ export function Pti(props) {
                 <Stack direction='row'>
                 <Radio value={(CurrentYear-1)}>En vigueur</Radio>
                 <Radio value={(CurrentYear)}>En préparation</Radio>
-                <ExportCSV ptiData={ptisEnPrep} financeData={{assReglement:assReglements,assFonds:assFonds, assSubvention:assSubvention}} LesReglements={reglement} fileName={'test'} />                 
+                <ExportCSV ptiData={ptisEnPrep} financeData={{assReglement:assReglements,assFonds:assFonds, assSubvention:assSubvention}} LesReglements={reglement} fileName={'extraitPTI'} />                 
                 </Stack>
                   
             </RadioGroup>
