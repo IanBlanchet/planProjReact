@@ -81,7 +81,7 @@ export function JalonDetail(props) {
             bg='#fefde6'
             
             >
-        <Input position='relative' top='50%' type='date' value={jalon.date} onChange={changeDate} size='xs'/>
+        <Input position='relative' top='50%' type='date' value={jalon.date} onChange={changeDate} size='xs' onKeyDown={(e) => e.preventDefault()}/>
         
         </Box>
         <Box 
