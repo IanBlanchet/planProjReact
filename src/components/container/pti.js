@@ -5,7 +5,7 @@ import { getRessources } from '../util';
 import { useState, useEffect } from 'react';
 import { Radio, RadioGroup } from '@chakra-ui/react'
 import { FcSynchronize } from "react-icons/fc";
-
+import { ExportCSV } from '../component/pti/exportExcel';
 
 const CurrentYear = new Date().getFullYear();
 
@@ -31,7 +31,8 @@ export function Pti(props) {
     }
 
     const filtrePti = (filtre, column) => {
-        const donnee = !(year === CurrentYear)?donneeBase:donneeBaseEnPrep        
+        const donnee = !(year === CurrentYear)?donneeBase:donneeBaseEnPrep
+        
         if (filtre) {         
             let newPti = [];
             const projetFiltre = props.projet.filter(item => filtre.find(critere => item[column] === critere));
@@ -96,9 +97,12 @@ export function Pti(props) {
             <RadioGroup onChange={changePti} value={year} >
                 <Stack direction='row'>
                 <Radio value={(CurrentYear-1)}>En vigueur</Radio>
-                <Radio value={(CurrentYear)}>En préparation</Radio>                
+                <Radio value={(CurrentYear)}>En préparation</Radio>
+                <ExportCSV ptiData={ptisEnPrep} financeData={{assReglement:assReglements,assFonds:assFonds, assSubvention:assSubvention}} LesReglements={reglement} fileName={'test'} />                 
                 </Stack>
+                  
             </RadioGroup>
+                    
             <Button size='sm' onClick={handleClickFinance}>{isFinance?'MODES DE FINANCEMENT':'PROGRAMME TRIENNAL D\'IMMOBILISATION'}<FcSynchronize/></Button>
             
             
