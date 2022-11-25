@@ -1,9 +1,12 @@
+import { useContext} from 'react'
 import { SelectProjet } from '../component/common/select';
 import { Grid, GridItem} from '@chakra-ui/react';
 import { useState, useEffect, createContext  } from 'react'
 import { getRessources } from '../util';
 import { GanttProjet } from '../component/suiviProjet/gantt';
+import { loginContext} from '../../App'
 import { DateTime, Duration } from 'luxon';
+
 
 /**
  * 
@@ -36,6 +39,7 @@ export function SuiviProjet(props) {
     const [graphData, setGraphData] = useState([]);    
     
     
+
     const selectProjet = async (project_id) => {              
         setAssJalons([]);
         setCurrentProject([]);        
