@@ -4,6 +4,7 @@ import  { JalonDetail } from './detailsbox';
 import { getRessources } from '../../util';
 import { Table, Thead, Tbody, Tr, Th, TableContainer, Box, Heading, Select, HStack, VStack} from '@chakra-ui/react';
 import { GrWindows } from 'react-icons/gr';
+import { AddJalon } from './modalForm';
 
 
 const jalonsDesc = ['C_Direction', 'Conseil', 'Commission', 'AO', 'Livrable', 'D_travaux', 'F_travaux', 'Fermeture']
@@ -85,12 +86,14 @@ export const TableListJalons = ({projets, contrats, users}) => {
                 <Thead position='sticky' top='0'>
                 <Tr bg='blue.200'>
                     
-                    <Th>Jalons actifs</Th>
+                    <Th><AddJalon projets={projets} contrats={contrats} users={users} refresh={refresh}/></Th>
                     
                 </Tr>
+                
 
             </Thead>
             <Tbody>
+                    
                     {jalonFiltre.map(item => 
                     <Tr key={item.id}>
                       
