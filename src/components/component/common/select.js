@@ -15,7 +15,7 @@ export function SelectProjet(props) {
     }
 
     return (
-    <SearchSelect isSearchable placeholder='Choisir un projet ou écrire un mot clé' onChange={handleSelect} w='fit-content' defaultValue={props.defaultValue} size='xs' 
+    <SearchSelect name='projet_id' isSearchable placeholder='Choisir un projet ou écrire un mot clé' onChange={handleSelect} w='fit-content' defaultValue={props.defaultValue} size='xs' 
             options={options} 
              />        
     
@@ -36,7 +36,7 @@ export function SelectContrat(props) {
     }
 
     return (
-    <SearchSelect isSearchable placeholder='Choisir un contrat ou écrire un mot clé' onChange={handleSelect} w='fit-content' defaultValue={props.defaultValue} size='sm'
+    <SearchSelect name='contrat_id' isSearchable placeholder='Choisir un contrat ou écrire un mot clé' onChange={handleSelect} w='fit-content' defaultValue={props.defaultValue} size='sm'
                     options={options}         
     />
        

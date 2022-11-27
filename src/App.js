@@ -12,7 +12,7 @@ import { TableauPriorisation } from './components/container/priorisation';
 import { ListJalons } from './components/container/listjalons';
 
 
-const loginContext = createContext()
+export const loginContext = createContext()
 
 
 

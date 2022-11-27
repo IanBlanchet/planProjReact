@@ -2,26 +2,31 @@ import { useState, useEffect } from 'react';
 import { useFilter } from '../../../hooks/useFilter';
 import  { JalonDetail } from './detailsbox';
 import { getRessources } from '../../util';
-import { Table, Thead, Tbody, Tr, Th, TableContainer, Box, Heading, Select, HStack, VStack} from '@chakra-ui/react';
-import { GrWindows } from 'react-icons/gr';
+import { Table, Thead, Tbody, Tr, Th, TableContainer, Box, Heading, Select, HStack} from '@chakra-ui/react';
+import { AddJalon } from './modalForm';
 
 
-const jalonsDesc = ['C_Direction', 'Conseil', 'Commission', 'AO', 'Livrable', 'D_travaux', 'F_travaux', 'Fermeture']
+const jalonsDesc = ['C_Direction', 'Conseil', 'Commission', 'AO', 'Livrable', 'D_travaux', 'F_travaux', 'Fermeture', 'Demande_CA', 'TQC']
 const services = ['ING', 'TP', 'ENV', 'GEN', 'SRC', 'URBA', 'GREFFE' ]
 
 export const TableListJalons = ({projets, contrats, users}) => {
 
     const [events, setEvents] = useState([]);
     const [jalons, setJalons] = useState([]);
-    const [filters, setFilters] = useState({});
-    let [isrefresh, setIsrefresh] = useState(0);
+    const [filters, setFilters] = useState({});    
     let jalonFiltre = useFilter(filters, jalons)
             
 
-    const refresh = () => {
-        const newRefresh = isrefresh += 1
-        setIsrefresh(newRefresh);
+    const refresh = (initiater, selectedJalon) => {
+        if (initiater === 'delete') {
+            setJalons(jalons.filter(jalon => jalon.id !== selectedJalon.id))
+        } else {
+            setJalons([...jalons, selectedJalon])
+        }
+        
     };
+
+    
 
     const handleFilter =  ({target}) => {
         const filter = {};        
@@ -55,12 +60,12 @@ export const TableListJalons = ({projets, contrats, users}) => {
         lesEvents => { setEvents(lesEvents);
         }
     );
-    }, [isrefresh])
+    }, [])
 
     
     return (
         <Box marginLeft='200px' >
-            <Heading color='red'>  Ce tableau est en développement</Heading>
+            
             <HStack>
             
             <Select onChange={handleFilter} name='charge_jalon' placeholder='Filtrer par chargé de projet'>
@@ -80,17 +85,19 @@ export const TableListJalons = ({projets, contrats, users}) => {
             </HStack>
 
 
-        <Table colorScheme='blue' overflowY='scroll'  display='inline-block' maxHeight='700px'>
+        <Table colorScheme='blue' overflowY='scroll'  display='inline-block' maxHeight='700px' size='sm'>
 
-                <Thead position='sticky' top='0'>
-                <Tr bg='blue.200'>
+                <Thead position='sticky' top='0' bg='white' zIndex={1}>
+                <Tr >
                     
-                    <Th>Jalons actifs</Th>
+                <Th colSpan='3' title='ajouter un jalon'><AddJalon projets={projets} contrats={contrats} users={users} refresh={refresh}/></Th>
                     
                 </Tr>
+                
 
             </Thead>
             <Tbody>
+                    
                     {jalonFiltre.map(item => 
                     <Tr key={item.id}>
                       

@@ -19,7 +19,7 @@ export const useFilter = (filterDict, list) => {
         }};        
                 
         setFilterJalons(filterList)
-    },[filterDict])
+    },[filterDict, list])
 
     return filterJalons
 }
