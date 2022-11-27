@@ -24,10 +24,9 @@ import { modJalon } from '../../util';
     const {isOpen, onOpen, onClose } = useDisclosure();  
      
 
-    const pushNewJalon = (jalon) => {
-        console.log(jalon);
+    const pushNewJalon = (jalon) => {        
         modJalon('/api/v1/jalon', {}, jalon, 'POST').then(
-          returnjalon =>  {refresh();
+          returnjalon =>  {refresh('add', returnjalon);
                         onClose();}
         )
         
@@ -35,7 +34,7 @@ import { modJalon } from '../../util';
   
     return (
       <>
-        <IconButton size='sm' onClick={onOpen} bg='blue' icon={<PlusSquareIcon/>}></IconButton>
+        <IconButton size='sm' onClick={onOpen} icon={<PlusSquareIcon size='md'/>}></IconButton>
         <Modal          
           isOpen={isOpen}
           onClose={onClose}

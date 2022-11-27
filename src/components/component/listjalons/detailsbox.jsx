@@ -51,7 +51,7 @@ export function JalonDetail(props) {
 
     const deleteJalon = () => {
         dispatch({ type: "delete", id: jalon.id })        
-        props.refresh()
+        props.refresh('delete',jalon)
     };
 
     const completeJalon = () => {

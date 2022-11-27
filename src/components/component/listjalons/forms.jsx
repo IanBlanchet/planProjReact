@@ -36,8 +36,7 @@ export const NewJalonForm = ({projets, contrats, users, pushNewJalon}) => {
     }
 
     const changeJalon = ({target}) => {
-        newJalon.current[target.name] = target.value
-        console.log(newJalon.current)
+        newJalon.current[target.name] = target.value        
     }
 
     const handleSubmit = () => {
