@@ -3,7 +3,6 @@ import { useFilter } from '../../../hooks/useFilter';
 import  { JalonDetail } from './detailsbox';
 import { getRessources } from '../../util';
 import { Table, Thead, Tbody, Tr, Th, TableContainer, Box, Heading, Select, HStack} from '@chakra-ui/react';
-import { GrWindows } from 'react-icons/gr';
 import { AddJalon } from './modalForm';
 
 
