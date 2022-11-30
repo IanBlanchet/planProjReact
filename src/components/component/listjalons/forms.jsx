@@ -43,7 +43,10 @@ export const NewJalonForm = ({projets, contrats, users, pushNewJalon}) => {
         newJalon.current.charge_jalon = parseInt(newJalon.current.charge_jalon)
         if (!newJalon.current.jalon || !newJalon.current.date || !newJalon.current.charge_jalon) {
             toast({description:'Vous devez entrer au minimum la date, le jalon et le chargé du jalon'})
-        } else {
+        } else if (newJalon.current.commentaire.length > 50) {
+            toast({description:'La description est limitée à 50 caractères'})
+        }
+            else {
             pushNewJalon(newJalon.current)
         }
         
@@ -81,7 +84,7 @@ export const NewJalonForm = ({projets, contrats, users, pushNewJalon}) => {
 
             <HStack><FormLabel>Date</FormLabel><Input type='date' onChange={changeJalon} name='date' onKeyDown={(e) => e.preventDefault()} /></HStack>
 
-            <HStack><FormLabel>Commentaire</FormLabel><Input type='text' onChange={changeJalon} name='commentaire' /></HStack>
+            <HStack><FormLabel>Commentaire</FormLabel><Input type='text' onChange={changeJalon} name='commentaire' maxLength='51' /></HStack>
 
 
 
