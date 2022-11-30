@@ -5,7 +5,7 @@ import { EditTextDescriptif } from './textdescription';
 import { FcSettings, FcFeedIn } from "react-icons/fc";
 
 
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':false, 'echeance':'', 'notes':[]}
 
 export function Impacts(props) {
 

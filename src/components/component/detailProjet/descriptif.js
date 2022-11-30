@@ -1,30 +1,12 @@
 
 import { useState, useEffect } from 'react';
-import { modJalon } from '../../util';
-import { List, ListItem, ListIcon, OrderedList, UnorderedList, Stack, Box, IconButton, Heading } from '@chakra-ui/react';
+import {Radio, RadioGroup, FormControl, FormLabel, Stack, Box, IconButton, Heading } from '@chakra-ui/react';
 import { EditTextDescriptif } from './textdescription';
 import { FcSettings, FcFeedIn } from "react-icons/fc";
 
 
-//à nettoyer plus nécessaire
-    /**
-     * a function to return an array from object
-     * @returns array
-     */
-     const renderListDesc = (nature) => {
-        if (nature) {
-            let listDesc = [];
-            Object.keys(nature).forEach( (key) => listDesc.push( {'titre':key, 'detail': nature[key] }))
-            
-            return listDesc
-        }
-        else {
-            //setNature({'nature': [' '], 'justification':[' '], 'refus':[' ']})
-            return [{'titre':'nature', 'detail':[' ']}, {'titre':'justification', 'detail':[' ']}, {'titre':'refus', 'detail':[' ']}]
-        }
-    }
 
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':false, 'echeance':'', 'notes':[] }
 
 export function Descriptif(props) {
 
@@ -42,8 +24,15 @@ export function Descriptif(props) {
         let newNature = {...nature};
         newNature = {...newNature, ...data}
         setNature(newNature);        
-        props.updateNature(newNature);
-        
+        props.updateNature(newNature);        
+    }
+
+    const updateStrategic = (value) => {
+        let newNature = {...nature};
+        let booleanValue = value === 'true'?true:false
+        newNature = {...newNature, 'isStrategic':booleanValue}
+        setNature(newNature);               
+        props.updateNature(newNature); 
     }
 
     useEffect(() => {
@@ -62,6 +51,17 @@ export function Descriptif(props) {
                     <Heading size='lg' marginBottom='2'>Description générale <IconButton onClick={buttonClick} variant={isChecked?'solid':'outline'} colorScheme='whiteAlpha' icon={!isChecked?<FcSettings/>:<FcFeedIn/>}/></Heading>
                     
                     <Stack orientation='vertical'>
+                    <FormControl display='flex' alignItems='center'>
+                        <FormLabel htmlFor='isStrategic' mb='0'>
+                            Stratégique?
+                        </FormLabel>
+                        <RadioGroup onChange={updateStrategic} value={nature?nature.isStrategic:false}>
+                        <Stack direction='row'>
+                            <Radio value={true}>Oui</Radio>
+                            <Radio value={false}>Non</Radio>                            
+                        </Stack>
+                        </RadioGroup>
+                    </FormControl>
                     <EditTextDescriptif titre='nature' detail={nature.nature} updateNature={updateNature} isChecked={isChecked}/>
                     <EditTextDescriptif titre='justification' detail={nature.justification} updateNature={updateNature} isChecked={isChecked}/>
                     <EditTextDescriptif titre='refus' detail={nature.refus} updateNature={updateNature} projet={props.projet} isChecked={isChecked}/>

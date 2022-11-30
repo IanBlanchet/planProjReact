@@ -10,6 +10,7 @@ import { DetailProjet } from './components/container/detailprojet';
 import { Pti } from './components/container/pti';
 import { TableauPriorisation } from './components/container/priorisation';
 import { ListJalons } from './components/container/listjalons';
+import { TableStrategic } from './components/container/projetStrategic';
 
 
 export const loginContext = createContext()
@@ -76,7 +77,8 @@ function App() {
     detailProjetSelected : <DetailProjet projet={projet} isSelected={true} selected={''}/>,
     pti : <Pti projet={projet} user={user} afficheProjet={afficheDetailprojet}/>,
     priorisation : <TableauPriorisation user={user} afficheProjet={afficheDetailprojet}/>,
-    listJalons : <ListJalons projets={projet} contrats={contrat} users={user}/>
+    listJalons : <ListJalons projets={projet} contrats={contrat} users={user}/>,
+    strategique : <TableStrategic/>
   }
 
   const menuClick = (container) => {

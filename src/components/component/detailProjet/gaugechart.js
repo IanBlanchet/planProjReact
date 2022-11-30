@@ -4,7 +4,7 @@ import { Box, Grid, GridItem, Heading, IconButton } from "@chakra-ui/react";
 import { FcUp, FcDown } from "react-icons/fc";
 
 
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':false, 'echeance':'', 'notes':[]}
 
 export function GaugeChartSimple(props) {
     const [nature, setNature] = useState(blanckNature)

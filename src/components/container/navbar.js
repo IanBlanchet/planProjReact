@@ -1,7 +1,7 @@
 import { Flex, Spacer, Box, Button, ButtonGroup} from '@chakra-ui/react'
 import { Connexion } from '../component/modal'
 import { TriangleDownIcon } from '@chakra-ui/icons'
-import { GrTextAlignLeft, GrSchedules, GrUserAdmin, GrMoney, GrTable, GrSort, GrFlag } from 'react-icons/gr'
+import { GrTextAlignLeft, GrSchedules, GrUserAdmin, GrMoney, GrTable, GrSort, GrFlag, GrVulnerability } from 'react-icons/gr'
 import { useToast } from '@chakra-ui/react';
 import logo from '../../static/logo.png'
 
@@ -36,7 +36,8 @@ export function NavBar(props) {
                 <Button leftIcon={<GrSchedules />} onClick={handleClick} value='evenement' variant='solid' borderWidth={1} borderColor="white">Évènement</Button>
                 <Button leftIcon={<GrTable/>} onClick={handleClick} value='detailProjet' variant='solid' borderWidth={1} borderColor="white">Détail projet</Button>
                 <Button leftIcon={<GrMoney/>} onClick={handleClick} value='pti' variant='solid' borderWidth={1} borderColor="white">Pti</Button>
-                <Button leftIcon={<GrSort/>} onClick={handleClick} value='priorisation' variant='solid' borderWidth={1} borderColor="white">Priorisation</Button>                
+                <Button leftIcon={<GrSort/>} onClick={handleClick} value='priorisation' variant='solid' borderWidth={1} borderColor="white">Priorisation</Button>
+                <Button leftIcon={<GrVulnerability/>} onClick={handleClick} value='strategique' variant='solid' borderWidth={1} borderColor="white">Projets stratégiques</Button>             
                 {sessionStorage.username=== 'Ian'&& <Button leftIcon={<GrUserAdmin />} onClick={handleClick} value='admin' variant='solid' borderWidth={1} borderColor="white">Admin</Button>}
                 
                 
