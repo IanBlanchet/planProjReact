@@ -11,7 +11,7 @@ export const xdata = [
 
 export const options = {
   chart: {
-    
+    title:"Implications par service"
     
     },
   bars: "horizontal",

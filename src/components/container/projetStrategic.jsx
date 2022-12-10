@@ -9,7 +9,7 @@ import { modJalon } from '../util';
 
 
 
-export const ProjetStrategic = ({user}) => {
+export const ProjetStrategic = ({user, afficheProjet}) => {
     
 
 
@@ -19,6 +19,6 @@ export const ProjetStrategic = ({user}) => {
     }, [])
     
     return (
-    <TableStrategic user={user}/>
+    <TableStrategic user={user} afficheProjet={afficheProjet}/>
     )
 }

@@ -68,6 +68,10 @@ export function ProjetBox(props) {
     const updateEcheance = ({target}) => {
         dispatch({type: 'editNature', id:projet.id, param:'echeance', value:target.value});                      
       }
+    
+    const handleSelectProjet = ({target}) => {
+        props.afficheProjet(parseInt(target.getAttribute('value')))
+    }
 
 
     return ( 
@@ -92,7 +96,7 @@ export function ProjetBox(props) {
 
                     
                     <GridItem  gridArea='no'>
-                            <Tag size='lg' variant='solid' bg='blue.400'>
+                            <Tag size='lg' variant='solid' bg='blue.400' onClick={handleSelectProjet} value={projet.id}>
                                 {projet.no_projet}
                             </Tag>
                     </GridItem>

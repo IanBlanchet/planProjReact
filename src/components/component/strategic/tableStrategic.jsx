@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {  Box, VStack, Flex, Grid, GridItem, Select, Text, Textarea, Checkbox, CheckboxGroup, Input  } from '@chakra-ui/react'
+import {  Box, VStack, Flex, Grid, GridItem, Select, Text, Textarea, Checkbox, CheckboxGroup, Input, Heading } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectFiltre } from '../common/select';
 import { AddPointage } from '../modal';
@@ -16,7 +16,7 @@ const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 
 const serviceArray = ['Ingénierie', 'Travaux publics', 'Environnement', 'SRC', 'Urbanisme', 'Développement Économique', 'Greffe', 'Finance', 'Communications', 'Incendies', 'RH']
 
-export function TableStrategic({user}) {
+export function TableStrategic({user, afficheProjet}) {
     const [projet, setProjet] = useState([])
     const [tries, setTries] =useState({'no_projet':true, 'desc':true, 'charge': true, 'pointage': true})    
     const [filters, setFilters] = useState({});    
@@ -75,35 +75,38 @@ export function TableStrategic({user}) {
     return (
         
         
-        <Grid templateColumns='1fr 1fr 1fr 1fr'  templateAreas='filter projets projets projets' >
+        <Grid templateColumns='1fr 1fr 1fr 1fr'  templateAreas=' "filter projets projets projets"' >
             
             <GridItem gridArea='filter' width='max-content'>
 
-                <VStack overflow='hidden' gap='1'>
+                <VStack overflow='hidden' gap='3'>
+                    <>
+                    <Heading>Filtres</Heading>
                     <Select placeholder='filtrer par catégorie' onChange={handleFilter} name='cat'>
                         {cat.map(item => <option key={item} value={item}>{item}</option>)}
                     </Select>
                     <Select placeholder='filtrer par responsable' onChange={handleFilter} name='charge'>
                         {user.map(item => <option key={item.id} value={item.id}>{item.username}</option>)}
                     </Select>
+                    </>
+                    <>
+                    <Heading>Statistiques</Heading>
                     <BarChart data={totalProjetServices}/>                   
-
+                    </>
                 </VStack>
            </GridItem>
         
-           <GridItem gridArea='projets'>
-                <Flex gap='1' direction='row' wrap='wrap' justifyContent='right'>
+           <GridItem gridArea='projets' height='850px' overflowY='scroll'>
+                <Flex gap='1' direction='row' wrap='wrap' justifyContent='right' >
                     {projetFiltre.map(projet =>                      
-                        <ProjetBox projet={projet} user={projet.charge?user.find(item => item.id === projet.charge):[]}/>                   
+                        <ProjetBox projet={projet} user={projet.charge?user.find(item => item.id === projet.charge):[]} afficheProjet={afficheProjet}/>                   
                     )}
                     
                 </Flex>
             </GridItem>
            
-           
-
-        
         </Grid>
         
     )
 }
+
