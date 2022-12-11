@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import GaugeChart from 'react-gauge-chart'
-import { Box, Grid, GridItem, Heading, IconButton } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Heading, IconButton, Input, FormControl, FormLabel } from "@chakra-ui/react";
 import { FcUp, FcDown } from "react-icons/fc";
 
 
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[]}
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':true, 'echeance':'', 'notes':''}
 
 export function GaugeChartSimple(props) {
     const [nature, setNature] = useState(blanckNature)
@@ -30,6 +30,13 @@ export function GaugeChartSimple(props) {
       props.updateNature(newNature)  
       
     }
+
+    const updateEcheance = ({target}) => {
+      let newNature = {...nature};    
+      newNature.echeance = target.value
+      setNature(newNature)
+      props.updateNature(newNature)        
+    }
   
     useEffect(() => {
         !props.projet.nature?setNature(blanckNature):
@@ -41,7 +48,7 @@ export function GaugeChartSimple(props) {
   
     return (
       <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-      <Grid templateRows='(1fr, 1fr, 3fr)' templateColumns='1fr' gap={0} justifyItems='center'>
+      <Grid templateRows='(1fr, 1fr, 3fr, 1fr)' templateColumns='1fr' gap={0} justifyItems='center'>
       <GridItem>
         <Heading size='lg' marginBottom='2'>Avancement</Heading>
       </GridItem>
@@ -60,6 +67,12 @@ export function GaugeChartSimple(props) {
         colors={['#2185d0', '#21ba45']}
            
       />
+      </GridItem>
+      <GridItem>
+        <FormControl display='flex' alignItems='center'>
+          <FormLabel htmlFor='echeance' mb='0'>Échéance</FormLabel>
+          <Input type='date' name='echeance' value={nature.echeance} onChange={updateEcheance} onKeyDown={(e) => e.preventDefault()}></Input>
+        </FormControl>
       </GridItem>
       </Grid>
       </Box>

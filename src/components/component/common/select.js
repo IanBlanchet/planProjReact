@@ -67,7 +67,7 @@ export function SelectFiltre(props) {
     }
 
     return (
-    <Select name={props.column} placeholder={'Filtre par '+props.placeHolder} onChange={handleSelect} w='30%'>
+    <Select name={props.column} placeholder={'Filtre par '+props.placeHolder} onChange={handleSelect} overflow='hidden'>
         {props.items.map(item => <option key={item} value={item} >{item}</option>)}
     </Select>
     )
