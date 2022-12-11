@@ -17,9 +17,10 @@ const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 const serviceArray = ['Ingénierie', 'Travaux publics', 'Environnement', 'SRC', 'Urbanisme', 'Développement Économique', 'Greffe', 'Finance', 'Communications', 'Incendies', 'RH']
 
 export function TableStrategic({user, afficheProjet}) {
-    const [projet, setProjet] = useState([])
-    const [tries, setTries] =useState({'no_projet':true, 'desc':true, 'charge': true, 'pointage': true})    
-    const [filters, setFilters] = useState({});    
+    const [rawProjet, setRawProjet] = useState([]);
+    const [projet, setProjet] = useState([]);    
+    const [filters, setFilters] = useState({}); 
+    const [searchInput, setSearchInput]= useState('')  
     let projetFiltre = useFilter(filters, projet)
    
     const calcTotalProjetServices = () => {
@@ -30,14 +31,7 @@ export function TableStrategic({user, afficheProjet}) {
         return [ entete, ...data]
     }
     const totalProjetServices = calcTotalProjetServices()
-
-
-    const handleTrie = (e) => {
-        let newTries = {...tries}
-        tries[e.currentTarget.name]?props.trie(e.currentTarget.name, true):props.trie(e.currentTarget.name, false)
-        newTries[e.currentTarget.name]?newTries[e.currentTarget.name]=false:newTries[e.currentTarget.name]=true;
-        setTries(newTries)
-    } 
+  
     
     const handleFilter = ({target}) => {
         const filter = {};        
@@ -49,6 +43,21 @@ export function TableStrategic({user, afficheProjet}) {
         
         setFilters({...filters, ...filter})
     }
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setSearchInput(e.target.value);        
+        if (e.target.value.length > 0) {
+            let findedProjets = [];
+            findedProjets = rawProjet.filter(projet => projet.desc.toLowerCase().includes(e.target.value.toLowerCase()));
+            //const findedProjets = rawProjet.filter(projet => projet.desc.toLowerCase().matchAll(e.target.value.toLowerCase()));
+            setProjet(findedProjets);
+        } else {
+            setProjet(rawProjet);
+        }
+    }
+
+    
     
 
 
@@ -56,7 +65,7 @@ export function TableStrategic({user, afficheProjet}) {
         getRessources('/api/v1/projet').then( projets => {                     
             let filterProjet = projets.filter(item => item.nature&&item.nature.isStrategic);                        
             filterProjet = filterProjet.filter(item => item.nature&&(new Date(item.nature.echeance).getFullYear()) === 2023)
-            setProjet(filterProjet.sort((a,b) => {
+            filterProjet = filterProjet.sort((a,b) => {
                 if (a.no_projet < b.no_projet){
                   return -1;
                 } 
@@ -64,7 +73,9 @@ export function TableStrategic({user, afficheProjet}) {
                   return 1;
                 }
                 return 0
-            }))
+            })
+            setRawProjet(filterProjet);
+            setProjet(filterProjet);            
           
             }
         );
@@ -88,6 +99,7 @@ export function TableStrategic({user, afficheProjet}) {
                     <Select placeholder='filtrer par responsable' onChange={handleFilter} name='charge'>
                         {user.map(item => <option key={item.id} value={item.id}>{item.username}</option>)}
                     </Select>
+                    <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch}></Input>
                     </>
                     <>
                     <Heading>Statistiques</Heading>
@@ -99,7 +111,7 @@ export function TableStrategic({user, afficheProjet}) {
            <GridItem gridArea='projets' height='850px' overflowY='scroll'>
                 <Flex gap='1' direction='row' wrap='wrap' justifyContent='right' >
                     {projetFiltre.map(projet =>                      
-                        <ProjetBox projet={projet} user={projet.charge?user.find(item => item.id === projet.charge):[]} afficheProjet={afficheProjet}/>                   
+                        <ProjetBox projet={projet} user={projet.charge?user.find(item => item.id === projet.charge):[]} afficheProjet={afficheProjet} key={projet.id}/>                   
                     )}
                     
                 </Flex>

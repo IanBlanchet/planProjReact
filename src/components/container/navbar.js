@@ -37,7 +37,7 @@ export function NavBar(props) {
                 <Button leftIcon={<GrTable/>} onClick={handleClick} value='detailProjet' variant='solid' borderWidth={1} borderColor="white">Détail projet</Button>
                 <Button leftIcon={<GrMoney/>} onClick={handleClick} value='pti' variant='solid' borderWidth={1} borderColor="white">Pti</Button>
                 <Button leftIcon={<GrSort/>} onClick={handleClick} value='priorisation' variant='solid' borderWidth={1} borderColor="white">Priorisation</Button>
-                <Button leftIcon={<GrVulnerability/>} onClick={handleClick} value='strategique' variant='solid' borderWidth={1} borderColor="white">Projets stratégiques</Button>             
+                <Button leftIcon={<GrVulnerability/>} onClick={handleClick} value='strategique' variant='solid' borderWidth={1} borderColor="white">Dossiers stratégiques</Button>             
                 {sessionStorage.username=== 'Ian'&& <Button leftIcon={<GrUserAdmin />} onClick={handleClick} value='admin' variant='solid' borderWidth={1} borderColor="white">Admin</Button>}
                 
                 

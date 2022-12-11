@@ -73,6 +73,10 @@ export function ProjetBox(props) {
         props.afficheProjet(parseInt(target.getAttribute('value')))
     }
 
+    useEffect(() => {
+
+    }, [props])
+
 
     return ( 
 
