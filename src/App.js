@@ -76,7 +76,7 @@ function App() {
     detailProjet : <DetailProjet projet={projet} isSelected={false} selected=''/>,
     detailProjetSelected : <DetailProjet projet={projet} isSelected={true} selected={''}/>,
     pti : <Pti projet={projet} user={user} afficheProjet={afficheDetailprojet}/>,
-    priorisation : <TableauPriorisation user={user} afficheProjet={afficheDetailprojet}/>,
+    //priorisation : <TableauPriorisation user={user} afficheProjet={afficheDetailprojet}/>,
     listJalons : <ListJalons projets={projet} contrats={contrat} users={user}/>,
     strategique : <ProjetStrategic user={user} afficheProjet={afficheDetailprojet}/>
   }

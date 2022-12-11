@@ -49,8 +49,7 @@ export function TableStrategic({user, afficheProjet}) {
         setSearchInput(e.target.value);        
         if (e.target.value.length > 0) {
             let findedProjets = [];
-            findedProjets = rawProjet.filter(projet => projet.desc.toLowerCase().includes(e.target.value.toLowerCase()));
-            //const findedProjets = rawProjet.filter(projet => projet.desc.toLowerCase().matchAll(e.target.value.toLowerCase()));
+            findedProjets = rawProjet.filter(projet => projet.desc.toLowerCase().includes(e.target.value.toLowerCase()));            
             setProjet(findedProjets);
         } else {
             setProjet(rawProjet);
@@ -102,7 +101,7 @@ export function TableStrategic({user, afficheProjet}) {
                     <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch}></Input>
                     </>
                     <>
-                    <Heading>Statistiques</Heading>
+                    <Heading>Compilation</Heading>
                     <BarChart data={totalProjetServices}/>                   
                     </>
                 </VStack>
