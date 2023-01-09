@@ -1,11 +1,18 @@
 import { TableListJalons } from '../component/listjalons/tableListJalons';
+import { useContext } from 'react';
+import { BaseDataContext } from '../../auth';
 
 
-export const ListJalons = (props) => {
+export const ListJalons = () => {
     
+   const data = useContext(BaseDataContext)
 
+    
     return (
-        <TableListJalons {...props}/>
+        <>
+         <TableListJalons  projets={data.projet} contrats={data.contrat} users={data.user}/>
+        
+        </>
     )
 
 }

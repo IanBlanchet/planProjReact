@@ -72,8 +72,6 @@ export function DetailProjet(props) {
 
     }
 
-    
-
     useEffect(() => {
         getRessources('/api/v1/projet').then(
             projets => setProjet(projets.filter(item => !(['Complété', 'En suspend', 'Abandonné'].includes(item.statut))).sort( (a,b) => {

@@ -4,8 +4,8 @@ import { Grid, GridItem} from '@chakra-ui/react';
 import { useState, useEffect, createContext  } from 'react'
 import { getRessources } from '../util';
 import { GanttProjet } from '../component/suiviProjet/gantt';
-import { loginContext} from '../../App'
-import { DateTime, Duration } from 'luxon';
+import { BaseDataContext } from '../../auth';
+
 
 
 /**
@@ -29,7 +29,7 @@ export const ContextSelectProject = createContext();
 * @param {React props} props - props containing all project and contracts.
 * @return {React Component} A react component.
 */
-export function SuiviProjet(props) {
+export function SuiviProjet() {
     const [projets, setProjets] = useState([])
     const [contrats, setContrats] = useState([])
     const [currentProject, setCurrentProject] = useState([]);    
@@ -38,6 +38,7 @@ export function SuiviProjet(props) {
     const [assJalons, setAssJalons] = useState([]);
     const [graphData, setGraphData] = useState([]);    
     
+    const {user} = useContext(BaseDataContext)
     
 
     const selectProjet = async (project_id) => {              
@@ -115,9 +116,9 @@ export function SuiviProjet(props) {
                 
                             
                 <GridItem padding='5px' paddingTop='10px'>
-                    <ContextSelectProject.Provider value={{updateContext, users:props.user, projet:projets, contrat:contrats}} >
+                    <ContextSelectProject.Provider value={{updateContext, users:user, projet:projets, contrat:contrats}} >
                     <GanttProjet currentProject={currentProject} assContrat={assContrat} jalons={jalons} assJalons={assJalons}
-                                    newData={graphData} users={props.user}                                                    
+                                    newData={graphData} users={user}                                                    
                          />
                     </ContextSelectProject.Provider>
                 </GridItem>             

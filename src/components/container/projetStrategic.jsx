@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { TableStrategic } from '../component/strategic/tableStrategic';
 
-import { useFilter } from '../../hooks/useFilter';
-import { modJalon } from '../util';
+
+import { useContext } from 'react';
+import { BaseDataContext } from '../../auth';
 
 
 
 
 
-
-export const ProjetStrategic = ({user, afficheProjet}) => {
+export const ProjetStrategic = ({afficheProjet}) => {
     
-
+    const {user} = useContext(BaseDataContext)
 
 
     useEffect(() => {

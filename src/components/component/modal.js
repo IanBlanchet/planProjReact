@@ -11,77 +11,36 @@ import {
     Checkbox,      
   } from '@chakra-ui/react';
 import { Button, Input, FormControl, IconButton, Link, Text, Box, Heading, Table, Tbody, VStack } from '@chakra-ui/react';
-import {postLogin } from "../util";
+
 import { useEffect, useState, useRef } from 'react';
 import { modJalon } from '../util';
-import { useToast } from '@chakra-ui/react';
 import { GrPowerShutdown, GrMore, GrMemory } from 'react-icons/gr';
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useFormik, Formik, Form,  } from 'formik';
 import { MyTextInput, MySelect, MyCheckbox, MyRatingInput } from './common/forms';
+import { useNavigate } from 'react-router-dom';
+import { cleanSessionStorage } from '../../auth';
 
 
 
-export function Connexion(props) {
+export function Connexion() {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [user, setUser] = useState({'username':'', 'password':''})
-    const toast = useToast({
-                            status: 'error',
-                            position: '',
-                            duration: 1000,
-                            isClosable: true
-                          })
-
-    const handleLogin = () => {
-      const object = {'username':user.username, 'password':user.password};
-      document.body.style.cursor = "wait"
-      const data = async () => {        
-        postLogin('/api/v1/autorize', {}, object, "POST").then((data) =>
-        {
-          
-          setUser({'username':'', 'password':''});          
-          if (!data.isUser) {
-            toast({description:'usager inexistant'})
-          } else if (!data.isLogged) {
-            toast({description:'mauvais mot de passe'})
-          } else {
-            toast({status:'success', description:'bienvenue '+user.username});
-            sessionStorage.token = data.token;
-            sessionStorage.username = user.username;
-            sessionStorage.msToken = data.msToken;
-            sessionStorage.isLogin = true
-            onClose();
-            props.onLogin()
-          };
-          document.body.style.cursor = "default"
-            
-           
-        });     
-      }
-    data();    
-    }
-    
+    let currentUser = sessionStorage.user?JSON.parse(sessionStorage.getItem('user')):null
+ 
+    const navigate = useNavigate()
+        
     const handleLogout = () => {
-      sessionStorage.token = "";
-      sessionStorage.username = "";
-      sessionStorage.isLogin = false;      
-      onClose()
-      props.onLogout()      
+      cleanSessionStorage()
+      currentUser = ""
+      onClose();
+      navigate('/login')
+           
     }
 
-    const handleUserChange = (e) => {
-      setUser({...user ,'username':e.target.value})
-      
-    }
-    const handlePassChange = (e) => {
-      setUser({...user ,'password':e.target.value})
-      
-    }
-    
 
     return (
       <>
-        <Button size='sm' onClick={onOpen} leftIcon={<GrPowerShutdown/>}>{sessionStorage.isLogin==='false'? 'Connexion': sessionStorage.username}</Button>
+        {currentUser&&<Button size='sm' onClick={onOpen} leftIcon={<GrPowerShutdown/>}>{currentUser.username}</Button>}
         <Modal          
           isOpen={isOpen}
           onClose={onClose}
@@ -90,44 +49,23 @@ export function Connexion(props) {
           
           <ModalContent>
           
-            <ModalHeader>{sessionStorage.isLogin==='false'?'Connexion':''}</ModalHeader>
+            <ModalHeader marginBottom='5px' fontFamily='serif' fontSize='xx-large'>Bonjour {currentUser&&currentUser.username}</ModalHeader>
             <ModalCloseButton />
-            {sessionStorage.isLogin==='false'?
-            (<ModalBody pb={6}>
-              <FormControl>
-                <Input  placeholder='Nom usager' name='name' value={user.username} onChange={handleUserChange}/>
-              </FormControl>              
-              <FormControl mt={4}>
-                <Input placeholder='Mot de passe' name='pass' value={user.password} onChange={handlePassChange} type='password'/>
-              </FormControl>
-              <VStack marginTop='20px'>
-              <Link href='https://planproj.herokuapp.com/register' isExternal >
-                Pas encore inscrit?<ExternalLinkIcon mx='2px' />
-              </Link>
-              <Link href='https://planproj.herokuapp.com/reset_password_request' isExternal>
-                Pour réinitialiser ton mot de passe <ExternalLinkIcon mx='2px' />
-              </Link>
-              </VStack>
-            </ModalBody>)
-            : 
-            (<ModalBody>
-              <Text marginBottom='5px' fontFamily='serif' fontSize='xx-large'>Bonjour {sessionStorage.username}</Text>
+  
+            <ModalBody>
+              
               <Link href='https://planproj.herokuapp.com/reset_password_request' isExternal>
                 Pour réinitialiser ton mot de passe <ExternalLinkIcon mx='2px' />
               </Link>
             </ModalBody>
-            )
-            }
+            
+            
             <ModalFooter>
-              {sessionStorage.isLogin==='false'?
-              <Button colorScheme='blue' mr={3} onClick={handleLogin}>
-                Login
-              </Button>
-              :
+        
               <Button colorScheme='red' mr={3} onClick={handleLogout}>
                 Logout
               </Button>
-              }
+              
               <Button onClick={onClose}>Cancel</Button>
             </ModalFooter>
           </ModalContent>
