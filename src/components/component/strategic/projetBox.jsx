@@ -4,6 +4,7 @@ import { AddPointage } from '../modal';
 import { Box, Flex, Badge, HStack, Grid, GridItem, Input, Tag, FormLabel, Tooltip, Textarea } from '@chakra-ui/react';
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
 import GaugeChart from 'react-gauge-chart'
+import { Link } from 'react-router-dom';
 import { InputDuree } from '../events/dureeinput';
 import { DeleteJalonAlert } from '../common/alert';
 import { CheckCircleIcon, CloseIcon} from '@chakra-ui/icons'
@@ -100,9 +101,11 @@ export function ProjetBox(props) {
 
                     
                     <GridItem  gridArea='no'>
-                            <Tag size='lg' variant='solid' bg='blue.400' onClick={handleSelectProjet} value={projet.id}>
+                        <Link to={`/detailprojet/${projet.id}`}>
+                            <Tag size='lg' variant='solid' bg='blue.400' value={projet.id}>
                                 {projet.no_projet}
                             </Tag>
+                        </Link>
                     </GridItem>
 
                     <GridItem gridArea='chart'>

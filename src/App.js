@@ -24,20 +24,7 @@ const setData = (element) => {
   //elementFetchData.response&&console.log(elementFetchData.response)
 }
 
-const ElementTest = () => {
-  
-  return <h1 >Ok</h1>
-  
-}
 
-
-
-/*const Login = () => {
-  let auth = useContext(AuthContext)
-  auth.signin('Ian')
-  return <Navigate to="/acceuil" replace />
-  
-}*/
 
 
 export const loginContext = createContext()
@@ -52,10 +39,7 @@ function App() {
   const [view, setView ] = useState('accueil');
   const [selected, setSelected] = useState([false,{}, {}])//le choix du menu.  true if projet select in pti
   
-  //const navigate = useNavigate();
-
-  //const isLogin = useLoaderData();
-  
+ 
   const getData = () => {    
     getRessources('/api/v1/user').then(
       users => setUser(users));
@@ -97,29 +81,17 @@ function App() {
     
   }
  
-  let menuChoice = {
-    suiviProjet: <SuiviProjet user={user}/>,
-    evenement: <Events projet={projet} contrat={contrat} user={user}/>,
-    accueil : <Acceuil />,
-    admin : <Admin />,
-    detailProjet : <DetailProjet projet={projet} isSelected={false} selected=''/>,
-    detailProjetSelected : <DetailProjet projet={projet} isSelected={true} selected={''}/>,
-    pti : <Pti projet={projet} user={user} afficheProjet={afficheDetailprojet}/>,
-    //priorisation : <TableauPriorisation user={user} afficheProjet={afficheDetailprojet}/>,
-    listJalons : <ListJalons projets={projet} contrats={contrat} users={user}/>,
-    strategique : <ProjetStrategic user={user} afficheProjet={afficheDetailprojet}/>
-  }
+
 
   const menuClick = (container) => {
     setSelected([false,{}])
     setView(container)    
   };
 
-  const showAccueil = () => {
-    setView('accueil')
-  }
 
-
+  useEffect(() => {
+    getData()
+  },[])
 
 
 
@@ -135,12 +107,15 @@ function App() {
                 
                 <Route  path='/' element={<NavBar onMenuSelect={menuClick}/>} >
                   <Route path='/' element={<Login/>} />
-                  <Route path='/login' element={<Login/>} />
                   <Route path='acceuil' element={<RequireAuth><Acceuil /></RequireAuth>} />
                   <Route path='listjalons' element={<RequireAuth><ListJalons /></RequireAuth>} />
                   <Route path='suiviprojet' element={<RequireAuth><SuiviProjet /></RequireAuth>} />
                   <Route path='evenement' element={<RequireAuth><Events /></RequireAuth>} />
                   <Route path='detailprojet' element={<RequireAuth><DetailProjet isSelected={false} selected='' /></RequireAuth>} />
+                  <Route
+                      path="/detailprojet/:projetID"            
+                      element={<RequireAuth><DetailProjet isSelected={false} selected='' /></RequireAuth>}
+                    />
                   <Route path='pti' element={<RequireAuth><Pti afficheProjet={afficheDetailprojet}/></RequireAuth>} />
                   <Route path='strategique' element={<RequireAuth><ProjetStrategic afficheProjet={afficheDetailprojet}/></RequireAuth>} />
                   <Route path='admin' element={<RequireAuth><Admin /></RequireAuth>} />
@@ -163,6 +138,3 @@ function App() {
 
 export default App;
 
-//<Outlet/>
-//<Outlet />
-//{selected[0]?<DetailProjet projet={projet} isSelected={true} user={selected[2]} selected={selected[1]}/>:menuChoice[view]} 

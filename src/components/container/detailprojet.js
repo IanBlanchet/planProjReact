@@ -13,18 +13,22 @@ import { getRessources } from '../util';
 import { modJalon } from '../util';
 import { AddPointage } from "../component/modal";
 import { GaugeChartSimple } from "../component/detailProjet/gaugechart";
-
+import { useParams } from 'react-router-dom';
+import { useContext } from 'react';
+import { BaseDataContext } from '../../auth';
 
 
 const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonné', 'En réception']
 
 export function DetailProjet(props) {
+    const { projetID } = useParams();    
+    const data = useContext(BaseDataContext);    
     const [projet, setProjet] = useState([])
-    const [currentProject, setCurrentProject] = useState(props.isSelected?props.selected:{});
+    const [currentProject, setCurrentProject] = useState(projetID?data.projet.find(item => item.id == parseInt(projetID)):{});
     const [depense, setDepense] = useState({});
     const [pti, setPti] = useState({});
     const [users, setUsers] = useState([])
-    const [user, setUser] = useState(props.isSelected?props.user:{'id':'', 'username':'', 'service':'','statut':'', 'email':''})
+    const [user, setUser] = useState({'id':'', 'username':'', 'service':'','statut':'', 'email':''})
     
     
     const year = new Date().getFullYear();
@@ -95,7 +99,13 @@ export function DetailProjet(props) {
                 
             );
    
-            
+        if (projetID&&data.projet.find(item => item.id == parseInt(projetID))) {
+            const leprojet = data.projet.find(item => item.id == parseInt(projetID));
+            const user = users.find(item => item.id == leprojet.charge)
+            if (user) {
+                setUser(user)
+            }
+        }
         
     }, [currentProject, props])
 
