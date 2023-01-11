@@ -1,33 +1,17 @@
 import { Flex, Spacer, Box, Button, ButtonGroup} from '@chakra-ui/react'
 import { Connexion } from '../component/modal'
-import { TriangleDownIcon } from '@chakra-ui/icons'
-import { GrTextAlignLeft, GrSchedules, GrUserAdmin, GrMoney, GrTable, GrSort, GrFlag, GrVulnerability } from 'react-icons/gr'
-import { useToast } from '@chakra-ui/react';
+import { GrSchedules, GrUserAdmin, GrMoney, GrTable, GrFlag, GrVulnerability } from 'react-icons/gr'
 import logo from '../../static/logo.png';
-import { Outlet } from 'react-router-dom';
-import { AuthStatus } from '../../auth';
-import { useNavigate, Link } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
+
 
 /** 
 * Create a navigation bar with login button.
-* @param {props} props - props containing function to get data from database on login.
+* @param {} 
 * @return {React Component} A React component.
 */
-export function NavBar(props) {
-    const toast = useToast({
-        status: 'error',
-        position: 'top',
-        duration: 1000,
-        isClosable: true
-      })
-    const navigate = useNavigate()
-
-    const handleClick = (e) => {  
-        console.log('hey')          
-        sessionStorage.getItem('user')?navigate(e.value): toast({description:'Vous devez vous logger.'});
-    }
-
-    
+export function NavBar() {
+   
 
 
     return (
@@ -44,18 +28,14 @@ export function NavBar(props) {
                 <Link to='/strategique'><Button leftIcon={<GrVulnerability/>} variant='solid' borderWidth={1} borderColor="white">Dossiers stratégiques</Button></Link>
                 {   
                     sessionStorage.user&&
-                    JSON.parse(sessionStorage.user).username=== 'Ian'&&
+                    (JSON.parse(sessionStorage.user)).username=== 'Ian'&&
                     <Link to='/admin'><Button leftIcon={<GrUserAdmin />}  variant='solid' borderWidth={1} borderColor="white">Admin</Button></Link>
                 }             
-                           
-                
-                
-                
+                  
             </ButtonGroup>
-            <Spacer/>        
-            <Connexion onLogin={props.onLogin} onLogout={props.onLogout}/>
-            
+            <Spacer/>
 
+            <Connexion />
         </Flex>
                 
         <Outlet/>
@@ -63,7 +43,3 @@ export function NavBar(props) {
         </>
     )
 }
-
-//<Button leftIcon={<GrSort/>} onClick={handleClick} value='priorisation' variant='solid' borderWidth={1} borderColor="white">Priorisation</Button>
-//
-//{sessionStorage.username=== 'Ian'&& <Button leftIcon={<GrUserAdmin />} onClick={handleClick} value='admin' variant='solid' borderWidth={1} borderColor="white">Admin</Button>}

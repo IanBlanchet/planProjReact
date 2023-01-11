@@ -12,14 +12,14 @@ import {
   } from '@chakra-ui/react';
 import { Button, Input, FormControl, IconButton, Link, Text, Box, Heading, Table, Tbody, VStack } from '@chakra-ui/react';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { modJalon } from '../util';
 import { GrPowerShutdown, GrMore, GrMemory } from 'react-icons/gr';
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useFormik, Formik, Form,  } from 'formik';
 import { MyTextInput, MySelect, MyCheckbox, MyRatingInput } from './common/forms';
 import { useNavigate } from 'react-router-dom';
-import { cleanSessionStorage } from '../../auth';
+import { cleanSessionStorage, AuthContext } from '../../auth';
 
 
 
@@ -27,14 +27,14 @@ export function Connexion() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     let currentUser = sessionStorage.user?JSON.parse(sessionStorage.getItem('user')):null
  
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    
+    let auth = useContext(AuthContext);
         
     const handleLogout = () => {
-      cleanSessionStorage()
-      currentUser = ""
+      currentUser = "";
       onClose();
-      navigate('/login')
-           
+      auth.signout(navigate('/')); 
     }
 
 

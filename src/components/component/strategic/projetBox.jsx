@@ -70,9 +70,7 @@ export function ProjetBox(props) {
         dispatch({type: 'editNature', id:projet.id, param:'echeance', value:target.value});                      
       }
     
-    const handleSelectProjet = ({target}) => {
-        props.afficheProjet(parseInt(target.getAttribute('value')))
-    }
+
 
     useEffect(() => {
 

@@ -16,7 +16,7 @@ const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 
 const serviceArray = ['Ingénierie', 'Travaux publics', 'Environnement', 'SRC', 'Urbanisme', 'Développement Économique', 'Greffe', 'Finance', 'Communications', 'Incendies', 'RH']
 
-export function TableStrategic({user, afficheProjet}) {
+export function TableStrategic({user}) {
     const [rawProjet, setRawProjet] = useState([]);
     const [projet, setProjet] = useState([]);    
     const [filters, setFilters] = useState({}); 
@@ -110,7 +110,7 @@ export function TableStrategic({user, afficheProjet}) {
            <GridItem gridArea='projets' height='850px' overflowY='scroll'>
                 <Flex gap='1' direction='row' wrap='wrap' justifyContent='right' >
                     {projetFiltre.map(projet =>                      
-                        <ProjetBox projet={projet} user={projet.charge?user.find(item => item.id === projet.charge):[]} afficheProjet={afficheProjet} key={projet.id}/>                   
+                        <ProjetBox projet={projet} user={projet.charge?user.find(item => item.id === projet.charge):[]} key={projet.id}/>                   
                     )}
                     
                 </Flex>

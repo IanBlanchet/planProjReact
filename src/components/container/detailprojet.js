@@ -70,10 +70,7 @@ export function DetailProjet(props) {
         modJalon(`/api/v1/projet/${currentProject.id}`, {}, {'statut':target.value}, 'PUT').then(            
             returnValue => setCurrentProject(returnValue)       
         );
-        
-          
-        
-
+    
     }
 
     useEffect(() => {
@@ -107,7 +104,7 @@ export function DetailProjet(props) {
             }
         }
         
-    }, [currentProject, props])
+    }, [currentProject, props, projetID])
 
 
     

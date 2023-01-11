@@ -63,8 +63,6 @@ export function Login()  {
     return (
         <>
        
-        
-           
               <FormControl>
                 <Input id='leBonInput1' placeholder='Nom usager' name='name' value={userInfo.username} onChange={handleUserChange} autoComplete='username'/>
               </FormControl>              
@@ -98,4 +96,3 @@ export function Login()  {
 
 
 }
-//{isLogin&&<User userInfo={user}/>}

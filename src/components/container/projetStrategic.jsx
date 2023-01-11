@@ -9,7 +9,7 @@ import { BaseDataContext } from '../../auth';
 
 
 
-export const ProjetStrategic = ({afficheProjet}) => {
+export const ProjetStrategic = () => {
     
     const {user} = useContext(BaseDataContext)
 
@@ -19,6 +19,6 @@ export const ProjetStrategic = ({afficheProjet}) => {
     }, [])
     
     return (
-    <TableStrategic user={user} afficheProjet={afficheProjet}/>
+    <TableStrategic user={user} />
     )
 }

@@ -60,34 +60,6 @@ function App() {
   };
 
 
-  const afficheDetailprojet = (projet_id) => {
-    let selectedProjet = {}
-    getRessources('/api/v1/projet').then(   
-      projets => {
-        selectedProjet = projets.find(item => item.id == projet_id);
-        let newSelected = [...selected]
-        newSelected[1] = selectedProjet
-        newSelected[0] = true
-        const leuser = user.find(item => item.id == selectedProjet.charge)
-
-        if (leuser) {
-            newSelected[2] = leuser
-        } else {
-          newSelected[2] = {'id':'', 'username':'', 'service':'','statut':'', 'email':''}
-        }
-        setSelected(newSelected)
-       })   
-    
-    
-  }
- 
-
-
-  const menuClick = (container) => {
-    setSelected([false,{}])
-    setView(container)    
-  };
-
 
   useEffect(() => {
     getData()
@@ -105,19 +77,20 @@ function App() {
             <AuthProvider>
               <Routes >
                 
-                <Route  path='/' element={<NavBar onMenuSelect={menuClick}/>} >
-                  <Route path='/' element={<Login/>} />
+                <Route  path='/' element={<NavBar />} >
+                  <Route index element={<Login/>} />
                   <Route path='acceuil' element={<RequireAuth><Acceuil /></RequireAuth>} />
                   <Route path='listjalons' element={<RequireAuth><ListJalons /></RequireAuth>} />
                   <Route path='suiviprojet' element={<RequireAuth><SuiviProjet /></RequireAuth>} />
                   <Route path='evenement' element={<RequireAuth><Events /></RequireAuth>} />
-                  <Route path='detailprojet' element={<RequireAuth><DetailProjet isSelected={false} selected='' /></RequireAuth>} />
+                  <Route path='detailprojet' element={<RequireAuth><DetailProjet  /></RequireAuth>} >
                   <Route
-                      path="/detailprojet/:projetID"            
-                      element={<RequireAuth><DetailProjet isSelected={false} selected='' /></RequireAuth>}
+                      path=":projetID"            
+                      element={<RequireAuth><DetailProjet /></RequireAuth>}
                     />
-                  <Route path='pti' element={<RequireAuth><Pti afficheProjet={afficheDetailprojet}/></RequireAuth>} />
-                  <Route path='strategique' element={<RequireAuth><ProjetStrategic afficheProjet={afficheDetailprojet}/></RequireAuth>} />
+                  </Route>
+                  <Route path='pti' element={<RequireAuth><Pti /></RequireAuth>} />
+                  <Route path='strategique' element={<RequireAuth><ProjetStrategic /></RequireAuth>} />
                   <Route path='admin' element={<RequireAuth><Admin /></RequireAuth>} />
                 </Route>   
                 

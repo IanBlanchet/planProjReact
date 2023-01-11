@@ -11,7 +11,7 @@ import { BaseDataContext } from '../../auth';
 
 const CurrentYear = new Date().getFullYear();
 
-export function Pti(props) {
+export function Pti() {
     // declaration de donne de base correspondant au pti pour eviter des call à l'api au changement d'années qui ralentissent.
     const [donneeBase, setDonneeBase] = useState([])
     const [donneeBaseEnPrep, setDonneeBaseEnPrep] = useState([])
@@ -122,7 +122,6 @@ export function Pti(props) {
                              :
                 <TableAllPti year={year} projet={projet} 
                             ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
-                            afficheProjet={props.afficheProjet} 
                             filter={filtrePti} 
                             trie={triPti}                            
                             reglement={reglement}
