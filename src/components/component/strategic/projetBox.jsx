@@ -13,6 +13,7 @@ import { Events } from '../../container/events';
 import { GrWindows } from 'react-icons/gr';
 
 
+
 const param = {
     size:25,
     margin:2,
@@ -99,7 +100,7 @@ export function ProjetBox(props) {
 
                     
                     <GridItem  gridArea='no'>
-                        <Link to={`/detailprojet/${projet.id}`}>
+                        <Link to={`/detailprojet/${projet.id}`} >
                             <Tag size='lg' variant='solid' bg='blue.400' value={projet.id}>
                                 {projet.no_projet}
                             </Tag>
