@@ -22,6 +22,7 @@ export function cleanSessionStorage() {
 export function AuthProvider({ children }) {
   let [user, setUser] = useState(sessionStorage.getItem('user')&&JSON.parse(sessionStorage.getItem('user')));
  
+
   let signin = (newUser) => {
     setUser(newUser)    
     
@@ -34,7 +35,7 @@ export function AuthProvider({ children }) {
     
   };
 
-  let value = { user, signin, signout };
+  let value = { user, signin, signout};
   
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

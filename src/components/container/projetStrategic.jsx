@@ -11,12 +11,13 @@ import { BaseDataContext } from '../../auth';
 
 export const ProjetStrategic = () => {
     
-    const {user} = useContext(BaseDataContext)
+    const {user, refreshData} = useContext(BaseDataContext)
 
 
     useEffect(() => {
-                                                 
-    }, [])
+
+                                              
+    }, [user])
     
     return (
     <TableStrategic user={user} />

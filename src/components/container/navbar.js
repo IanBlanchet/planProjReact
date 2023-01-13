@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { Flex, Spacer, Box, Button, ButtonGroup} from '@chakra-ui/react'
 import { Connexion } from '../component/modal'
 import { GrSchedules, GrUserAdmin, GrMoney, GrTable, GrFlag, GrVulnerability } from 'react-icons/gr'
@@ -12,6 +13,7 @@ import { Outlet, Link } from 'react-router-dom';
 */
 export function NavBar() {
    
+    
 
 
     return (
@@ -23,7 +25,7 @@ export function NavBar() {
                 <Link to='/listjalons'><Button leftIcon={<GrFlag/>} variant='solid' borderWidth={1} borderColor="white">Liste jalons</Button> </Link>
                 <Link to='/suiviprojet'><Button leftIcon={<GrFlag />}  variant='solid' borderWidth={1} borderColor="white">Suivi projets</Button></Link>
                 <Link to='/evenement'><Button leftIcon={<GrSchedules />}  variant='solid' borderWidth={1} borderColor="white">Évènement</Button></Link>  
-                <Link to='/detailprojet'><Button leftIcon={<GrTable/>}  variant='solid' borderWidth={1} borderColor="white">Détail projet</Button></Link>
+                <Link to='/detailprojet' ><Button leftIcon={<GrTable/>}  variant='solid' borderWidth={1} borderColor="white">Détail projet</Button></Link>
                 <Link to='/pti'><Button leftIcon={<GrMoney/>} variant='solid' borderWidth={1} borderColor="white">Pti</Button></Link>
                 <Link to='/strategique'><Button leftIcon={<GrVulnerability/>} variant='solid' borderWidth={1} borderColor="white">Dossiers stratégiques</Button></Link>
                 {   
