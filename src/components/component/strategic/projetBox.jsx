@@ -88,24 +88,30 @@ export function ProjetBox(props) {
             margin='0.75' 
             bg='blue.200'
             width='container.xl'
+            boxShadow='md'
+            
+            
             >            
                 
                 <Grid   templateRows='1fr 1fr'
                         templateColumns='1fr 1fr 1fr 1fr'
                         templateAreas=' "no chart nom pointage" 
                                         "description services echeance notes" '
-                        gap='0.5'>
+                        gap='0.5'
+                        
+                     
+                        >
 
                     
-                    <GridItem  gridArea='no'>
+                    <GridItem  gridArea='no'  >
                         <Link to={`/detailprojet/${projet.id}`} >
-                            <Tag size='lg' variant='solid' bg='blue.400' value={projet.id}>
+                            <Tag size='lg' variant='solid' bg='blue.400' value={projet.id} boxShadow="md">
                                 {projet.no_projet}
                             </Tag>
                         </Link>
                     </GridItem>
 
-                    <GridItem gridArea='chart'>
+                    <GridItem gridArea='chart'  justifySelf='center' boxShadow='md'>
                         <GaugeChart
                             style={{ width:'200px'}}       
                             id={projet.id}
@@ -116,6 +122,7 @@ export function ProjetBox(props) {
                             percent={(projet.nature.avancement)/100}
                             textColor='blue.500'
                             colors={['#2185d0', '#21ba45']}
+                            
                             
                         />
                     </GridItem>
