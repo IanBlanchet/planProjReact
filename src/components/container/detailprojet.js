@@ -72,6 +72,11 @@ export function DetailProjet() {
 
     useEffect(() => {
 
+
+        //data.refreshData()
+        getRessources('/api/v1/projet/').then(
+            lesprojets => {setProjet(lesprojets) ; setCurrentProject(projetID?data.lesprojets.find(item => item.id == parseInt(projetID)):{})});
+
         getRessources('/api/v1/depense/'+currentProject.id).then(
             lesdepense => setDepense(lesdepense));
         getRessources('/api/v1/pti/'+currentProject.id).then(
@@ -84,9 +89,10 @@ export function DetailProjet() {
                 setUser(user)
             }
         }
+        
         return () => {data.refreshData()}
         
-    }, [currentProject, projetID])
+    }, [projetID])
 
 
     

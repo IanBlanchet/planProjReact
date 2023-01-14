@@ -54,7 +54,6 @@ export function Login()  {
       }
 
       useEffect(() => {
-
         
       }, [])
 
@@ -62,6 +61,7 @@ export function Login()  {
 
     return (
         <>
+        
        
               <FormControl>
                 <Input id='leBonInput1' placeholder='Nom usager' name='name' value={userInfo.username} onChange={handleUserChange} autoComplete='username'/>
@@ -78,16 +78,11 @@ export function Login()  {
                 Pour réinitialiser ton mot de passe <ExternalLinkIcon mx='2px' />
               </Link>              
               </VStack>
-                
-            
-
+              
               <Button colorScheme='blue' mr={3} onClick={handleLogin}>
                 Login
               </Button>         
-            
-        
-        
-        
+          
         </>
         
 

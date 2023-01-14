@@ -10,6 +10,7 @@ import { useFilter } from '../../../hooks/useFilter';
 import { BarChart } from './charts';
 
 
+
 const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':true, 'echeance':'', 'notes':'' }
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
@@ -22,6 +23,7 @@ export function TableStrategic({user}) {
     const [filters, setFilters] = useState({}); 
     const [searchInput, setSearchInput]= useState('')  
     let projetFiltre = useFilter(filters, projet)
+    
    
     const calcTotalProjetServices = () => {
         const entete = ["Services", "Nombre de projets", { role: 'annotation' }]
@@ -61,6 +63,7 @@ export function TableStrategic({user}) {
 
 
     useEffect(() => {
+        
         getRessources('/api/v1/projet').then( projets => {                     
             let filterProjet = projets.filter(item => item.nature&&item.nature.isStrategic);                        
             filterProjet = filterProjet.filter(item => item.nature&&(new Date(item.nature.echeance).getFullYear()) === 2023)
@@ -77,9 +80,12 @@ export function TableStrategic({user}) {
             setProjet(filterProjet);            
           
             }
+            
         );
-       
-    }, [])
+        
+    }
+    
+    , [])
 
 
     return (

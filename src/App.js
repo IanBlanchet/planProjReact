@@ -12,11 +12,12 @@ import { TableauPriorisation } from './components/container/priorisation';
 import { ListJalons } from './components/container/listjalons';
 import { Login } from './components/container/login';
 import { ProjetStrategic } from './components/container/projetStrategic';
-import { Outlet,  useLoaderData } from "react-router-dom";
+import { Outlet,  useLoaderData, useParams } from "react-router-dom";
 
 
 import {Routes, Route} from "react-router-dom"
 import { AuthProvider, RequireAuth, AuthContext } from './auth';
+
 
 
 

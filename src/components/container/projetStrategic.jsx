@@ -15,9 +15,9 @@ export const ProjetStrategic = () => {
 
 
     useEffect(() => {
-
-                                              
-    }, [user])
+        console.log('refresh')
+        return () => {refreshData()}                                   
+    }, [])
     
     return (
     <TableStrategic user={user} />

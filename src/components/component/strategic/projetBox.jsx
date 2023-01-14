@@ -1,7 +1,7 @@
 import { useEffect, useState, useReducer} from 'react';
 import { modJalon } from '../../util';
 import { AddPointage } from '../modal';
-import { Box, Flex, Badge, HStack, Grid, GridItem, Input, Tag, FormLabel, Tooltip, Textarea } from '@chakra-ui/react';
+import { Box, Flex, Badge, HStack, Grid, GridItem, Input, Tag, FormLabel, Tooltip, Textarea, Text } from '@chakra-ui/react';
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
 import GaugeChart from 'react-gauge-chart'
 import { Link } from 'react-router-dom';
@@ -11,6 +11,8 @@ import { CheckCircleIcon, CloseIcon} from '@chakra-ui/icons'
 import { MdRestorePage } from "react-icons/md";
 import { Events } from '../../container/events';
 import { GrWindows } from 'react-icons/gr';
+
+
 
 
 
@@ -59,10 +61,6 @@ export function ProjetBox(props) {
     
     const [projet, dispatch] = useReducer(reducer, props.projet);    
         
-/*const changeDate = ({target}) => {
-        dispatch({ type: "edit", id: jalon.id, param:'date', value:target.value })
-    }*/
-
     const updateNotes = ({target}) => {
         dispatch({type: 'editNature', id:projet.id, param:'notes', value:target.value});                      
       }
@@ -138,7 +136,7 @@ export function ProjetBox(props) {
                     
                     <GridItem margin={param.margin} width='100px' gridArea='echeance'>
                         <FormLabel htmlFor='echeance'>Échéance</FormLabel>
-                        <Input bg='whiteAlpha.600' type='date' name='echeance' size='xs' value={projet.nature?projet.nature.echeance:''} onChange={updateEcheance} onKeyDown={(e) => e.preventDefault()}></Input>
+                        <Text >{projet.nature?projet.nature.echeance:''}</Text>
                     </GridItem>
                    
                     <GridItem gridArea='pointage' justifySelf='right'>{<AddPointage rating={projet.rating} projet={projet} />}</GridItem>
@@ -151,3 +149,5 @@ export function ProjetBox(props) {
        
     )
 }
+
+//replace text for echeance with : <Input bg='whiteAlpha.600' type='date' name='echeance' size='xs' value={projet.nature?projet.nature.echeance:''} onChange={updateEcheance} onKeyDown={(e) => e.preventDefault()}></Input>

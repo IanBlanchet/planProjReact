@@ -63,9 +63,11 @@ function BaseDataProvider({children}) {
                                             return 0
                                         }
                                         )));
-  }
+      }
+
   useEffect(() => {
     refreshData()
+    
   }, [])
 
   return <BaseDataContext.Provider value={{user, projet, contrat, refreshData}}>{children}</BaseDataContext.Provider>;
