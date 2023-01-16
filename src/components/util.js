@@ -41,7 +41,7 @@
       };
     
     url += '?' + ( new URLSearchParams( params ) ).toString();
-    
+    options.body = JSON.stringify( objects );
     
     const response = await fetch(domain+url, options)
        
@@ -52,11 +52,11 @@
         
         responsedata = await response.json()
         if (response.status == 400)  {
-          sessionStorage.isLogin = false;
+          
+          return responsedata
           
         }
-        sessionStorage.isLogin = false
-        
+                
     };
     
     return responsedata;
@@ -92,3 +92,6 @@
     
     return responsedata;
   }
+
+  
+  

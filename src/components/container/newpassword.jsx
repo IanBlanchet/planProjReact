@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { postLogin } from '../util';
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import { getRessources } from '../util';
+import { useNavigate, Navigate, Link, useParams, useSearchParams } from "react-router-dom";
 import { AuthContext } from '../../auth';
 import {
   Flex,
@@ -25,35 +25,39 @@ import { FaUserAlt, FaLock } from "react-icons/fa";
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
-export function Login()  {
+export function NewPassword()  {
 
-    if (sessionStorage.user) {
-        return <Navigate to="/acceuil" replace />
-    }
-    const [userInfo, setUserInfo] = useState({'username':'', 'password':''});
+    const [newPass, setNewPass] = useState();
+    const [secondNewPass, setSecondNewPass] = useState();
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
-    let auth = useContext(AuthContext);
+
+    
+    let [searchParams] = useSearchParams();
+    
+    
     const toast = useToast({                
         position: '',
         duration: 1000,
         isClosable: true
       });
 
-    const handleLogin = () => { 
-        postLogin('/api/v1/autorize', {}, userInfo).then(
+    const handleChangePass = () => { 
+        
+        if (newPass !== secondNewPass) {
+            {toast({status:'error', description:'Les deux mots passe ne correspondent pas'})};
+            return
+        }
+        getRessources('/api/v1/resetPassword', {}, {'newPass':newPass, 'email':searchParams.get('email'), 'token':searchParams.get('token')}, 'POST').then(
             (returnData) => {
                     if (returnData.user) {                              
-                            toast({status:'success', description:'bienvenue '+returnData.user.username});
-                            sessionStorage.token = returnData.token;
-                            sessionStorage.user = JSON.stringify(returnData.user) 
-                            auth.signin(returnData.user);
-                            navigate('/acceuil')                                                                    
+                            toast({status:'success', description:'Mot de passe remplacé avec succès'});                            
+                            navigate('/')                                                                    
                                                                                                
                     } else {
-                            toast({status:'error', description:returnData.message});
-                            navigate('/') 
+                            toast({status:'error', description:'une erreur s\'est produite'});
+                            
                     }
                     
             }
@@ -63,12 +67,13 @@ export function Login()  {
 
     const handleShowClick = () => setShowPassword(!showPassword);
       
-    const handleUserChange = (e) => {
-        setUserInfo({...userInfo ,'username':e.target.value})
+    const handleNewPassChange = (e) => {
+        setNewPass(e.target.value)
         
       }
-      const handlePassChange = (e) => {
-        setUserInfo({...userInfo ,'password':e.target.value})
+
+      const handleSecondNewPassChange = (e) => {
+        setSecondNewPass(e.target.value)
         
       }
 
@@ -95,8 +100,8 @@ export function Login()  {
                 justifyContent="center"
                 alignItems="center"
               >
-                <Avatar bg="blue.500" />
-                <Heading color="blue.400">Bienvenue</Heading>
+                
+                <Heading color="blue.400">Entrer un nouveau mot de passe</Heading>
                 <Box minW={{ base: "90%", md: "468px" }}>
                   <form>
                     <Stack
@@ -109,9 +114,14 @@ export function Login()  {
                         <InputGroup>
                           <InputLeftElement
                             pointerEvents="none"
-                            children={<CFaUserAlt color="gray.300" />}
+                            children={<CFaLock color="gray.300" />}
                           />
-                          <Input id='leBonInput1' placeholder='Nom usager' name='name' value={userInfo.username} onChange={handleUserChange} autoComplete='username'/>
+                          <Input id='leBonInput1' placeholder='Nouveau mot de passe' name='newPassword' value={newPass} onChange={handleNewPassChange} autoComplete='newpassword' type={showPassword ? "text" : "password"}/>
+                          <InputRightElement width="4.5rem">
+                            <Button h="1.75rem" size="sm" onClick={handleShowClick}>
+                              {showPassword ? "Masquer" : "Afficher"}
+                            </Button>
+                          </InputRightElement>
                         </InputGroup>
                       </FormControl>
                       <FormControl>
@@ -121,30 +131,18 @@ export function Login()  {
                             color="gray.300"
                             children={<CFaLock color="gray.300" />}
                           />                       
-                          <Input id='leBonInput2' placeholder='Mot de passe' name='pass' value={userInfo.password} onChange={handlePassChange} type={showPassword ? "text" : "password"} />
-                          <InputRightElement width="4.5rem">
-                            <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                              {showPassword ? "Masquer" : "Afficher"}
-                            </Button>
-                          </InputRightElement>
-                        </InputGroup>
-                        <FormHelperText textAlign="right">
-                        <Link to='resetpasswordrequest'>Mot de passe oublié?</Link>
-                        </FormHelperText>
+                          <Input id='leBonInput2' placeholder='Entrer à nouveau' name='secondNewPass' value={secondNewPass} onChange={handleSecondNewPassChange} type={showPassword ? "text" : "password"} />
+                        
+                        </InputGroup>                    
                       </FormControl>
-                      <Button colorScheme='blue' mr={3} onClick={handleLogin}>
-                        Login
+                      <Button colorScheme='blue' mr={3} onClick={handleChangePass}>
+                        Réinitialiser
                       </Button>
                     </Stack>
                   </form>
                 </Box>
               </Stack>
-              <Box>
-              Pas encore inscrit?{" "}
-                <Link color="blue.500" href='https://planproj.herokuapp.com/register' isExternal >
-                  Enregistrement
-                </Link>
-              </Box>
+          
             </Flex>
        
           
@@ -156,5 +154,3 @@ export function Login()  {
 
 
 }
-
-

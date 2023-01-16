@@ -11,6 +11,8 @@ import { Pti } from './components/container/pti';
 import { TableauPriorisation } from './components/container/priorisation';
 import { ListJalons } from './components/container/listjalons';
 import { Login } from './components/container/login';
+import { ResetPasswordRequest } from './components/container/resetpassword';
+import { NewPassword } from './components/container/newpassword';
 import { ProjetStrategic } from './components/container/projetStrategic';
 import { Outlet,  useLoaderData, useParams } from "react-router-dom";
 
@@ -47,8 +49,9 @@ function App() {
                   <Route path='pti' element={<RequireAuth><Pti /></RequireAuth>} />
                   <Route path='strategique' element={<RequireAuth><ProjetStrategic /></RequireAuth>} />
                   <Route path='admin' element={<RequireAuth><Admin /></RequireAuth>} />
-                </Route>   
-                
+                </Route>
+                <Route path='resetpasswordrequest' element={<ResetPasswordRequest />}/> 
+                <Route path='newpassword' element={<NewPassword/>}/>
 
               </Routes>
               </AuthProvider>
