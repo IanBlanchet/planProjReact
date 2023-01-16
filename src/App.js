@@ -13,6 +13,7 @@ import { ListJalons } from './components/container/listjalons';
 import { Login } from './components/container/login';
 import { ResetPasswordRequest } from './components/container/resetpassword';
 import { NewPassword } from './components/container/newpassword';
+import { RegisterUser } from './components/container/registerUser';
 import { ProjetStrategic } from './components/container/projetStrategic';
 import { Outlet,  useLoaderData, useParams } from "react-router-dom";
 
@@ -52,6 +53,7 @@ function App() {
                 </Route>
                 <Route path='resetpasswordrequest' element={<ResetPasswordRequest />}/> 
                 <Route path='newpassword' element={<NewPassword/>}/>
+                <Route path='registeruser' element={<RegisterUser/>}/>
 
               </Routes>
               </AuthProvider>

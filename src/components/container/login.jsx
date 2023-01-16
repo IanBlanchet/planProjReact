@@ -13,7 +13,8 @@ import {
   VStack,
   InputLeftElement,
   chakra,
-  Box,  
+  Box,
+  Text,  
   Avatar,
   FormControl,
   FormHelperText,
@@ -141,8 +142,8 @@ export function Login()  {
               </Stack>
               <Box>
               Pas encore inscrit?{" "}
-                <Link color="blue.500" href='https://planproj.herokuapp.com/register' isExternal >
-                  Enregistrement
+                <Link to='registeruser' >
+                 <Text color='blue.400'>Enregistrement</Text>
                 </Link>
               </Box>
             </Flex>
