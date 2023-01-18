@@ -34,7 +34,7 @@ export function Connexion() {
     const handleLogout = () => {
       currentUser = "";
       onClose();
-      auth.signout(navigate('/')); 
+      auth.signout(() => navigate('/')); 
     }
 
 

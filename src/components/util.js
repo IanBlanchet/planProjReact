@@ -41,7 +41,7 @@
       };
     
     url += '?' + ( new URLSearchParams( params ) ).toString();
-    options.body = JSON.stringify( objects );
+    
     
     const response = await fetch(domain+url, options)
        
@@ -84,10 +84,14 @@
          
             
     } else {
-        console.log('erreur')
-        responsedata = [{'error':'error'}];
-        sessionStorage.isLogin = false
-        alert('session expirée, veuillez vous logger à nouveau')
+      responsedata = await response.json()
+      if (response.status == 400)  {
+        //alert('session expirée, veuillez vous logger à nouveau');
+        return responsedata
+        
+      }
+          
+        
     };
     
     return responsedata;

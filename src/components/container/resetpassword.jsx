@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate, Navigate } from "react-router-dom";
-import { getRessources } from '../util';
+import { modJalon } from '../util';
 import {
   Flex,
   Heading,
@@ -26,8 +26,7 @@ const CFaUserAlt = chakra(FaUserAlt);
 export function ResetPasswordRequest()  {
 
     const [email, setEmail] = useState('')
-    const [showPassword, setShowPassword] = useState(false);
-
+    
     const navigate = useNavigate();
 
     
@@ -38,7 +37,7 @@ export function ResetPasswordRequest()  {
       });
 
     const handleReset = () => { 
-        getRessources('/api/v1/resetPasswordRequest', {}, {'email':email, 'url':domain}, 'POST').then(
+        modJalon('/api/v1/resetPasswordRequest', {}, {'email':email, 'url':domain}, 'POST').then(
           (response) => {
             
             if (response.user) {

@@ -1,8 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { getRessources } from '../util';
+import { modJalon} from '../util';
 import { useNavigate, Navigate, Link, useParams, useSearchParams } from "react-router-dom";
-import { AuthContext } from '../../auth';
 import {
   Flex,
   Heading,
@@ -20,14 +18,12 @@ import {
   InputRightElement,
   useToast
 } from "@chakra-ui/react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
 import { MyTextInput, MySelect } from '../component/common/forms';
 import { useFormik, Formik, Form  } from 'formik';
 import * as Yup from 'yup';
 
 
-const CFaUserAlt = chakra(FaUserAlt);
-const CFaLock = chakra(FaLock);
+
 
 const services = ['ING', 'SRC', 'URBA', 'TP', 'ENV', 'RH', 'DEV', 'GREFFE', 'INC', 'GEN', 'FIN', 'COM']
 
@@ -35,11 +31,12 @@ export function AddUserForm({}) {
 
   const toast = useToast({                
     position: '',
-    duration: 1000,
+    duration: 2000,
     isClosable: true
   });
 
 
+  let navigate = useNavigate()
 
 
     return (
@@ -75,10 +72,11 @@ export function AddUserForm({}) {
 
     onSubmit={(values, actions) => {
         let minValues = {'username':values.username,'email':values.email, 'service':values.service}
-        getRessources('/api/v1/user', {}, {'values':minValues, 'pass':values.password}, 'POST').then(
+        modJalon('/api/v1/user', {}, {'values':minValues, 'pass':values.password}, 'POST').then(
             (response) => {
                 if (response.user) {
-                  toast({status:'success', description:'Usager ajouté - approbation en cours'}); 
+                  toast({status:'success', description:'Usager ajouté - approbation en cours'});
+                  navigate('/') 
                 } else {
                   toast({status:'error', description:response.message});
                 }
@@ -108,8 +106,8 @@ export function AddUserForm({}) {
 
 
       <MySelect label="Service" name="service">
-        <option value=''></option>
-        {services.map(item => <option value={item}>{item}</option>)}       
+        <option value='' key=''></option>
+        {services.map(item => <option value={item} key={item}>{item}</option>)}       
        
         
       </MySelect>

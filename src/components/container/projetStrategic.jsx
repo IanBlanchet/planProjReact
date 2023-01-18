@@ -15,7 +15,7 @@ export const ProjetStrategic = () => {
 
 
     useEffect(() => {
-        console.log('refresh')
+        
         return () => {refreshData()}                                   
     }, [])
     
