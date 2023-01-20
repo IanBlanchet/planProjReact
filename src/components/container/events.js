@@ -1,18 +1,19 @@
-import { Box, filter } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { SelectEvent } from '../component/common/select';
-import { useState, useEffect, createContext  } from 'react'
+import { useState, useEffect } from 'react'
 import { getRessources } from '../util';
 import { JalonDetail } from '../component/events/box';
 import { CalendarPicker } from '../component/events/calendar';
+import { useContext } from 'react';
+import { BaseDataContext } from '../../auth';
 
 
-
-export function Events(props) {
+export function Events() {
     const [jalons, setJalons] = useState([]);
     const [filterJalons, setFilterJalons] = useState([])
-    const [events, setEvents] = useState([])
-    const [duree, setDuree] = useState('')
-
+    const [events, setEvents] = useState([]);
+    const [duree, setDuree] = useState('');
+    const { user, projet, contrat} = useContext(BaseDataContext)
 
     const selectEvent = (eventId) => {
         let lesjalons = jalons;
@@ -57,9 +58,9 @@ export function Events(props) {
         
             <CalendarPicker events={events} onSelect={selectEvent} onSelectDate={handleSelectDate}></CalendarPicker>
             <Box display='grid'>
-            {filterJalons.map(item => <JalonDetail          user={props.user.find(element => element.id === item.charge_jalon)}
-                                                            projet={props.projet.find(element => element.id === item.projet_id)}
-                                                            contrat={props.contrat.find(element => element.id === item.contrat_id)}
+            {filterJalons.map(item => <JalonDetail          user={user.find(element => element.id === item.charge_jalon)}
+                                                            projet={projet.find(element => element.id === item.projet_id)}
+                                                            contrat={contrat.find(element => element.id === item.contrat_id)}
                                                             jalon={item}
                                                             key={item.id}
                                                             incrementDuree={incrementDuree}

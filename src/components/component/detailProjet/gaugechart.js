@@ -47,7 +47,7 @@ export function GaugeChartSimple(props) {
     }, [props.projet])
   
     return (
-      <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' overflow='hidden'>
+      <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' overflow='hidden' boxShadow='md'>
       <Grid templateRows='(1fr, 1fr, 3fr, 1fr)' templateColumns='1fr' gap={0} justifyItems='center'>
       <GridItem>
         <Heading size='lg' marginBottom='2'>Avancement</Heading>
@@ -65,6 +65,7 @@ export function GaugeChartSimple(props) {
         percent={(nature.avancement)/100}
         textColor='blue.500'
         colors={['#2185d0', '#21ba45']}
+        
            
       />
       </GridItem>

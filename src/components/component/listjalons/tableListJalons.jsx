@@ -44,9 +44,10 @@ export const TableListJalons = ({projets, contrats, users}) => {
 
     useEffect(() => {getRessources('/api/v1/jalon').then(
         (lesjalons) => {
-       
+        if (users.lenght>0) {
         for (let i = 0; i < lesjalons.length; i++) {
             lesjalons[i].charge_jalon?lesjalons[i].service = users.find(element => element.id === lesjalons[i].charge_jalon).service:lesjalons[i].service = ""
+        }
         }
         
         lesjalons = lesjalons.filter(jalon => jalon.etat === 'travail').sort((a,b) => (a['date'] > b['date']) ? 1 : ((b['date'] > a['date']) ? -1 : 0));

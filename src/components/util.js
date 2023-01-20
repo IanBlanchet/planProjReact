@@ -2,8 +2,7 @@
  
  
  
- //const domain = 'http://127.0.0.1:5000'
- //const domain = 'https://apiplanproj.herokuapp.com/'
+
  const domain = process.env.REACT_APP_URI
  
 
@@ -21,22 +20,19 @@
     
     const response = await fetch(domain+url, options)
        
-    if (response.ok) {
-        responsedata = await response.json()     
-            
-    } else {
-        console.log('erreur')
-        responsedata = [{'error':'error'}]
-    };
+    
+    responsedata = await response.json()
+    
     
     return responsedata;
     
   }
 
   export const getRessources = async (url, params={}, objects={}, method='GET') => {
+    
+    let responsedata = []
     const myHeaders = new Headers();
     myHeaders.append('HTTP_AUTHORIZATION',sessionStorage.getItem('token') ) 
-    let responsedata = []
     let options = {
           method,
           'Content-Type':'application/json;charset=utf-8',
@@ -54,13 +50,13 @@
             
     } else {
         
-        responsedata = await response.json() //[{'error':'error'}]
+        responsedata = await response.json()
         if (response.status == 400)  {
-          sessionStorage.isLogin = false;
-          //alert(responsedata.message)
+          
+          return responsedata
+          
         }
-        sessionStorage.isLogin = false
-        
+                
     };
     
     return responsedata;
@@ -88,11 +84,18 @@
          
             
     } else {
-        console.log('erreur')
-        responsedata = [{'error':'error'}];
-        sessionStorage.isLogin = false
-        alert('session expirée, veuillez vous logger à nouveau')
+      responsedata = await response.json()
+      if (response.status == 400)  {
+        //alert('session expirée, veuillez vous logger à nouveau');
+        return responsedata
+        
+      }
+          
+        
     };
     
     return responsedata;
   }
+
+  
+  

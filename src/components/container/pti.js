@@ -6,10 +6,12 @@ import { useState, useEffect } from 'react';
 import { Radio, RadioGroup } from '@chakra-ui/react'
 import { FcSynchronize } from "react-icons/fc";
 import { ExportCSV } from '../component/pti/exportExcel';
+import { useContext } from 'react';
+import { BaseDataContext } from '../../auth';
 
 const CurrentYear = new Date().getFullYear();
 
-export function Pti(props) {
+export function Pti() {
     // declaration de donne de base correspondant au pti pour eviter des call à l'api au changement d'années qui ralentissent.
     const [donneeBase, setDonneeBase] = useState([])
     const [donneeBaseEnPrep, setDonneeBaseEnPrep] = useState([])
@@ -22,7 +24,7 @@ export function Pti(props) {
     const [assSubvention, setAssSubvention] = useState([]);
     const [reglement, setReglement] = useState([]);
     const [fonds, setFonds] = useState([])
-
+    const {user, projet} = useContext(BaseDataContext)
     
     const changePti = (e) => {
         setYear(parseInt(e));
@@ -35,7 +37,7 @@ export function Pti(props) {
         
         if (filtre) {         
             let newPti = [];
-            const projetFiltre = props.projet.filter(item => filtre.find(critere => item[column] === critere));
+            const projetFiltre = projet.filter(item => filtre.find(critere => item[column] === critere));
             projetFiltre.forEach(element => {
                 const pti = donnee.find(pti => pti.projet_id === element.id)
                 pti&&newPti.push(pti)
@@ -64,14 +66,14 @@ export function Pti(props) {
         getRessources('/api/v1/pti/all/'+(CurrentYear-1)).then(
              lesPti => {
                 lesPti.map(pti => {
-                    const leuser = props.user.find(user => user.id === pti.responsable_id);
+                    const leuser = user.find(user => user.id === pti.responsable_id);
                     pti['responsable'] = leuser?leuser.username:'';
                 })
                 setPtis(lesPti);setDonneeBase(lesPti)});
         getRessources('/api/v1/pti/all/'+CurrentYear).then(
                 lesPtiEnPrep => {
                     lesPtiEnPrep.map(pti => {
-                        const leuser = props.user.find(user => user.id === pti.responsable_id);
+                        const leuser = user.find(user => user.id === pti.responsable_id);
                         pti['responsable'] = leuser?leuser.username:'';
                     })                    
                 setPtisEnPrep(lesPtiEnPrep);setDonneeBaseEnPrep(lesPtiEnPrep); document.body.style.cursor = "default"});
@@ -118,14 +120,13 @@ export function Pti(props) {
                              
                 </GridItem>
                              :
-                <TableAllPti year={year} projet={props.projet} 
+                <TableAllPti year={year} projet={projet} 
                             ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
-                            afficheProjet={props.afficheProjet} 
                             filter={filtrePti} 
                             trie={triPti}                            
                             reglement={reglement}
                             assReglements={assReglements}
-                            user={props.user}/>
+                            user={user}/>
                 }
             
         </Grid>

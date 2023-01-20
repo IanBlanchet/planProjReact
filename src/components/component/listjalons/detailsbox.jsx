@@ -1,6 +1,6 @@
 import { useEffect, useState, useReducer} from 'react';
 import { modJalon } from '../../util';
-import { Box, HStack, Grid, GridItem, Input, IconButton, Select, Tooltip } from '@chakra-ui/react';
+import { Box, HStack, Grid, GridItem, Input, IconButton, Select } from '@chakra-ui/react';
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
 import { InputDuree } from '../events/dureeinput';
 import { DeleteJalonAlert } from '../common/alert';
@@ -138,7 +138,7 @@ export function JalonDetail(props) {
                                     bg='green'
                                     onClick={jalon.etat!=='complet'?completeJalon:
                                             reactivateJalon}
-                                    Tooltip='test'/>
+                                    />
                         <DeleteJalonAlert title='Abandonner le jalon'                                
                                     
                                     applyDelete={deleteJalon}/>

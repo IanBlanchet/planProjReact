@@ -13,27 +13,29 @@ import { getRessources } from '../util';
 import { modJalon } from '../util';
 import { AddPointage } from "../component/modal";
 import { GaugeChartSimple } from "../component/detailProjet/gaugechart";
-
+import { useParams} from 'react-router-dom';
+import { useContext } from 'react';
+import { BaseDataContext } from '../../auth';
 
 
 const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonné', 'En réception']
 
-export function DetailProjet(props) {
-    const [projet, setProjet] = useState([])
-    const [currentProject, setCurrentProject] = useState(props.isSelected?props.selected:{});
+export function DetailProjet() {
+    let { projetID } = useParams();    
+    const data = useContext(BaseDataContext);    
+    const [projet, setProjet] = useState(data.projet)
+    const [currentProject, setCurrentProject] = useState(projetID?data.projet.find(item => item.id == parseInt(projetID)):{});
     const [depense, setDepense] = useState({});
     const [pti, setPti] = useState({});
-    const [users, setUsers] = useState([])
-    const [user, setUser] = useState(props.isSelected?props.user:{'id':'', 'username':'', 'service':'','statut':'', 'email':''})
+    const [users, setUsers] = useState(data.user)
+    const [user, setUser] = useState({'id':'', 'username':'', 'service':'','statut':'', 'email':''})
     
     
-    const year = new Date().getFullYear();
-    
+     
     
     const selectProjet = (projet_id) => {             
-        const leprojet = projet.find(item => item.id == projet_id)
-        
-        setCurrentProject(leprojet)
+        const leprojet = projet.find(item => item.id == projet_id)        
+        setCurrentProject(leprojet);
         const user = users.find(item => item.id == leprojet.charge)
 
         if (user) {
@@ -44,7 +46,6 @@ export function DetailProjet(props) {
 
     }
 
-  
     const updatePti = (pti) => {
         modJalon(`/api/v1/pti/${currentProject.id}`, {}, pti, 'POST')        
 
@@ -66,40 +67,32 @@ export function DetailProjet(props) {
         modJalon(`/api/v1/projet/${currentProject.id}`, {}, {'statut':target.value}, 'PUT').then(            
             returnValue => setCurrentProject(returnValue)       
         );
-        
-          
-        
-
+    
     }
 
-    
-
     useEffect(() => {
-        getRessources('/api/v1/projet').then(
-            projets => setProjet(projets.filter(item => !(['Complété', 'En suspend', 'Abandonné'].includes(item.statut))).sort( (a,b) => {
-                                                  if (a.no_projet < b.no_projet){
-                                                    return -1;
-                                                  } 
-                                                  if (a.no_projet > b.no_projet) {
-                                                    return 1;
-                                                  }
-                                                  return 0
-                                              }
-                                              ))); 
-        
-        
+
+
+        //data.refreshData()
+        getRessources('/api/v1/projet/').then(
+            lesprojets => {setProjet(lesprojets) ; setCurrentProject(projetID?data.lesprojets.find(item => item.id == parseInt(projetID)):{})});
+
         getRessources('/api/v1/depense/'+currentProject.id).then(
             lesdepense => setDepense(lesdepense));
         getRessources('/api/v1/pti/'+currentProject.id).then(
-            lesPti => setPti(lesPti));
-        getRessources('/api/v1/user').then(
-            lesUser => setUsers(lesUser)).then(
-                
-            );
+            lesPti => setPti(lesPti));        
    
-            
+        if (projetID&&data.projet.find(item => item.id == parseInt(projetID))) {            
+            const leprojet = data.projet.find(item => item.id == parseInt(projetID));
+            const user = users.find(item => item.id == leprojet.charge)
+            if (user) {
+                setUser(user)
+            }
+        }
         
-    }, [currentProject, props])
+        return () => {data.refreshData()}
+        
+    }, [projetID])
 
 
     

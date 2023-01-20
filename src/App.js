@@ -1,6 +1,6 @@
 import './App.css';
 import { getRessources } from './components/util';
-import { useState, useEffect ,createContext } from 'react'
+import { useState, useEffect ,createContext, useContext } from 'react'
 import { NavBar } from './components/container/navbar'
 import { Acceuil } from './components/container/accueil';
 import { SuiviProjet } from './components/container/suiviProjet'
@@ -10,105 +10,65 @@ import { DetailProjet } from './components/container/detailprojet';
 import { Pti } from './components/container/pti';
 import { TableauPriorisation } from './components/container/priorisation';
 import { ListJalons } from './components/container/listjalons';
+import { Login } from './components/container/login';
+import { ResetPasswordRequest } from './components/container/resetpassword';
+import { NewPassword } from './components/container/newpassword';
+import { RegisterUser } from './components/container/registerUser';
 import { ProjetStrategic } from './components/container/projetStrategic';
+import { Outlet,  useLoaderData, useParams } from "react-router-dom";
 
 
-export const loginContext = createContext()
+import {Routes, Route} from "react-router-dom"
+import { AuthProvider, RequireAuth, AuthContext } from './auth';
+
 
 
 
 function App() {
-  const [user, setUser] = useState([]);
-  const [contrat, setContrat] = useState([]);
-  const [projet, setProjet] = useState([]);
-  const [view, setView ] = useState('accueil');
-  const [selected, setSelected] = useState([false,{}, {}])//le choix du menu.  true if projet select in pti
   
-    
-
-  const getData = () => {
-    getRessources('/api/v1/user').then(
-      users => setUser(users)
-    )
-    getRessources('/api/v1/contrat').then(
-      contrats => setContrat(contrats));
-    getRessources('/api/v1/projet').then(
-      projets => setProjet(projets.filter(item => !(['Complété', 'En suspend', 'Abandonné'].includes(item.statut))).sort( (a,b) => {
-                                            if (a.no_projet < b.no_projet){
-                                              return -1;
-                                            } 
-                                            if (a.no_projet > b.no_projet) {
-                                              return 1;
-                                            }
-                                            return 0
-                                        }
-                                        )));
-      
-  };
-
-
-  const afficheDetailprojet = (projet_id) => {
-    let selectedProjet = {}
-    getRessources('/api/v1/projet').then(   
-      projets => {
-        selectedProjet = projets.find(item => item.id == projet_id);
-        let newSelected = [...selected]
-        newSelected[1] = selectedProjet
-        newSelected[0] = true
-        const leuser = user.find(item => item.id == selectedProjet.charge)
-
-        if (leuser) {
-            newSelected[2] = leuser
-        } else {
-          newSelected[2] = {'id':'', 'username':'', 'service':'','statut':'', 'email':''}
-        }
-        setSelected(newSelected)
-       })   
-    
-    
-  }
- 
-  let menuChoice = {
-    suiviProjet: <SuiviProjet user={user}/>,
-    evenement: <Events projet={projet} contrat={contrat} user={user}/>,
-    accueil : <Acceuil />,
-    admin : <Admin />,
-    detailProjet : <DetailProjet projet={projet} isSelected={false} selected=''/>,
-    detailProjetSelected : <DetailProjet projet={projet} isSelected={true} selected={''}/>,
-    pti : <Pti projet={projet} user={user} afficheProjet={afficheDetailprojet}/>,
-    //priorisation : <TableauPriorisation user={user} afficheProjet={afficheDetailprojet}/>,
-    listJalons : <ListJalons projets={projet} contrats={contrat} users={user}/>,
-    strategique : <ProjetStrategic user={user} afficheProjet={afficheDetailprojet}/>
-  }
-
-  const menuClick = (container) => {
-    setSelected([false,{}])
-    setView(container)    
-  };
-
-  const showAccueil = () => {
-    setView('accueil')
-  }
-
-
-  
-
-  useEffect(() => {
-    sessionStorage.isLogin = false
-  }, [])
-
 
   return (
     
-    <div>
-        <loginContext.Provider value={sessionStorage.getItem('isLogin')}>
-          <NavBar onLogin={getData} onLogout={showAccueil} onMenuSelect={menuClick}/>  
+      <>
         
-        {selected[0]?<DetailProjet projet={projet} isSelected={true} user={selected[2]} selected={selected[1]}/>:menuChoice[view]}    
-        </loginContext.Provider>
-    </div>
+            
+            <AuthProvider>
+              <Routes >
+                
+                <Route  path='/' element={<NavBar />} >
+                  <Route index element={<Login/>} />
+                  <Route path='acceuil' element={<RequireAuth><Acceuil /></RequireAuth>} />
+                  <Route path='listjalons' element={<RequireAuth><ListJalons /></RequireAuth>} />
+                  <Route path='suiviprojet' element={<RequireAuth><SuiviProjet /></RequireAuth>} />
+                  <Route path='evenement' element={<RequireAuth><Events /></RequireAuth>} />
+                  <Route path='detailprojet' element={<RequireAuth><DetailProjet  /></RequireAuth>} >
+                    <Route
+                        path=":projetID"            
+                        element={<RequireAuth><DetailProjet /></RequireAuth>}                      
+                      />
+                  </Route>
+                  <Route path='pti' element={<RequireAuth><Pti /></RequireAuth>} />
+                  <Route path='strategique' element={<RequireAuth><ProjetStrategic /></RequireAuth>} />
+                  <Route path='admin' element={<RequireAuth><Admin /></RequireAuth>} />
+                  <Route path='resetpasswordrequest' element={<ResetPasswordRequest />}/> 
+                  <Route path='newpassword' element={<NewPassword/>}/>
+                  <Route path='registeruser' element={<RegisterUser/>}/>
+                </Route>
+                
+
+              </Routes>
+              </AuthProvider>
+            
+            
+
+      </>    
+        
+          
+       
+    
    
   );
 }
 
 export default App;
+

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, Text, TableCaption, TableContainer,Grid, Select, IconButton, Box, HStack, Badge, Switch } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectFiltre } from '../common/select';
+import { Link } from 'react-router-dom';
 
 
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
@@ -15,11 +16,6 @@ export function TableAllPti(props) {
     const [reglement, setReglement] = useState([]);
     const [format, setFormat] = useState('sm');
     const [isOnlyNew, setIsOnlyNew] = useState(false)
-
-    const handleSelectProjet = (e) => {
-        
-        props.afficheProjet(parseInt(e.target.getAttribute('value')))
-    }
 
     const handleFilter = (filter, column) => {        
         props.filter(filter, column);
@@ -86,7 +82,7 @@ export function TableAllPti(props) {
                 {props.ptis.map(pti =>
                 
                 <Tr>
-                    <Td onClick={handleSelectProjet}  value={pti.projet_id} textColor='blue' _hover={{background: "white", color: "teal.500",}}>{pti.no_projet}</Td>
+                    <Td textColor='blue' _hover={{background: "white", color: "teal.500",}}><Link to={`/detailprojet/${pti.projet_id}`}>{pti.no_projet}</Link></Td>
                     <Td>{pti.description}  {pti.statut==='En approbation'?<Badge colorScheme='blue' variant='solid'>Nouveau</Badge>:""}</Td>
                     <Td>{assReglements.find(item => item.projet_id === pti.projet_id)?
                         reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id)?
