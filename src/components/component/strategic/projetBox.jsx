@@ -1,7 +1,7 @@
 import { useEffect, useState, useReducer} from 'react';
 import { modJalon } from '../../util';
 import { AddPointage } from '../modal';
-import { Box, Flex, Badge, HStack, Grid, GridItem, Input, Tag, FormLabel, Tooltip, Textarea, Text } from '@chakra-ui/react';
+import { Box, Flex, Badge, HStack, Grid, GridItem, Input, Tag, FormLabel, Tooltip, Textarea, Text, TagLabel, Avatar, } from '@chakra-ui/react';
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
 import GaugeChart from 'react-gauge-chart'
 import { Link } from 'react-router-dom';
@@ -18,7 +18,7 @@ import { GrWindows } from 'react-icons/gr';
 
 const param = {
     size:25,
-    margin:2,
+    margin:'10px',
 }
 
 const icons = {
@@ -27,6 +27,29 @@ const icons = {
     ENV: {icon:<FcGlobe size={param.size}/>, bg:'green.300'},
     GEN: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'}
 }
+
+const User = ({user}) => {
+
+    return (
+        <Tag size='lg' colorScheme='blue' borderRadius='full'>
+            <Tag
+                colorScheme='yellow'
+                size='sm'
+                borderRadius='full'
+                ml={-1}
+                mr={2}
+            >
+                <TagLabel>{user.service}</TagLabel> 
+            </Tag>
+        <TagLabel>{user.username}</TagLabel>
+        
+        </Tag>
+
+    )
+}
+
+
+
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -87,17 +110,17 @@ export function ProjetBox(props) {
             padding='10px' 
             margin='0.75' 
             bg='blue.200'
-            width='container.xl'
+            width='full'
             boxShadow='md'
             
             
             >            
                 
                 <Grid   templateRows='1fr 1fr'
-                        templateColumns='1fr 1fr 1fr 1fr'
-                        templateAreas=' "no chart nom pointage" 
+                        templateColumns='1fr 1fr 1fr 2.5fr'
+                        templateAreas=' "no chart nom notes" 
                                         "description services echeance notes" '
-                        gap='0.5'
+                        gap='1px'
                         
                      
                         >
@@ -111,7 +134,7 @@ export function ProjetBox(props) {
                         </Link>
                     </GridItem>
 
-                    <GridItem gridArea='chart'  justifySelf='center' boxShadow='md'>
+                    <GridItem gridArea='chart'  justifySelf='left' boxShadow='md'>
                         <GaugeChart
                             style={{ width:'200px'}}       
                             id={projet.id}
@@ -127,13 +150,15 @@ export function ProjetBox(props) {
                         />
                     </GridItem>
                     
-                    <GridItem gridArea='description'>{projet.desc}</GridItem>                   
-                    <GridItem margin={param.margin} gridArea='notes'>
-                        <Textarea name={projet.id} size='xs' value={projet.nature?projet.nature.notes:''} onChange={updateNotes} bg='whiteAlpha.700'></Textarea>
-                    </GridItem>
-                    <GridItem margin={param.margin} gridArea='nom'>{props.user.username}</GridItem>
+                    <GridItem gridArea='description'><Text fontSize='lg'as='b'>{projet.desc}</Text></GridItem>
 
-                    <GridItem fontSize='sm' margin={param.margin} width='200px' gridArea='services'>
+                    <GridItem margin={param.margin} gridArea='notes' width='full' rowSpan='2' >
+                        <Textarea name={projet.id} size='sm' value={projet.nature?projet.nature.notes:''} onChange={updateNotes} bg='whiteAlpha.700' ></Textarea>
+                    </GridItem>
+
+                    <GridItem margin={param.margin} gridArea='nom'><User user={props.user} /></GridItem>
+
+                    <GridItem fontSize='sm' margin={param.margin}  gridArea='services' >
                         <Flex gap='1' direction='row' wrap='wrap'>
                             {projet.nature.services.map(item => 
                                 <Badge colorScheme='yellow'>{item}</Badge>)
@@ -141,12 +166,12 @@ export function ProjetBox(props) {
                         </Flex>
                     </GridItem>
                     
-                    <GridItem margin={param.margin} width='100px' gridArea='echeance'>
+                    <GridItem margin={param.margin} width='100px' gridArea='echeance' >
                         <FormLabel htmlFor='echeance'>Échéance</FormLabel>
                         <Text >{projet.nature?projet.nature.echeance:''}</Text>
                     </GridItem>
                    
-                    <GridItem gridArea='pointage' justifySelf='right'>{<AddPointage rating={projet.rating} projet={projet} />}</GridItem>
+                    
                     
                 
                 </Grid>           

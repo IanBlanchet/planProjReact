@@ -50,10 +50,11 @@ function App() {
                   <Route path='pti' element={<RequireAuth><Pti /></RequireAuth>} />
                   <Route path='strategique' element={<RequireAuth><ProjetStrategic /></RequireAuth>} />
                   <Route path='admin' element={<RequireAuth><Admin /></RequireAuth>} />
+                  <Route path='resetpasswordrequest' element={<ResetPasswordRequest />}/> 
+                  <Route path='newpassword' element={<NewPassword/>}/>
+                  <Route path='registeruser' element={<RegisterUser/>}/>
                 </Route>
-                <Route path='resetpasswordrequest' element={<ResetPasswordRequest />}/> 
-                <Route path='newpassword' element={<NewPassword/>}/>
-                <Route path='registeruser' element={<RegisterUser/>}/>
+                
 
               </Routes>
               </AuthProvider>

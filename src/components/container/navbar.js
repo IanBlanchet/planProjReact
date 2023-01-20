@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Flex, Spacer, Box, Button, ButtonGroup} from '@chakra-ui/react'
+import { Flex, Spacer, Box, Button, ButtonGroup, Image} from '@chakra-ui/react'
 import { Connexion } from '../component/modal'
 import { GrSchedules, GrUserAdmin, GrMoney, GrTable, GrFlag, GrVulnerability } from 'react-icons/gr'
 import logo from '../../static/logo.png';
@@ -18,8 +18,8 @@ export function NavBar() {
 
     return (
         <>
-        <Flex bg='#022958' h='12' padding='1'>
-            <Box fontFamily='fantasy' bg='blue.200' w='50px' ><img src={logo}  alt="logo" /></Box>
+        <Flex bg='blue.800' h='12' padding='1'>
+            <Image  borderRadius='2px' boxSize='40px' margin='1px' src={logo} alt="logo" />
             <Spacer />
             <ButtonGroup spacing='4' variant='outline' size='sm'>
                 <Link to='/listjalons'><Button leftIcon={<GrFlag/>} variant='solid' borderWidth={1} borderColor="white">Liste jalons</Button> </Link>

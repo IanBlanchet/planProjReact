@@ -10,7 +10,7 @@ import {
     useDisclosure,
     Checkbox,      
   } from '@chakra-ui/react';
-import { Button, Input, FormControl, IconButton, Link, Text, Box, Heading, Table, Tbody, VStack } from '@chakra-ui/react';
+import { Button, Input, FormControl, IconButton, Text, Box, Heading, Table, Tbody, VStack } from '@chakra-ui/react';
 
 import { useEffect, useState, useRef, useContext } from 'react';
 import { modJalon } from '../util';
@@ -20,6 +20,7 @@ import { useFormik, Formik, Form,  } from 'formik';
 import { MyTextInput, MySelect, MyCheckbox, MyRatingInput } from './common/forms';
 import { useNavigate } from 'react-router-dom';
 import { cleanSessionStorage, AuthContext } from '../../auth';
+import { Link } from 'react-router-dom';
 
 
 
@@ -54,9 +55,6 @@ export function Connexion() {
   
             <ModalBody>
               
-              <Link href='https://planproj.herokuapp.com/reset_password_request' isExternal>
-                Pour réinitialiser ton mot de passe <ExternalLinkIcon mx='2px' />
-              </Link>
             </ModalBody>
             
             

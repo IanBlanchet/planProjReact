@@ -91,29 +91,30 @@ export function TableStrategic({user}) {
     return (
         
         
-        <Grid templateColumns='1fr 1fr 1fr 1fr'  templateAreas=' "filter projets projets projets"' >
+        <Grid templateColumns='1fr 5px 8fr' gap='2px'>
             
-            <GridItem gridArea='filter' width='max-content'>
+            <GridItem colSpan='1' width='max-content' bg='blue.500'>
 
-                <VStack overflow='hidden' gap='3'>
+                <VStack overflow='hidden' gap='3' margin='5px'>
                     <>
-                    <Heading>Filtres</Heading>
-                    <Select placeholder='filtrer par catégorie' onChange={handleFilter} name='cat'>
+                    
+                    <Select placeholder='filtrer par catégorie' onChange={handleFilter} name='cat' bg='white' size='xs'>
                         {cat.map(item => <option key={item} value={item}>{item}</option>)}
                     </Select>
-                    <Select placeholder='filtrer par responsable' onChange={handleFilter} name='charge'>
+                    <Select placeholder='filtrer par responsable' onChange={handleFilter} name='charge' bg='white' size='xs'>
                         {user.map(item => <option key={item.id} value={item.id}>{item.username}</option>)}
                     </Select>
-                    <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch}></Input>
+                    <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch} bg='white' size='xs'></Input>
                     </>
-                    <>
-                    <Heading>Compilation</Heading>
-                    <BarChart data={totalProjetServices}/>                   
-                    </>
+                 
                 </VStack>
+           </GridItem >
+            
+           <GridItem colSpan='1' margin='1px'>
+            <Box bg='blue.300' height='880px' ></Box>
            </GridItem>
         
-           <GridItem gridArea='projets' height='850px' overflowY='scroll'>
+           <GridItem colSpan='1' height='880px' overflowY='scroll' >
                 <Flex gap='1' direction='row' wrap='wrap' justifyContent='right' >
                     {projetFiltre.map(projet =>                      
                         <ProjetBox projet={projet} user={projet.charge?user.find(item => item.id === projet.charge):[]} key={projet.id}/>                   
