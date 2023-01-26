@@ -5,12 +5,7 @@ import { Box, Flex, Badge, HStack, Grid, GridItem, Input, Tag, FormLabel, Toolti
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
 import GaugeChart from 'react-gauge-chart'
 import { Link } from 'react-router-dom';
-import { InputDuree } from '../events/dureeinput';
-import { DeleteJalonAlert } from '../common/alert';
-import { CheckCircleIcon, CloseIcon} from '@chakra-ui/icons'
-import { MdRestorePage } from "react-icons/md";
-import { Events } from '../../container/events';
-import { GrWindows } from 'react-icons/gr';
+
 
 
 
@@ -66,12 +61,12 @@ const reducer = (state, action) => {
         case "editNature":
             for (const key in state.nature) {
                 if (key === action.param) {
-                    let updatedState = {...state}
                     let newNature = {...state.nature};
-                    newNature[key] = action.value;
-                    updatedState.nature = newNature 
-                    modJalon(`/api/v1/projet/${action.id}`, {}, {'nature': newNature}, 'PUT');
-                    return updatedState
+                    newNature[key] = action.value;                                      
+                    modJalon(`/api/v1/projet/${action.id}`, {}, {...state, 'nature':newNature}, 'PUT');
+                    return {...state, 'nature':newNature}
+                    
+                    
                 }
                 
             }
@@ -84,7 +79,7 @@ export function ProjetBox(props) {
     
     const [projet, dispatch] = useReducer(reducer, props.projet);    
         
-    const updateNotes = ({target}) => {
+    const updateNotes = ({target}) => {        
         dispatch({type: 'editNature', id:projet.id, param:'notes', value:target.value});                      
       }
 
@@ -95,7 +90,7 @@ export function ProjetBox(props) {
 
 
     useEffect(() => {
-
+        
     }, [props])
 
 
@@ -127,7 +122,7 @@ export function ProjetBox(props) {
 
                     
                     <GridItem  gridArea='no'  >
-                        <Link to={`/detailprojet/${projet.id}`} >
+                        <Link to={`/detaildossier/${projet.id}`} >
                             <Tag size='lg' variant='solid' bg='blue.400' value={projet.id} boxShadow="md">
                                 {projet.no_projet}
                             </Tag>

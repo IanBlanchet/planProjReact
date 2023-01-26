@@ -79,7 +79,7 @@
     
     const response = await fetch(domain+url, options)
        
-    if (response.ok) {
+    if (response.ok) {        
         responsedata = await response.json()
          
             
