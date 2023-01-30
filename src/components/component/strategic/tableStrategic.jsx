@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {  Box, VStack, Flex, Grid, GridItem, Select, Text, Textarea, Checkbox, CheckboxGroup, Input, Heading } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectFiltre } from '../common/select';
@@ -8,6 +8,7 @@ import { getRessources } from '../../util';
 import { ProjetBox } from './projetBox';
 import { useFilter } from '../../../hooks/useFilter';
 import { BarChart } from './charts';
+
 
 
 
@@ -23,6 +24,8 @@ export function TableStrategic({user}) {
     const [filters, setFilters] = useState({}); 
     const [searchInput, setSearchInput]= useState('')  
     let projetFiltre = useFilter(filters, projet)
+
+    
     
    
     const calcTotalProjetServices = () => {
@@ -82,8 +85,10 @@ export function TableStrategic({user}) {
             }
             
         );
-        
+       
     }
+    
+    
     
     , [])
 

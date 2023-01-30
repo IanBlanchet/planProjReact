@@ -25,6 +25,9 @@ const icons = {
 
 const User = ({user}) => {
 
+   
+
+
     return (
         <Tag size='lg' colorScheme='blue' borderRadius='full'>
             <Tag
@@ -77,7 +80,9 @@ const reducer = (state, action) => {
 
 export function ProjetBox(props) {
     
-    const [projet, dispatch] = useReducer(reducer, props.projet);    
+    const [projet, dispatch] = useReducer(reducer, props.projet);   
+    
+    
         
     const updateNotes = ({target}) => {        
         dispatch({type: 'editNature', id:projet.id, param:'notes', value:target.value});                      
@@ -132,7 +137,7 @@ export function ProjetBox(props) {
                     <GridItem gridArea='chart'  justifySelf='left' boxShadow='md'>
                         <GaugeChart
                             style={{ width:'200px'}}       
-                            id={projet.id}
+                            id={(projet.id).toString()}
                             nrOfLevels={20}
                             hideText={false}
                             arcWidth={0.3}
@@ -156,7 +161,7 @@ export function ProjetBox(props) {
                     <GridItem fontSize='sm' margin={param.margin}  gridArea='services' >
                         <Flex gap='1' direction='row' wrap='wrap'>
                             {projet.nature.services.map(item => 
-                                <Badge colorScheme='yellow'>{item}</Badge>)
+                                <Badge colorScheme='yellow' key={item}>{item} </Badge>)
                             }
                         </Flex>
                     </GridItem>

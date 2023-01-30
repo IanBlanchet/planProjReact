@@ -29,7 +29,6 @@ const reducer = (state, action) => {
             if (key === action.param) {
                 const newValue = {}
                 newValue[key] = action.value
-                console.log({...state, ...newValue})
                 modJalon(`/api/v1/jalon/${action.id}`, {}, {...state, ...newValue}, 'PUT');
                 return {...state, ...newValue}
             }

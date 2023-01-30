@@ -57,6 +57,7 @@ function App() {
                   
                   <Route path='detaildossier' element={<RequireAuth><DetailDossier /></RequireAuth>}>
                     <Route
+                          key='projetID'
                           path=":projetID"            
                           element={<RequireAuth><DetailDossier /></RequireAuth>}                                         
                         />
