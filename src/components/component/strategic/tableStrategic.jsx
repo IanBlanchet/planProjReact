@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {  Box, VStack, Flex, Grid, GridItem, Select, Text, Textarea, Checkbox, CheckboxGroup, Input, Heading } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectFiltre } from '../common/select';
@@ -8,6 +8,7 @@ import { getRessources } from '../../util';
 import { ProjetBox } from './projetBox';
 import { useFilter } from '../../../hooks/useFilter';
 import { BarChart } from './charts';
+
 
 
 
@@ -23,6 +24,8 @@ export function TableStrategic({user}) {
     const [filters, setFilters] = useState({}); 
     const [searchInput, setSearchInput]= useState('')  
     let projetFiltre = useFilter(filters, projet)
+
+    
     
    
     const calcTotalProjetServices = () => {
@@ -66,12 +69,13 @@ export function TableStrategic({user}) {
         
         getRessources('/api/v1/projet').then( projets => {                     
             let filterProjet = projets.filter(item => item.nature&&item.nature.isStrategic);                        
-            filterProjet = filterProjet.filter(item => item.nature&&(new Date(item.nature.echeance).getFullYear()) === 2023)
+            filterProjet = filterProjet.filter(item => item.nature&&(new Date(item.nature.echeance).getFullYear()) === 2023);
+            filterProjet = filterProjet.filter(item => item.statut === 'Actif' ||item.statut === 'En approbation');
             filterProjet = filterProjet.sort((a,b) => {
-                if (a.no_projet < b.no_projet){
+                if (a.nature.echeance < b.nature.echeance){
                   return -1;
                 } 
-                if (a.no_projet > b.no_projet) {
+                if (a.nature.echeance > b.nature.echeance) {
                   return 1;
                 }
                 return 0
@@ -82,8 +86,10 @@ export function TableStrategic({user}) {
             }
             
         );
-        
+       
     }
+    
+    
     
     , [])
 

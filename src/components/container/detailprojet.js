@@ -63,7 +63,6 @@ export function DetailProjet() {
 
     const updateStatut = ({target}) => {
         const updateCurrentprojet = {...currentProject, 'statut':target.value};
-        console.log(updateCurrentprojet)
         modJalon(`/api/v1/projet/${currentProject.id}`, {}, {'statut':target.value}, 'PUT').then(            
             returnValue => setCurrentProject(returnValue)       
         );

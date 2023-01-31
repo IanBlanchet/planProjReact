@@ -15,7 +15,8 @@ import { ResetPasswordRequest } from './components/container/resetpassword';
 import { NewPassword } from './components/container/newpassword';
 import { RegisterUser } from './components/container/registerUser';
 import { ProjetStrategic } from './components/container/projetStrategic';
-import { Outlet,  useLoaderData, useParams } from "react-router-dom";
+import { DetailDossier } from './components/container/detaildossier';
+
 
 
 import {Routes, Route} from "react-router-dom"
@@ -53,6 +54,15 @@ function App() {
                   <Route path='resetpasswordrequest' element={<ResetPasswordRequest />}/> 
                   <Route path='newpassword' element={<NewPassword/>}/>
                   <Route path='registeruser' element={<RegisterUser/>}/>
+                  
+                  <Route path='detaildossier' element={<RequireAuth><DetailDossier /></RequireAuth>}>
+                    <Route
+                          key='projetID'
+                          path=":projetID"            
+                          element={<RequireAuth><DetailDossier /></RequireAuth>}                                         
+                        />
+                    </Route>
+                  
                 </Route>
                 
 

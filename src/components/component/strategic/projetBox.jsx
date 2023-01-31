@@ -5,12 +5,7 @@ import { Box, Flex, Badge, HStack, Grid, GridItem, Input, Tag, FormLabel, Toolti
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
 import GaugeChart from 'react-gauge-chart'
 import { Link } from 'react-router-dom';
-import { InputDuree } from '../events/dureeinput';
-import { DeleteJalonAlert } from '../common/alert';
-import { CheckCircleIcon, CloseIcon} from '@chakra-ui/icons'
-import { MdRestorePage } from "react-icons/md";
-import { Events } from '../../container/events';
-import { GrWindows } from 'react-icons/gr';
+
 
 
 
@@ -29,6 +24,9 @@ const icons = {
 }
 
 const User = ({user}) => {
+
+   
+
 
     return (
         <Tag size='lg' colorScheme='blue' borderRadius='full'>
@@ -66,12 +64,12 @@ const reducer = (state, action) => {
         case "editNature":
             for (const key in state.nature) {
                 if (key === action.param) {
-                    let updatedState = {...state}
                     let newNature = {...state.nature};
-                    newNature[key] = action.value;
-                    updatedState.nature = newNature 
-                    modJalon(`/api/v1/projet/${action.id}`, {}, {'nature': newNature}, 'PUT');
-                    return updatedState
+                    newNature[key] = action.value;                                      
+                    modJalon(`/api/v1/projet/${action.id}`, {}, {...state, 'nature':newNature}, 'PUT');
+                    return {...state, 'nature':newNature}
+                    
+                    
                 }
                 
             }
@@ -82,9 +80,11 @@ const reducer = (state, action) => {
 
 export function ProjetBox(props) {
     
-    const [projet, dispatch] = useReducer(reducer, props.projet);    
+    const [projet, dispatch] = useReducer(reducer, props.projet);   
+    
+    
         
-    const updateNotes = ({target}) => {
+    const updateNotes = ({target}) => {        
         dispatch({type: 'editNature', id:projet.id, param:'notes', value:target.value});                      
       }
 
@@ -95,7 +95,7 @@ export function ProjetBox(props) {
 
 
     useEffect(() => {
-
+        
     }, [props])
 
 
@@ -127,7 +127,7 @@ export function ProjetBox(props) {
 
                     
                     <GridItem  gridArea='no'  >
-                        <Link to={`/detailprojet/${projet.id}`} >
+                        <Link to={`/detaildossier/${projet.id}`} >
                             <Tag size='lg' variant='solid' bg='blue.400' value={projet.id} boxShadow="md">
                                 {projet.no_projet}
                             </Tag>
@@ -137,7 +137,7 @@ export function ProjetBox(props) {
                     <GridItem gridArea='chart'  justifySelf='left' boxShadow='md'>
                         <GaugeChart
                             style={{ width:'200px'}}       
-                            id={projet.id}
+                            id={(projet.id).toString()}
                             nrOfLevels={20}
                             hideText={false}
                             arcWidth={0.3}
@@ -161,7 +161,7 @@ export function ProjetBox(props) {
                     <GridItem fontSize='sm' margin={param.margin}  gridArea='services' >
                         <Flex gap='1' direction='row' wrap='wrap'>
                             {projet.nature.services.map(item => 
-                                <Badge colorScheme='yellow'>{item}</Badge>)
+                                <Badge colorScheme='yellow' key={item}>{item} </Badge>)
                             }
                         </Flex>
                     </GridItem>
