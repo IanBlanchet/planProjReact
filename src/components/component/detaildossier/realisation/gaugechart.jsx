@@ -43,9 +43,9 @@ export function GaugeChartSimple(props) {
     
 
     useEffect(() => {
-          
+          setNature(props.projet.nature)
         
-    }, [])
+    }, [props])
   
     return (
       <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' boxShadow='md' >  

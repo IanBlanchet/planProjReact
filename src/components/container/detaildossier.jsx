@@ -42,7 +42,7 @@ export const DetailDossier = () => {
             </GridItem>
 
             <GridItem gridRow='2 / span 1' gridColumn='1 /span 3'>
-                <CoreTabs projet={projet} ></CoreTabs>
+                <CoreTabs projet={projet} setProjet={setProjet}></CoreTabs>
             </GridItem>
 
 

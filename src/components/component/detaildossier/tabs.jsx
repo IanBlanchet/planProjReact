@@ -10,12 +10,14 @@ import { modJalon } from '../../util';
 
 
 
-export const CoreTabs = ({projet}) => {
+export const CoreTabs = ({projet, setProjet}) => {
 
     
 
     const updateNature = (data) => {        
-        modJalon(`/api/v1/projet/${projet.id}`, {}, {'nature':data}, 'PUT');
+        modJalon(`/api/v1/projet/${projet.id}`, {}, {'nature':data}, 'PUT').then(
+            response => setProjet(response)
+        );
         
     }
 
