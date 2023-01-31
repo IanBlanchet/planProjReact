@@ -4,7 +4,7 @@ import { BaseDataContext } from '../../auth';
 import { Box, Grid, GridItem} from '@chakra-ui/react';
 import { TitleProjet } from '../component/detaildossier/title';
 import { CoreTabs } from '../component/detaildossier/tabs';
-import { getRessources } from '../util'
+import { getRessources, modJalon } from '../util'
 
 
 
@@ -13,6 +13,14 @@ export const DetailDossier = () => {
     const data = useContext(BaseDataContext);
     const [projet, setProjet] = useState(projetID&&data.projet.find(item => item.id == projetID));
     
+
+    const updateStatut = ({target}) => {
+        
+        modJalon(`/api/v1/projet/${projet.id}`, {}, {'statut':target.value}, 'PUT').then(            
+            returnValue => setProjet(returnValue)       
+        );
+    
+    }
 
     useEffect(() => {
         getRessources('/api/v1/projet/'+projetID).then(
@@ -30,7 +38,7 @@ export const DetailDossier = () => {
                 templateColumns='1fr 1fr 1fr'
 >
             <GridItem gridRow='1 / span 1' gridColumn='1 /span 3'>
-                <TitleProjet projet={projet}></TitleProjet>
+                <TitleProjet projet={projet} updateStatut={updateStatut}></TitleProjet>
             </GridItem>
 
             <GridItem gridRow='2 / span 1' gridColumn='1 /span 3'>

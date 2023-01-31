@@ -1,7 +1,9 @@
-import { Heading, Grid, GridItem, Text, ButtonGroup, Button } from "@chakra-ui/react"
+import { Heading, Grid, GridItem, Text, Select, FormLabel, FormControl } from "@chakra-ui/react"
 
 
-export const TitleProjet = ({projet}) => {
+const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonné', 'En réception']
+
+export const TitleProjet = ({projet, updateStatut}) => {
 
     return (
 
@@ -20,8 +22,12 @@ export const TitleProjet = ({projet}) => {
             </GridItem>
 
             <GridItem justifySelf='end' gridRow='1 /span 1' gridColumn='2 / span1' >
-
-                <Text>Note</Text>
+                    <FormControl >
+                    <FormLabel >Statut :</FormLabel>
+                    <Select name='statut' value={projet.statut} size='sm' onChange={updateStatut} flexBasis='100px'>
+                        {statut.map(item => <option value={item} key={item}>{item}</option>)}
+                    </Select>
+                    </FormControl>
 
             </GridItem>
 

@@ -69,12 +69,13 @@ export function TableStrategic({user}) {
         
         getRessources('/api/v1/projet').then( projets => {                     
             let filterProjet = projets.filter(item => item.nature&&item.nature.isStrategic);                        
-            filterProjet = filterProjet.filter(item => item.nature&&(new Date(item.nature.echeance).getFullYear()) === 2023)
+            filterProjet = filterProjet.filter(item => item.nature&&(new Date(item.nature.echeance).getFullYear()) === 2023);
+            filterProjet = filterProjet.filter(item => item.statut === 'Actif' ||item.statut === 'En approbation');
             filterProjet = filterProjet.sort((a,b) => {
-                if (a.no_projet < b.no_projet){
+                if (a.nature.echeance < b.nature.echeance){
                   return -1;
                 } 
-                if (a.no_projet > b.no_projet) {
+                if (a.nature.echeance > b.nature.echeance) {
                   return 1;
                 }
                 return 0

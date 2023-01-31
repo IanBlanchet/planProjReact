@@ -3,6 +3,7 @@ import { Grid, GridItem, Heading} from "@chakra-ui/react"
 import { modJalon, getRessources } from "../../util"
 import { GaugeChartSimple } from "./realisation/gaugechart";
 import { Gantt } from "./realisation/gantchart";
+import { TableContrat } from "./realisation/tableContrat";
 
 
 
@@ -22,7 +23,7 @@ export const Realisation = ({projet, updateNature}) => {
         
         <Grid
             templateRows='1fr 1fr'
-            templateColumns='4fr 1fr'
+            templateColumns='1fr 2fr'
             gap='5px'
             >
                 <GridItem  gridColumn='1 /span 1' gridRow='1 / span 1'>
@@ -31,9 +32,17 @@ export const Realisation = ({projet, updateNature}) => {
 
                 </GridItem>
 
+                <GridItem  gridColumn='2 /span 1' gridRow='1 / span 1'>
+
+                    <TableContrat projet={projet}  />
+
+                </GridItem>
+
+
+
                 <GridItem  gridColumn='1 /span 2' gridRow='2 / span 1'>
 
-                    <Gantt />
+                    <Gantt projet={projet}/>
                     
                 </GridItem>
 

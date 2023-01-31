@@ -38,17 +38,17 @@ export function GaugeChartSimple(props) {
       props.updateNature(newNature)        
     }
     
+
+    
     
 
     useEffect(() => {
-        setNature({})
-        setNature(props.projet.nature)
-             
+          
         
-    }, [props])
+    }, [])
   
     return (
-      <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' boxShadow='md'>  
+      <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' boxShadow='md' >  
       <Grid templateRows='(1fr, 1fr, 4fr, 1fr)' templateColumns='1fr' gap='1px' justifyItems='center'>
       <GridItem gridRow='1 / span 1'>
         <Heading size='lg' marginBottom='2'>Avancement</Heading>

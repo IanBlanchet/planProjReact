@@ -1,42 +1,42 @@
-import { useState }from 'react'
-
+import { useState, useEffect }from 'react'
+import { Grid, GridItem} from '@chakra-ui/react'
 import { FrappeGantt } from 'frappe-gantt-react'
+import { TableTasks } from './tableTask'
 
 
 
 let basetasks = [
     {
-      id: 'Task 1',
-      name: 'Redesign website',
-      start: '2016-12-28',
-      end: '2016-12-31',
-      progress: 20,
+      id: '1',
+      name: 'debut des travaux fictif',
+      start: '2023-01-28',
+      end: '2023-03-31',
+      progress: 10,
       dependencies: ''
     },
     {
-        id: 'Task 2',
-        name: 'Redesign website',
-        start: '2016-12-31',
-        end: '2017-01-30',
+        id: '2',
+        name: 'fin des travaux fictif',
+        start: '2023-03-31',
+        end: '2023-04-30',
         progress: 20,
-        dependencies: 'Task 1'
+        dependencies: '1'
       },
       {
-        id: 'Task 3',
-        name: 'Redesign website',
-        start: '2016-12-31',
-        end: '2017-01-30',
-        
-        dependencies: 'Task 1'
+        id: '3',
+        name: 'Réception fictive',
+        start: '2023-05-01',
+        end: '2023-05-12',        
+        dependencies: '1'
       }
     
   ]
 
 
 
-export function Gantt({steps})  {
+export function Gantt({projet})  {
 
-    const [ mode, setMode] = useState('Week')
+    const [ mode, setMode] = useState('Month')
     const [ tasks, setTasks] = useState(basetasks)
 
     const handleDateChange = (task, start, end) => {
@@ -47,18 +47,40 @@ export function Gantt({steps})  {
         setTasks(newTasks)
     }
 
+    useEffect(() => {
+        if (projet.nature.tasks) {
+            setTasks(projet.nature.tasks)
+        } 
+
+        
+    }, [])
+
+
     return (
         
-        <div>
-            <FrappeGantt
-                tasks={tasks}
-                viewMode={mode}
-                onClick={tasks => console.log('click')}                
-                onDateChange={(task, start, end) => handleDateChange(task, start, end)}
-                onProgressChange={(tasks) => console.log('progress')}
-                onTasksChange={tasks => console.log('no')}
-            />
-        </div>
+        <Grid             
+            templateColumns='2fr 6fr'
+            border='1px'
+            padding='5px'
+            margin='5px'
+            borderRadius='5px'
+            boxShadow='md'>
+
+            <GridItem gridColumn='1 / span1'>
+                
+            </GridItem>
+
+            <GridItem  gridColumn='2 / span1'>
+                <FrappeGantt
+                    tasks={tasks}
+                    viewMode={mode}
+                    onClick={task => console.log('click')}                
+                    onDateChange={(task, start, end) => handleDateChange(task, start, end)}
+                    onProgressChange={(task, progress) => console.log('ok')}
+                    onTasksChange={tasks => console.log('ok')}
+                />
+            </GridItem>
+        </Grid>
         
 
     )
