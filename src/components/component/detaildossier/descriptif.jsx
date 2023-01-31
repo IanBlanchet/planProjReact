@@ -18,7 +18,8 @@ export function Descriptif(props) {
 
     
     const buttonClick = () => {
-        setIschecked(isChecked?false:true)        
+        setIschecked(isChecked?false:true);
+        props.updateNature(nature)        
         
     }
 
@@ -26,7 +27,7 @@ export function Descriptif(props) {
         let newNature = {...nature};
         newNature = {...newNature, ...data}
         setNature(newNature);        
-        props.updateNature(newNature);        
+        //props.updateNature(newNature);        
     }
 
     const updateStrategic = (value) => {
