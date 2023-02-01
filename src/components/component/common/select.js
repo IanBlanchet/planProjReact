@@ -32,7 +32,8 @@ export function SelectContrat(props) {
 
 
     const handleSelect = (e) => {
-        props.onChange(e.value)        
+        props.onChange(e.value)
+               
     }
 
     return (

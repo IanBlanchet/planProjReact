@@ -24,7 +24,7 @@ import { modJalon } from '../../util';
     const {isOpen, onOpen, onClose } = useDisclosure();  
      
 
-    const pushNewJalon = (jalon) => {        
+    const pushNewJalon = (jalon) => {           
         modJalon('/api/v1/jalon', {}, jalon, 'POST').then(
           returnjalon =>  {refresh('add', returnjalon);
                         onClose();}

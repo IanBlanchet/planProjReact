@@ -28,7 +28,7 @@ export const NewJalonForm = ({projets, contrats, users, pushNewJalon}) => {
         switch (association) {
             case 'projet' : newJalon.current.projet_id = value         
                 break;
-            case 'contrat' : newJalon.current.contrat_id = value 
+            case 'contrat' : newJalon.current.contrat_id = value                
                 break;            
             default:
                 break;
@@ -39,7 +39,7 @@ export const NewJalonForm = ({projets, contrats, users, pushNewJalon}) => {
         newJalon.current[target.name] = target.value        
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = () => {        
         newJalon.current.charge_jalon = parseInt(newJalon.current.charge_jalon)
         if (!newJalon.current.jalon || !newJalon.current.date || !newJalon.current.charge_jalon) {
             toast({description:'Vous devez entrer au minimum la date, le jalon et le chargé du jalon'})
