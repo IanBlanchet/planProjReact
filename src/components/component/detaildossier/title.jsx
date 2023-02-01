@@ -8,16 +8,16 @@ export const TitleProjet = ({projet, updateStatut}) => {
     return (
 
         <Grid templateRows='60px'
-              templateColumns='6fr 1fr'
+              templateColumns='6 1'
               border='1px'
               padding='5px'
               margin='5px'
               borderRadius='5px'
               boxShadow='md'>
 
-            <GridItem  gridRow='1 /span 1' gridColumn='1 / span1'>
+            <GridItem  gridRow='1 /span 1' gridColumn='1 / span1' overflow='hidden'>
 
-                <Heading size='xl' margin='5px'>{projet.no_projet} - {projet.desc}</Heading>
+                <Heading fontSize={['18px', '20px', '25px', '35px']}  margin='5px'>{projet.no_projet} - {projet.desc}</Heading>
 
             </GridItem>
 
