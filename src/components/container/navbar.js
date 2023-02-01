@@ -1,9 +1,26 @@
 import { useContext } from 'react';
 import { Flex, Spacer, Box, Button, ButtonGroup, Image} from '@chakra-ui/react'
 import { Connexion } from '../component/modal'
-import { GrSchedules, GrUserAdmin, GrMoney, GrTable, GrFlag, GrVulnerability } from 'react-icons/gr'
+import { GrSchedules, GrUserAdmin, GrMoney, GrTable, GrFlag, GrVulnerability, GrAnchor } from 'react-icons/gr'
 import logo from '../../static/logo.png';
 import { Outlet, Link } from 'react-router-dom';
+import { Show, Hide } from '@chakra-ui/react'
+
+
+
+const ResponsiveButton = (props) => {
+
+    return (
+        
+            <Button leftIcon={props.children} variant='solid' borderWidth={1} borderColor="white">
+               <Show above='1024px'>
+                    <>{props.text}</>
+                </Show> 
+            </Button>
+        
+
+    )
+}
 
 
 /** 
@@ -13,21 +30,18 @@ import { Outlet, Link } from 'react-router-dom';
 */
 export function NavBar() {
    
-    
-
-
     return (
         <>
         <Flex bg='blue.800' h='12' padding='1'>
             <Image  borderRadius='2px' boxSize='40px' margin='1px' src={logo} alt="logo" />
             <Spacer />
             <ButtonGroup spacing='4' variant='outline' size='sm'>
-                <Link to='/listjalons'><Button leftIcon={<GrFlag/>} variant='solid' borderWidth={1} borderColor="white">Liste jalons</Button> </Link>
-                <Link to='/suiviprojet'><Button leftIcon={<GrFlag />}  variant='solid' borderWidth={1} borderColor="white">Suivi projets</Button></Link>
-                <Link to='/evenement'><Button leftIcon={<GrSchedules />}  variant='solid' borderWidth={1} borderColor="white">Évènement</Button></Link>  
-                <Link to='/detailprojet' ><Button leftIcon={<GrTable/>}  variant='solid' borderWidth={1} borderColor="white">Détail projet</Button></Link>
-                <Link to='/pti'><Button leftIcon={<GrMoney/>} variant='solid' borderWidth={1} borderColor="white">Pti</Button></Link>
-                <Link to='/strategique'><Button leftIcon={<GrVulnerability/>} variant='solid' borderWidth={1} borderColor="white">Dossiers stratégiques</Button></Link>
+                <Link to='/listjalons'><ResponsiveButton text='Liste jalons'><GrFlag/></ResponsiveButton></Link>
+                <Link to='/suiviprojet'><ResponsiveButton text='Suivi projets'><GrAnchor /></ResponsiveButton></Link>       
+                <Link to='/evenement'><ResponsiveButton text='Évènement'><GrSchedules /></ResponsiveButton></Link>  
+                <Link to='/detailprojet' ><ResponsiveButton text='Détail projet'><GrTable/></ResponsiveButton></Link>
+                <Link to='/pti'><ResponsiveButton text='Pti'><GrMoney/></ResponsiveButton></Link>
+                <Link to='/strategique'><ResponsiveButton text='Dossiers stratégiques'><GrVulnerability/></ResponsiveButton></Link>
                 {   
                     sessionStorage.user&&
                     (JSON.parse(sessionStorage.user)).username=== 'Ian'&&

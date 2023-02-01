@@ -15,9 +15,9 @@ export const TitleProjet = ({projet, updateStatut}) => {
               borderRadius='5px'
               boxShadow='md'>
 
-            <GridItem  gridRow='1 /span 1' gridColumn='1 / span1'>
+            <GridItem  gridRow='1 /span 1' gridColumn='1 / span1' overflow='hidden'>
 
-                <Heading size='xl' margin='5px'>{projet.no_projet} - {projet.desc}</Heading>
+                <Heading fontSize={['18px', '20px', '25px', '35px']}  margin='5px'>{projet.no_projet} - {projet.desc}</Heading>
 
             </GridItem>
 
