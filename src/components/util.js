@@ -1,7 +1,4 @@
 
- 
- 
- 
 
  const domain = process.env.REACT_APP_URI
  
@@ -29,7 +26,8 @@
   }
 
   export const getRessources = async (url, params={}, objects={}, method='GET') => {
-    
+  
+
     let responsedata = []
     const myHeaders = new Headers();
     myHeaders.append('HTTP_AUTHORIZATION',sessionStorage.getItem('token') ) 
@@ -52,8 +50,7 @@
         
         responsedata = await response.json()
         if (response.status == 400)  {
-          
-          return responsedata
+            return responsedata
           
         }
                 

@@ -7,6 +7,7 @@ import {
   Navigate,
   } from "react-router-dom";
 import { getRessources } from "./components/util";
+import { useToast } from "@chakra-ui/react";
 
 
 export let AuthContext = createContext()
@@ -21,7 +22,12 @@ export function cleanSessionStorage() {
 
 export function AuthProvider({ children }) {
   let [user, setUser] = useState(sessionStorage.getItem('user')&&JSON.parse(sessionStorage.getItem('user')));
- 
+  const navigate = useNavigate()
+  const toast = useToast({                
+    position: '',
+    duration: 1000,
+    isClosable: true
+  })
 
   let signin = (newUser) => {
     setUser(newUser)    
@@ -31,11 +37,21 @@ export function AuthProvider({ children }) {
   let signout = (callback) => {
     cleanSessionStorage()
     setUser(null)
+    clearTimeout(myTimeout)
     callback()
     
   };
 
   let value = { user, signin, signout};
+
+  useEffect(() => {
+    const myTimeout = setTimeout(() => {
+      cleanSessionStorage();
+      navigate('/');
+      toast({status:'error', description:'Session expirée'});      
+    }, (59000*60*24));
+    
+  }, [user])
   
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

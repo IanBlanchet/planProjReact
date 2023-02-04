@@ -1,54 +1,52 @@
-
-import { useEffect } from 'react';
-import { Box, Heading } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import {Radio, RadioGroup, FormControl, FormLabel, Stack, Box, IconButton, Heading } from '@chakra-ui/react';
 import {Grid, GridItem} from '@chakra-ui/react'
-import { RessourceRequise } from './descriptif/ressource';
-import { DescriptionGen } from './descriptif/descriptionGen';
+import { TextDescriptifInput } from './textDescriptifInput';
+import { FcSettings, FcFeedIn } from "react-icons/fc";
+
+
+const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':true, 'echeance':'', 'notes':''}
 
 
 
-export function Descriptif({projet, updateNature}) {
+export function DescriptionGen({projet, updateNature}) {
+
+    const [isChecked, setIschecked] = useState(false);
+    const [nature, setNature] = useState(blanckNature);     
+
+    
+    const saveChange = () => {
+        setIschecked(isChecked?false:true);
+        updateNature(nature)        
+        
+    }
+
+    const updateDescriptif = (data) => {
+        let newNature = {...nature};
+        newNature = {...newNature, ...data}
+        setNature(newNature);     
+               
+    }
+
+    const updateStrategic = (value) => {
+        let newNature = {...nature};
+        let booleanValue = value === 'true'?true:false
+        newNature = {...newNature, 'isStrategic':booleanValue}
+        setNature(newNature);               
+        updateNature(newNature); 
+    }
 
     useEffect(() => {
-        
+        setNature(!projet.nature?blanckNature:{...blanckNature, ...projet.nature});
                         
     },[projet])
     
 
     return (
         
-    <Grid   
-        templateRows='1fr 1fr 1fr'
-        templateColumns='2fr 2fr 2fr'
-        gap='5px'
-        >
+    
         <GridItem  gridRow='1 / span 3' gridColumn='1 /span 1'>
-            <DescriptionGen projet={projet} updateNature={updateNature}/>
-        </GridItem>
-
-        <GridItem  gridRow='1 / span 3' gridColumn='2 /span 1'>
-
-            <RessourceRequise projet={projet} updateNature={updateNature}  />
-
-        </GridItem>
-
-        <GridItem  gridRow='1 / span 3' gridColumn='3 /span 1' justifySelf='end'>
-            <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                <Heading>
-                    Localisation (en construction)
-                </Heading>
-            </Box>
-        </GridItem>
-
-    </Grid>
-        
-        
-    )
-}
-
-
-
-/*<Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg'  >
+            <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg'  >
                         <Heading size='lg' marginBottom='2'>Description générale <IconButton onClick={saveChange} variant={isChecked?'solid':'outline'} colorScheme='whiteAlpha' icon={!isChecked?<FcSettings/>:<FcFeedIn/>}/></Heading>
                         
                         <Stack orientation='vertical'>
@@ -68,4 +66,13 @@ export function Descriptif({projet, updateNature}) {
                         <TextDescriptifInput titre='refus' detail={nature.refus} updateNature={updateDescriptif} isChecked={isChecked}/>
                         </Stack>
                         
-            </Box> */
+            </Box> 
+        </GridItem>
+
+
+
+    
+        
+        
+    )
+}

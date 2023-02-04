@@ -24,7 +24,6 @@ export const CoreTabs = ({projet, setProjet}) => {
 
 
 
-
     return (
 
         <Tabs isFitted variant='solid-rounded' size='sm'>
