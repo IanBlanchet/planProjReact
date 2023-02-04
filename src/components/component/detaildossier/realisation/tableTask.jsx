@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { getRessources } from '../../../util'
+import { BaseDataContext } from '../../../../auth'
 
 import {
     Table,
@@ -44,7 +45,8 @@ import {
 
 
 export const TableTasks = ({projet}) => {
-    const [tasks, setTasks] = useState(basetasks)
+    const {blanckNature} = useContext(BaseDataContext)
+    const [tasks, setTasks] = useState(blanckNature.tasks)
 
     useEffect(() =>{
         if (projet.nature.tasks) {
