@@ -1,13 +1,12 @@
-
 import { IconButton } from '@chakra-ui/react';
-import { FcPlus } from "react-icons/fc";
+import { FcDeleteRow } from "react-icons/fc";
 
 
-export function ButtonAddService({service, updateService}) {
+export function ButtonRemoveService({service, updateService}) {
 
     const handleClick = () => {
 
-        updateService(service, true)
+        updateService(service, false)
     }
     
 
@@ -15,7 +14,7 @@ export function ButtonAddService({service, updateService}) {
     return (
         <IconButton                                                                                                                                       
             size='xs'
-            icon={<FcPlus />}                                                                                          
+            icon={<FcDeleteRow />}                                                                                          
             onClick={handleClick}
             />
     )

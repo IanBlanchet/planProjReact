@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import GaugeChart from 'react-gauge-chart'
-import { Box, Grid, GridItem, Heading, IconButton, Input, FormControl, FormLabel } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Heading, IconButton, Input, FormControl, FormLabel, Center } from "@chakra-ui/react";
 import { FcUp, FcDown } from "react-icons/fc";
 import { BaseDataContext } from '../../../../auth';
 
@@ -59,18 +59,9 @@ export function GaugeChartSimple(props) {
       <IconButton aria-label='avance' icon={<FcUp />} id='up' onClick={handleClickUp} />
       <IconButton aria-label='recule' icon={<FcDown />} id='down' onClick={handleClickDown} />
       </GridItem>
-      <GridItem gridRow='3 / span 1'>
-      <GaugeChart       
-        id={(props.projet.id).toString()}
-        nrOfLevels={20}
-        hideText={false}
-        animate={false}
-        percent={nature.avancement/100}
-        textColor='blue.500'
-        colors={['#2185d0', '#21ba45']}
-        
-           
-      />
+      <GridItem gridRow='3 / span 1' justifySelf='center' margin='10px'>
+      <Heading>{nature.avancement}%</Heading>
+
       </GridItem>
       <GridItem gridRow='4 / span 1'>
         <FormControl display='flex' alignItems='center'>

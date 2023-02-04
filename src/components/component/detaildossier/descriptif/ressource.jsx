@@ -3,12 +3,12 @@ import { Box, IconButton, Heading, HStack, Stack, Text, List, ListItem, Select} 
 import { FcSettings, FcFeedIn, FcPlus } from "react-icons/fc";
 import { modJalon } from '../../../util';
 import { ButtonAddService } from './buttonAddService';
+import { ButtonRemoveService } from './buttonRemoveService';
 import { BaseDataContext } from '../../../../auth';
 
 const year = new Date().getFullYear();
 
 const options = ['Ingénierie', 'Travaux publics', 'Environnement', 'SRC', 'Urbanisme', 'Développement Économique', 'Greffe', 'Finance', 'Communications', 'Incendies', 'RH']
-
 
 
 export function RessourceRequise ({projet, updateNature}) {
@@ -26,12 +26,12 @@ export function RessourceRequise ({projet, updateNature}) {
         setSelectedService(e.target.value)
     }
 
-    const addService = (value) => {
+    const updateService = (value, add) => {
         if(value) {
             let temp = {...nature};
             let service =[];
             nature.services&&(service = [...nature.services]);
-            service.push(value)
+            add?service.push(value):service = service.filter(item => item !== value)
             const newService = {'services':service};
             let newnature = {...temp, ...newService}
             setNature(newnature);
@@ -39,6 +39,9 @@ export function RessourceRequise ({projet, updateNature}) {
             setSelectedService('')
         }
     }
+
+
+
 
     const saveChange = () => {
         !isChecked?setIschecked(true):setIschecked(false);
@@ -54,7 +57,7 @@ export function RessourceRequise ({projet, updateNature}) {
 
     useEffect(()=>{
         
-        setNature(!projet.nature?blanckNature:{...blanckNature,...projet.nature})
+        setNature(!projet.nature?blanckNature:{...blanckNature,...projet.nature})        
         setCharge(projet.charge?user.find(item => item.id === projet.charge).username:'')
   
     }, [projet])
@@ -69,10 +72,11 @@ export function RessourceRequise ({projet, updateNature}) {
 
                 <Heading size='md'>Chargé de projet</Heading>
                 {isChecked?<Stack >
-                <Text>{charge}</Text> 
+                
                 <Select placeholder='choisir un chargé de projet' onChange={changeResponsable}> 
-                    {user.map(item => (<option value={item.id} key={item.id}>{item.username}</option>))}                   
+                    {user.filter(item => item.statut !== 'support').map(item => (<option value={item.id} key={item.id}>{item.username}</option>))}                   
                 </Select>
+                <Text>{charge}</Text> 
                 </Stack>:<Text>{charge}</Text> }
                               
                 </Stack>
@@ -80,13 +84,13 @@ export function RessourceRequise ({projet, updateNature}) {
 
                 <Heading size='md'>Services impliqués</Heading>
                 {isChecked&&<HStack >
-                <Select placeholder='Selectionne un service' onChange={handleChangeService} onDoubleClick={addService}> 
+                <Select placeholder='Selectionne un service' onChange={handleChangeService} > 
                     {options.map(item => !nature.services.includes(item)&&(<option value={item} key={item}>{item}</option>))}                   
                 </Select>
-                <ButtonAddService service={selectedService} addService={addService}/>
+                <ButtonAddService service={selectedService} updateService={updateService}/>
                 
                 </HStack>}
-                <Text><List>{nature.services?nature.services.map(item => <ListItem key={item}>{item}</ListItem>):''}</List></Text>
+                <Text><List>{nature.services?nature.services.map(item => <ListItem key={item}>{item}<ButtonRemoveService service={item} updateService={updateService}/></ListItem>):''}</List></Text>
 
                  
             
