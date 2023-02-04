@@ -29,15 +29,24 @@ export function AuthProvider({ children }) {
     isClosable: true
   })
 
+  function execute() {
+    cleanSessionStorage();
+    navigate('/');
+    toast({status:'error', description:'Session expirée'});
+  }
+
+  let myTimeout = ''
+
+
   let signin = (newUser) => {
+    clearTimeout(myTimeout)
     setUser(newUser)    
     
   };
 
   let signout = (callback) => {
-    cleanSessionStorage()
-    setUser(null)
-    clearTimeout(myTimeout)
+    cleanSessionStorage()    
+    clearTimeout(myTimeout)    
     callback()
     
   };
@@ -45,7 +54,8 @@ export function AuthProvider({ children }) {
   let value = { user, signin, signout};
 
   useEffect(() => {
-    const myTimeout = setTimeout(() => {
+    
+    myTimeout = setTimeout(() => {
       cleanSessionStorage();
       navigate('/');
       toast({status:'error', description:'Session expirée'});      
