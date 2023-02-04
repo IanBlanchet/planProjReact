@@ -62,7 +62,38 @@ function BaseDataProvider({children}) {
   const [user, setUser] = useState([]);
   const [contrat, setContrat] = useState([]);
   const [projet, setProjet] = useState([]);
-
+  const blanckNature = {
+    'nature': [' '],
+    'justification':[' '],
+    'refus':[' '], 
+    'tempsCharge':0, 
+    'tempsTech' :0, 
+    'services':[], 
+    'avancement':0, 
+    'impacts':[], 
+    'isStrategic':true, 
+    'echeance':'', 
+    'notes':'',
+    'tasks':[
+      {
+        id: '1',
+        name: 'debut des travaux fictif',
+        start: '2023-01-28',
+        end: '2023-03-31',
+        progress: 10,
+        dependencies: ''
+      },
+      {
+          id: '2',
+          name: 'fin des travaux fictif',
+          start: '2023-03-31',
+          end: '2023-04-30',
+          progress: 20,
+          dependencies: '1'
+        },      
+    ]
+  }
+  
   const refreshData = () => {
     getRessources('/api/v1/user').then(
       users => setUser(users));
@@ -86,7 +117,7 @@ function BaseDataProvider({children}) {
     
   }, [])
 
-  return <BaseDataContext.Provider value={{user, projet, contrat, refreshData}}>{children}</BaseDataContext.Provider>;
+  return <BaseDataContext.Provider value={{user, projet, contrat, blanckNature, refreshData}}>{children}</BaseDataContext.Provider>;
 }
 
 

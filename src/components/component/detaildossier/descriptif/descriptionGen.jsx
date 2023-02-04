@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {Radio, RadioGroup, FormControl, FormLabel, Stack, Box, IconButton, Heading } from '@chakra-ui/react';
 import {Grid, GridItem} from '@chakra-ui/react'
 import { TextDescriptifInput } from './textDescriptifInput';
 import { FcSettings, FcFeedIn } from "react-icons/fc";
+import { BaseDataContext } from '../../../../auth';
 
-
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':true, 'echeance':'', 'notes':''}
 
 
 
 export function DescriptionGen({projet, updateNature}) {
 
+    const {blanckNature} = useContext(BaseDataContext)
     const [isChecked, setIschecked] = useState(false);
     const [nature, setNature] = useState(blanckNature);     
 

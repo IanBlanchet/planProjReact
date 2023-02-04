@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import GaugeChart from 'react-gauge-chart'
 import { Box, Grid, GridItem, Heading, IconButton, Input, FormControl, FormLabel } from "@chakra-ui/react";
 import { FcUp, FcDown } from "react-icons/fc";
+import { BaseDataContext } from '../../../../auth';
 
 
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':true, 'echeance':'', 'notes':''}
 
 export function GaugeChartSimple(props) {
+    
+    const {blanckNature} = useContext(BaseDataContext)
     const [nature, setNature] = useState(props.projet.nature)
     
 

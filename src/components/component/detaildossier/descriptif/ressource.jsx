@@ -9,15 +9,16 @@ const year = new Date().getFullYear();
 
 const options = ['Ingénierie', 'Travaux publics', 'Environnement', 'SRC', 'Urbanisme', 'Développement Économique', 'Greffe', 'Finance', 'Communications', 'Incendies', 'RH']
 
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':true, 'echeance':'', 'notes':''}
+
 
 export function RessourceRequise ({projet, updateNature}) {
-
+    
+    const {user, blanckNature} = useContext(BaseDataContext)
     const [nature, setNature] = useState(blanckNature)
     const [isChecked, setIschecked] = useState(false);
     const [charge, setCharge] = useState('');
     const [selectedService, setSelectedService] = useState('')
-    const {user} = useContext(BaseDataContext)
+    
 
 
 
