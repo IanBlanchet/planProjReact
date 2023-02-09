@@ -48,6 +48,6 @@ export const useSort = (sortCriteria, list) => {
                 
         setSortArray(sortList)
     },[sortCriteria, list])
-    console.log(sortCriteria, sortArray)
+    
     return sortArray
 }

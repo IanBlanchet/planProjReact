@@ -13,7 +13,7 @@ export const SortButton = ({level, value, title, onClick}) => {
 
     return (
 
-        <Button size='sm' variant='solid' colorScheme='yellow' level={level} value={value} onClick={handleOnClick}>
+        <Button size='xs' borderRadius='0' variant='solid' colorScheme='yellow' level={level} value={value} onClick={handleOnClick}>
             {title}{sortDirection?<FcExpand/>:<FcCollapse/>}
         </Button>
             
