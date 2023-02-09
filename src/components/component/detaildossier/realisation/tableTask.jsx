@@ -15,33 +15,6 @@ import {
   } from '@chakra-ui/react'
   import { Input, Box, Heading } from '@chakra-ui/react'
 
-  let basetasks = [
-    {
-      id: '1',
-      name: 'debut des travaux fictif',
-      start: '2023-01-28',
-      end: '2023-03-31',
-      progress: 10,
-      dependencies: ''
-    },
-    {
-        id: '2',
-        name: 'fin des travaux fictif',
-        start: '2023-03-31',
-        end: '2023-04-30',
-        progress: 20,
-        dependencies: '1'
-      },
-      {
-        id: '3',
-        name: 'Réception fictive',
-        start: '2023-05-01',
-        end: '2023-05-12',        
-        dependencies: '1'
-      }
-    
-  ]
-
 
 
 export const TableTasks = ({projet}) => {

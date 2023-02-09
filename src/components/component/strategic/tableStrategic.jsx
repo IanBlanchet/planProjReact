@@ -1,18 +1,17 @@
 import { useState, useEffect, useContext } from 'react';
-import {  Box, VStack, Flex, Grid, GridItem, Select, Text, Textarea, Checkbox, CheckboxGroup, Input, Heading } from '@chakra-ui/react'
-import { FcExpand, FcCollapse } from "react-icons/fc";
+import {  
+    Box, VStack, Flex, Grid, GridItem,
+    Select, ButtonGroup, Input, Heading } from '@chakra-ui/react'
 import { SelectFiltre } from '../common/select';
 import { AddPointage } from '../modal';
 import { modJalon } from '../../util';
 import { getRessources } from '../../util';
 import { ProjetBox } from './projetBox';
 import { useFilter } from '../../../hooks/useFilter';
-import { BarChart } from './charts';
+import { useSort} from '../../../hooks/useSort';
+import { SortButton } from './sortButton';
 
 
-
-
-const blanckNature = {'nature': [' '], 'justification':[' '], 'refus':[' '], 'tempsCharge':0, 'tempsTech' :0, 'services':[], 'avancement':0, 'impacts':[], 'isStrategic':true, 'echeance':'', 'notes':'' }
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
 
@@ -22,11 +21,11 @@ export function TableStrategic({user}) {
     const [rawProjet, setRawProjet] = useState([]);
     const [projet, setProjet] = useState([]);    
     const [filters, setFilters] = useState({}); 
+    const [sortCriteria, setSortCriteria] = useState({level:'baseColumn', criteria:'', direction:true})
     const [searchInput, setSearchInput]= useState('')  
-    let projetFiltre = useFilter(filters, projet)
+    let projetFiltre = useFilter(filters, projet);
+    let projetFiltreSort = useSort(sortCriteria, projetFiltre)
 
-    
-    
    
     const calcTotalProjetServices = () => {
         const entete = ["Services", "Nombre de projets", { role: 'annotation' }]
@@ -48,6 +47,15 @@ export function TableStrategic({user}) {
         
         setFilters({...filters, ...filter})
     }
+
+    const handleSort = (target, sortDirection) => {
+        
+        const newCriteria = {level:target.getAttribute('level'), criteria:target.getAttribute('value'), direction:sortDirection }
+        setSortCriteria(newCriteria)
+    }
+
+
+
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -111,6 +119,12 @@ export function TableStrategic({user}) {
                         {user.map(item => <option key={item.id} value={item.id}>{item.username}</option>)}
                     </Select>
                     <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch} bg='white' size='xs'></Input>
+                    <ButtonGroup variant='outline' spacing='2px'>
+                        <SortButton level='baseColumn' value='no_projet' title='No projet' onClick={handleSort}/>
+                        <SortButton level='natureLevel' value='echeance' title='Échéance' onClick={handleSort}/>
+                        <SortButton level='natureLevel' value='avancement' title='Avancement' onClick={handleSort}/>
+                    </ButtonGroup>
+
                     </>
                  
                 </VStack>
@@ -122,7 +136,7 @@ export function TableStrategic({user}) {
         
            <GridItem colSpan='1' height='880px' overflowY='scroll' >
                 <Flex gap='1' direction='row' wrap='wrap' justifyContent='right' >
-                    {projetFiltre.map(projet =>                      
+                    {projetFiltreSort.map(projet =>                      
                         <ProjetBox projet={projet} user={projet.charge?user.find(item => item.id === projet.charge):[]} key={projet.id}/>                   
                     )}
                     
