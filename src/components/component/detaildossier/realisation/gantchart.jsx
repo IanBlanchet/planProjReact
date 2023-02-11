@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext }from 'react'
-import { Grid, GridItem, IconButton} from '@chakra-ui/react'
+import { Grid, GridItem, IconButton, ButtonGroup, Button} from '@chakra-ui/react'
 import { FrappeGantt } from 'frappe-gantt-react'
 import { TableTasks } from './tableTask'
 import { BaseDataContext } from '../../../../auth'
 import { BsBarChartSteps, BsReverseLayoutTextSidebarReverse } from "react-icons/bs";
-import { modJalon } from '../../../util'
+
 
 
 
@@ -88,20 +88,22 @@ export function Gantt({projet, updateNature})  {
     return (
         
         <Grid             
-            templateColumns='0.5fr 2fr 6fr'
-            border='1px'
+            templateColumns='0.5fr 2fr 6fr'            
+            borderWidth='2px'
             padding='5px'
             margin='5px'
-            borderRadius='5px'
-            boxShadow='md'>
+            borderRadius='2px'
+            boxShadow='md'
+            >
             
-            <GridItem>
+            <GridItem >
                 <IconButton 
                     icon={tableauTaskOn?<BsBarChartSteps />:<BsReverseLayoutTextSidebarReverse />} 
                     onClick={handleClickViewTableau}                
                 />
             </GridItem>
 
+            
             
             <GridItem gridColumn='2 / span 2'>
                 {
@@ -118,14 +120,22 @@ export function Gantt({projet, updateNature})  {
                 {
 
                     !tableauTaskOn&&
-                    <FrappeGantt
-                    tasks={tasks}
-                    viewMode={mode}
-                    //onClick={task => console.log('click')}                
-                    onDateChange={(task, start, end) => handleDateChange(task, start, end)}
-                    onProgressChange={(task, progress) => handleProgessChange(task, progress)}
-                    //onTasksChange={tasks => console.log('ok')}
-                />
+                    <>
+                        <ButtonGroup orientation='horizontal' size='xs' isAttached variant='outline'>
+                            <Button onClick={()=> setMode('Month')} >Mois</Button>
+                            <Button onClick={()=> setMode('Year')} >Année</Button>
+                            <Button onClick={()=> setMode('Week')} >Semaine</Button>
+                        </ButtonGroup>
+
+                        <FrappeGantt                                                  
+                            tasks={tasks}
+                            viewMode={mode}
+                            //onClick={task => console.log('click')}                
+                            onDateChange={(task, start, end) => handleDateChange(task, start, end)}
+                            onProgressChange={(task, progress) => handleProgessChange(task, progress)}
+                            //onTasksChange={tasks => console.log('ok')}
+                        />
+                    </>
                 }
             </GridItem>
                 

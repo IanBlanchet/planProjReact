@@ -44,7 +44,7 @@ export const TableTasks = ({tasks, updateTasks, addTask, deleteTask}) => {
         
         
         <TableContainer >
-        <Table variant='simple' size='xs' overflowY='scroll'  >
+        <Table variant='simple' size='sm' overflowY='scroll'  >
           <Thead position='sticky' top='0' >
             <Tr bg='gray.200' size='xs'>
               <Th></Th>
@@ -52,7 +52,7 @@ export const TableTasks = ({tasks, updateTasks, addTask, deleteTask}) => {
               <Th >Description</Th>              
               <Th>Début</Th>
               <Th>Fin</Th>
-              <Th >Dépendence</Th>
+              <Th >Dépendance</Th>
             </Tr>
           </Thead>
           <Tbody>
