@@ -13,39 +13,40 @@ import {
     TableCaption,
     TableContainer   
   } from '@chakra-ui/react'
-  import { Input, Box, Heading } from '@chakra-ui/react'
+  
+  import { EditTasksForm } from './editTasksForm'
 
 
 
-export const TableTasks = ({projet}) => {
+export const TableTasks = ({tasks, updateTasks}) => {
     const {blanckNature} = useContext(BaseDataContext)
-    const [tasks, setTasks] = useState(blanckNature.tasks)
+    const [currentTasks, setCurrentTasks] = useState(blanckNature.tasks);
+
+
 
     useEffect(() =>{
-        if (projet.nature.tasks) {
-            setTasks(projet.nature.tasks)
+        if (tasks) {
+            setCurrentTasks(tasks)
         }
-    }, [])
+    }, [tasks])
 
     return (
         
         
         <TableContainer >
-        <Table variant='simple' size="xs" overflowY='scroll' display='inline-block' >
+        <Table variant='simple' size='xs' overflowY='scroll'  >
           <Thead position='sticky' top='0' >
-            <Tr bg='gray.200'>
+            <Tr bg='gray.200' size='xs'>
               <Th >ID</Th>
-              <Th >Description</Th>
+              <Th >Description</Th>              
+              <Th>Début</Th>
+              <Th>Fin</Th>
               <Th >Dépendence</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {tasks.map(task =>
-                <Tr>
-                    <Td>{task.id}</Td>
-                    <Td><Input value={task.name}/></Td>
-                    <Td><Input value={task.dependencies}/></Td>                    
-                </Tr>
+            {currentTasks.map(task =>
+                <EditTasksForm key={task.id} task={task} updateTasks={updateTasks}/>
                 )}
             </Tbody>
       
