@@ -38,7 +38,7 @@ export const Realisation = ({projet, updateNature}) => {
 
                 <GridItem  gridColumn='1 /span 2' gridRow='2 / span 1'>
 
-                    <Gantt projet={projet}/>
+                    <Gantt projet={projet} updateNature={updateNature}/>
                     
                 </GridItem>
 

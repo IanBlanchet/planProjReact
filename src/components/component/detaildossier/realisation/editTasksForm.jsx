@@ -11,9 +11,11 @@ import {
     TableCaption,
     TableContainer   
   } from '@chakra-ui/react'
+import { IconButton } from '@chakra-ui/react';
+import { MdDeleteForever } from "react-icons/md";
 
 
-export const EditTasksForm = ({task, updateTasks}) => {
+export const EditTasksForm = ({task, updateTasks, deleteTask}) => {
     const [currentTask, setCurrentTask] = useState(task)
 
     const handleChange = ({target}) => {
@@ -23,9 +25,18 @@ export const EditTasksForm = ({task, updateTasks}) => {
         updateTasks(newTask);
     }
 
+    const handleDeletetask = () => {
+        deleteTask(currentTask);
+    }
+
+    useEffect(() =>{
+        setCurrentTask(task)
+      }, [task])
+
     return (
 
                 <Tr>
+                    <Td><IconButton icon={<MdDeleteForever/>} onClick={handleDeletetask} /></Td>
                     <Td>{currentTask.id}</Td>
                     <Td><Input name='name' value={currentTask.name} onChange={handleChange}/></Td>                    
                     <Td><Input type='date' name='start' value={currentTask.start} onChange={handleChange} onKeyDown={(e) => e.preventDefault()}/></Td>

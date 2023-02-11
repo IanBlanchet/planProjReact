@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
 import { getRessources } from '../../../util'
 import { BaseDataContext } from '../../../../auth'
+import { FcPlus } from "react-icons/fc";
+import { IconButton } from '@chakra-ui/react';
 
 import {
     Table,
@@ -18,16 +20,24 @@ import {
 
 
 
-export const TableTasks = ({tasks, updateTasks}) => {
-    const {blanckNature} = useContext(BaseDataContext)
-    const [currentTasks, setCurrentTasks] = useState(blanckNature.tasks);
+export const TableTasks = ({tasks, updateTasks, addTask, deleteTask}) => {
+    
+    const [currentTasks, setCurrentTasks] = useState(tasks);
 
-
+    const handleAddTask = () => {
+      let newtask = {
+                  id:(currentTasks.length + 1).toString(),
+                  name:'nouvelle étape', 
+                  start:'2023-01-01', 
+                  end:'2023-02-01',
+                  progress:5, 
+                  dependencies:'' 
+                  }
+      addTask(newtask)
+    }
 
     useEffect(() =>{
-        if (tasks) {
-            setCurrentTasks(tasks)
-        }
+      setCurrentTasks(tasks)
     }, [tasks])
 
     return (
@@ -37,6 +47,7 @@ export const TableTasks = ({tasks, updateTasks}) => {
         <Table variant='simple' size='xs' overflowY='scroll'  >
           <Thead position='sticky' top='0' >
             <Tr bg='gray.200' size='xs'>
+              <Th></Th>
               <Th >ID</Th>
               <Th >Description</Th>              
               <Th>Début</Th>
@@ -45,9 +56,12 @@ export const TableTasks = ({tasks, updateTasks}) => {
             </Tr>
           </Thead>
           <Tbody>
-            {currentTasks.map(task =>
-                <EditTasksForm key={task.id} task={task} updateTasks={updateTasks}/>
+            {currentTasks.map((task, index) =>
+                <EditTasksForm key={index} task={task} updateTasks={updateTasks} deleteTask={deleteTask}/>
                 )}
+              <Tr>
+                <IconButton icon={<FcPlus/>} onClick={handleAddTask} />
+              </Tr>
             </Tbody>
       
         </Table>
