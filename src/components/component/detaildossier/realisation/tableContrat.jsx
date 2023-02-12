@@ -29,7 +29,7 @@ export const TableContrat = ({projet}) => {
         <Box padding='5' borderWidth='2px' borderRadius='lg' boxShadow='md'>
         <Heading size='md' position='sticky' top='0'>Liste des contrats associés</Heading>
         <TableContainer >
-        <Table variant='simple' overflowY='scroll' display='inline-block' maxHeight='250px'>
+        <Table size='sm' variant='simple' overflowY='scroll' display='inline-block' maxHeight='175px'>
           
           
           <Thead position='sticky' top='0' >

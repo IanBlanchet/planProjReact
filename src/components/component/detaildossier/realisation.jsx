@@ -9,11 +9,7 @@ import { TableContrat } from "./realisation/tableContrat";
 
 export const Realisation = ({projet, updateNature}) => {
 
-    const [depense, setDepense] = useState({});
     
-
-
-
     useEffect(() => {
         
     }, [projet])
@@ -22,7 +18,7 @@ export const Realisation = ({projet, updateNature}) => {
     return (
         
         <Grid
-            templateRows='1fr 1fr'
+            templateRows='250px 1fr'
             templateColumns='1fr 2fr'
             gap='5px'
             >
@@ -42,7 +38,7 @@ export const Realisation = ({projet, updateNature}) => {
 
                 <GridItem  gridColumn='1 /span 2' gridRow='2 / span 1'>
 
-                    <Gantt projet={projet}/>
+                    <Gantt projet={projet} updateNature={updateNature}/>
                     
                 </GridItem>
 

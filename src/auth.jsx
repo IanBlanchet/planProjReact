@@ -87,7 +87,7 @@ function BaseDataProvider({children}) {
     'tasks':[
       {
         id: '1',
-        name: 'debut des travaux fictif',
+        name: 'début des travaux fictifs',
         start: '2023-01-28',
         end: '2023-03-31',
         progress: 10,
@@ -95,7 +95,7 @@ function BaseDataProvider({children}) {
       },
       {
           id: '2',
-          name: 'fin des travaux fictif',
+          name: 'fin des travaux fictifs',
           start: '2023-03-31',
           end: '2023-04-30',
           progress: 20,
