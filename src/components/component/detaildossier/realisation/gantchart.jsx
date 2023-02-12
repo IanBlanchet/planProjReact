@@ -127,7 +127,8 @@ export function Gantt({projet, updateNature})  {
                             <Button onClick={()=> setMode('Week')} >Semaine</Button>
                         </ButtonGroup>
 
-                        <FrappeGantt                                                  
+                        <FrappeGantt
+                            borderRadius='25px'                                                                            
                             tasks={tasks}
                             viewMode={mode}
                             //onClick={task => console.log('click')}                
