@@ -16,6 +16,7 @@ import { NewPassword } from './components/container/newpassword';
 import { RegisterUser } from './components/container/registerUser';
 import { ProjetStrategic } from './components/container/projetStrategic';
 import { DetailDossier } from './components/container/detaildossier';
+import { AllProjet } from './components/container/allProjets';
 
 
 
@@ -62,6 +63,7 @@ function App() {
                           element={<RequireAuth><DetailDossier /></RequireAuth>}                                         
                         />
                     </Route>
+                  <Route path='allprojet' element={<RequireAuth><AllProjet/></RequireAuth>} />
                   
                 </Route>
                 

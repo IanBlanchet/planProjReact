@@ -8,7 +8,7 @@ import { useState, useEffect} from 'react';
  */
 export const useFilter = (filterDict, list) => {
 
-    const [filterJalons, setFilterJalons] = useState(list);
+    const [filterElements, setFilterElements] = useState(list);
 
     useEffect(() => {
         let filterList = [...list]        
@@ -18,8 +18,8 @@ export const useFilter = (filterDict, list) => {
                 
         }};        
                 
-        setFilterJalons(filterList)
+        setFilterElements(filterList)
     },[filterDict, list])
 
-    return filterJalons
+    return filterElements
 }

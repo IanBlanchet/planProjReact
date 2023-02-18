@@ -1,23 +1,26 @@
 import { useState, useEffect, useContext } from 'react';
+import { TableAllProjet } from '../component/allProjets/tableAllProjet';
 import {  
     Box, VStack, Flex, Grid, GridItem,
     Select, ButtonGroup, Input, Heading } from '@chakra-ui/react'
-import { SelectFiltre } from '../common/select';
-import { AddPointage } from '../modal';
-import { modJalon } from '../../util';
-import { getRessources } from '../../util';
-import { ProjetBox } from './projetBox';
-import { useFilter } from '../../../hooks/useFilter';
-import { useSort} from '../../../hooks/useSort';
-import { SortButton } from '../common/sortButton';
+import { getRessources } from '../util';
+import { useFilter } from '../../hooks/useFilter';
+import { useSort } from '../../hooks/useSort';
+import { SortButton } from '../component/common/sortButton';
+
+import { BaseDataContext } from '../../auth';
 
 
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
 
 const serviceArray = ['Ingénierie', 'Travaux publics', 'Environnement', 'SRC', 'Urbanisme', 'Développement Économique', 'Greffe', 'Finance', 'Communications', 'Incendies', 'RH']
+const statut = ['Complété', 'Actif', 'Abandonné', 'En réception', 'En approbation', 'En suspend']
 
-export function TableStrategic({user}) {
+
+export const AllProjet = () => {
+    
+    const {user, refreshData} = useContext(BaseDataContext)
     const [rawProjet, setRawProjet] = useState([]);
     const [projet, setProjet] = useState([]);    
     const [filters, setFilters] = useState({}); 
@@ -26,17 +29,7 @@ export function TableStrategic({user}) {
     let projetFiltre = useFilter(filters, projet);
     let projetFiltreSort = useSort(sortCriteria, projetFiltre)
 
-   
-    const calcTotalProjetServices = () => {
-        const entete = ["Services", "Nombre de projets", { role: 'annotation' }]
-        const data = serviceArray.map(item => [item, projetFiltre.reduce(
-            (accumulator, currentValue) => accumulator + (currentValue.nature.services.find(x => item === x)?1:0),
-            0), item])            
-        return [ entete, ...data]
-    }
-    const totalProjetServices = calcTotalProjetServices()
-  
-    
+
     const handleFilter = ({target}) => {
         const filter = {};        
         if (target.name === 'charge') {
@@ -48,12 +41,12 @@ export function TableStrategic({user}) {
         setFilters({...filters, ...filter})
     }
 
+
     const handleSort = (target, sortDirection) => {
         
         const newCriteria = {level:target.getAttribute('level'), criteria:target.getAttribute('value'), direction:sortDirection }
         setSortCriteria(newCriteria)
     }
-
 
 
 
@@ -69,43 +62,24 @@ export function TableStrategic({user}) {
         }
     }
 
-    
-    
 
 
     useEffect(() => {
         
         getRessources('/api/v1/projet').then( projets => {                     
-            let filterProjet = projets.filter(item => item.nature&&item.nature.isStrategic);                        
-            filterProjet = filterProjet.filter(item => item.nature&&(new Date(item.nature.echeance).getFullYear()) === 2023);
-            filterProjet = filterProjet.filter(item => item.statut === 'Actif' ||item.statut === 'En approbation');
-            filterProjet = filterProjet.sort((a,b) => {
-                if (a.nature.echeance < b.nature.echeance){
-                  return -1;
-                } 
-                if (a.nature.echeance > b.nature.echeance) {
-                  return 1;
-                }
-                return 0
-            })
-            setRawProjet(filterProjet);
-            setProjet(filterProjet);            
+
+            setRawProjet(projets);
+            setProjet(projets);            
           
             }
             
         );
        
-    }
+    }, [])
     
-    
-    
-    , [])
-
-
     return (
-        
-        
-        <Grid templateColumns='1fr 5px 8fr' gap='2px'>
+        <>  
+            <Grid templateColumns='1fr 5px 8fr' gap='2px'>
             
             <GridItem colSpan='1' width='max-content' bg='blue.500'>
 
@@ -117,6 +91,9 @@ export function TableStrategic({user}) {
                     </Select>
                     <Select placeholder='filtrer par responsable' onChange={handleFilter} name='charge' bg='white' size='xs'>
                         {user.map(item => <option key={item.id} value={item.id}>{item.username}</option>)}
+                    </Select>
+                    <Select placeholder='filtrer par statut' onChange={handleFilter} name='statut' bg='white' size='xs'>
+                        {statut.map(item => <option key={item} value={item.id}>{item}</option>)}
                     </Select>
                     <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch} bg='white' size='xs'></Input>
                     <ButtonGroup variant='outline' spacing='2px'>
@@ -135,16 +112,11 @@ export function TableStrategic({user}) {
            </GridItem>
         
            <GridItem colSpan='1' height='880px' overflowY='scroll' >
-                <Flex gap='1' direction='row' wrap='wrap' justifyContent='right' >
-                    {projetFiltreSort.map(projet =>                      
-                        <ProjetBox projet={projet} user={projet.charge?user.find(item => item.id === projet.charge):[]} key={projet.id}/>                   
-                    )}
-                    
-                </Flex>
+                    <TableAllProjet  projet={projetFiltreSort}/>
             </GridItem>
            
-        </Grid>
-        
+        </Grid>          
+            
+        </>
     )
 }
-
