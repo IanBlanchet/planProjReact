@@ -69,7 +69,7 @@ export function TableAllProjet({projet}) {
                 {projets.map(projet =>
                 
                 <Tr key={projet.id}>
-                    <Td value={projet.id} textColor='blue' _hover={{background: "white", color: "teal.500",}}><Link to={`/detaildossier/${projet.id}`}>{projet.no_projet}</Link></Td>
+                    <Td value={projet.id} textColor='blue' _hover={{background: "white", color: "teal.500",}}><Link to={`/detaildossier/${projet.id}`} >{projet.no_projet}</Link></Td>
                     <Td>{projet.desc}</Td>
                     <Td>{projet.charge?user.find(user => user.id === projet.charge).username:''}</Td>
                     <Td>
