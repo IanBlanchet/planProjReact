@@ -5,7 +5,7 @@ import { SelectFiltre } from '../common/select';
 import { AddPointage } from '../modal';
 import { modJalon } from '../../util';
 import { BaseDataContext } from '../../../auth';
-
+import { Link } from 'react-router-dom';
 
 
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
@@ -53,7 +53,7 @@ export function TableAllProjet({projet}) {
         <Box >
 
         <Table colorScheme='blue' overflowY='scroll'  size='sm' display='inline-block' maxHeight='800px'>
-            <Thead position='sticky' top='0' zIndex='banner'>
+            <Thead position='sticky' top='0' zIndex='1'>
                 <Tr bg='white'>
                     <Th>no projet</Th>
                     <Th>Description</Th>
@@ -69,7 +69,7 @@ export function TableAllProjet({projet}) {
                 {projets.map(projet =>
                 
                 <Tr key={projet.id}>
-                    <Td value={projet.id} textColor='blue' _hover={{background: "white", color: "teal.500",}}>{projet.no_projet}</Td>
+                    <Td value={projet.id} textColor='blue' _hover={{background: "white", color: "teal.500",}}><Link to={`/detaildossier/${projet.id}`}>{projet.no_projet}</Link></Td>
                     <Td>{projet.desc}</Td>
                     <Td>{projet.charge?user.find(user => user.id === projet.charge).username:''}</Td>
                     <Td>
