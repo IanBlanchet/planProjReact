@@ -11,7 +11,7 @@ import { getRessources, modJalon } from '../util'
 export const DetailDossier = () => {
     let {projetID} = useParams();    
     const data = useContext(BaseDataContext);
-    const [projet, setProjet] = useState(projetID&&data.projet.find(item => item.id == projetID));
+    const [projet, setProjet] = useState(projetID&&data.projet.find(item => item.id == parseInt(projetID)));
     
 
     const updateStatut = ({target}) => {

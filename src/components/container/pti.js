@@ -17,7 +17,7 @@ export function Pti() {
     const [donneeBaseEnPrep, setDonneeBaseEnPrep] = useState([])
     const [ptis, setPtis] = useState([]);
     const [ptisEnPrep, setPtisEnPrep] = useState([])    
-    const [year, setYear] = useState((CurrentYear));
+    const [year, setYear] = useState((CurrentYear-1));
     const [isFinance, setIsFinance] = useState(false);
     const [assReglements, setAssReglements] = useState([]);
     const [assFonds, setAssFonds] = useState([]);
@@ -96,14 +96,16 @@ export function Pti() {
     return (
         <Grid justifyItems='center'>
             
-            <RadioGroup onChange={changePti} value={year} >
+            
                 <Stack direction='row'>
-                <Radio value={(CurrentYear-1)}>En vigueur</Radio>
-                <Radio value={(CurrentYear)}>En préparation</Radio>
-                <ExportCSV ptiData={ptisEnPrep} financeData={{assReglement:assReglements,assFonds:assFonds, assSubvention:assSubvention}} LesReglements={reglement} fileName={'extraitPTI'} />                 
+                    <RadioGroup onChange={changePti} value={year} >
+                        <Radio value={(CurrentYear-1)}>En vigueur</Radio>
+                        <Radio value={(CurrentYear)}>En préparation</Radio>
+                    </RadioGroup>
+                <ExportCSV ptiData={!(year === CurrentYear)?ptis:ptisEnPrep} financeData={{assReglement:assReglements,assFonds:assFonds, assSubvention:assSubvention}} LesReglements={reglement} fileName={'extraitPTI'} />                 
                 </Stack>
                   
-            </RadioGroup>
+            
                     
             <Button size='sm' onClick={handleClickFinance}>{isFinance?'MODES DE FINANCEMENT':'PROGRAMME TRIENNAL D\'IMMOBILISATION'}<FcSynchronize/></Button>
             

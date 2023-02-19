@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../../auth';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, Text, TableCaption, TableContainer,Grid, Select, IconButton, Box, HStack, Badge, Switch } from '@chakra-ui/react'
 import { FcExpand, FcCollapse } from "react-icons/fc";
 import { SelectFiltre } from '../common/select';
@@ -16,6 +17,7 @@ export function TableAllPti(props) {
     const [reglement, setReglement] = useState([]);
     const [format, setFormat] = useState('sm');
     const [isOnlyNew, setIsOnlyNew] = useState(false)
+    const value = useContext(AuthContext);
 
     const handleFilter = (filter, column) => {        
         props.filter(filter, column);
@@ -82,7 +84,12 @@ export function TableAllPti(props) {
                 {props.ptis.map(pti =>
                 
                 <Tr>
-                    <Td textColor='blue' _hover={{background: "white", color: "teal.500",}}><Link to={`/detailprojet/${pti.projet_id}`}>{pti.no_projet}</Link></Td>
+                    <Td textColor='blue' _hover={{background: "white", color: "teal.500",}}>
+                        {value.user&&value.user.statut != 'elu'?
+                        <Link to={`/detailprojet/${pti.projet_id}`}>{pti.no_projet}</Link>:
+                        pti.no_projet
+                        }
+                    </Td>
                     <Td>{pti.description}  {pti.statut==='En approbation'?<Badge colorScheme='blue' variant='solid'>Nouveau</Badge>:""}</Td>
                     <Td>{assReglements.find(item => item.projet_id === pti.projet_id)?
                         reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id)?

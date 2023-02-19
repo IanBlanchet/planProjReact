@@ -1,7 +1,23 @@
 import { useEffect, useState, useReducer} from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../../../auth';
 import { modJalon } from '../../util';
 import { AddPointage } from '../modal';
-import { Box, Flex, Badge, HStack, Grid, GridItem, Input, Tag, FormLabel, Tooltip, Textarea, Text, TagLabel, Avatar, } from '@chakra-ui/react';
+import { Box, 
+        Flex, 
+        Badge,         
+        Grid, 
+        GridItem,          
+        Tag,
+        FormLabel,
+        Textarea, 
+        Text, 
+        TagLabel,
+        List,
+        ListItem,
+        UnorderedList,  
+        Heading,
+        } from '@chakra-ui/react';
 import { FcGlobe, FcEditImage, FcVlc, FcSynchronize } from "react-icons/fc";
 import GaugeChart from 'react-gauge-chart'
 import { Link } from 'react-router-dom';
@@ -81,7 +97,7 @@ const reducer = (state, action) => {
 export function ProjetBox(props) {
     
     const [projet, dispatch] = useReducer(reducer, props.projet);   
-    
+    const value = useContext(AuthContext)
     
         
     const updateNotes = ({target}) => {        
@@ -127,11 +143,18 @@ export function ProjetBox(props) {
 
                     
                     <GridItem  gridArea='no'  >
-                        <Link to={`/detaildossier/${projet.id}`} >
+                        {
+                            value.user&&value.user.statut != 'elu'?
+                            <Link to={`/detaildossier/${projet.id}`} >
                             <Tag size='lg' variant='solid' bg='blue.400' value={projet.id} boxShadow="md">
                                 {projet.no_projet}
                             </Tag>
-                        </Link>
+                            </Link> :
+                            <Tag size='lg' variant='solid' bg='blue.400' value={projet.id} boxShadow="md">
+                            {projet.no_projet}
+                            </Tag>
+                        }
+                        
                     </GridItem>
 
                     <GridItem gridArea='chart'  justifySelf='left' boxShadow='md'>
@@ -153,7 +176,23 @@ export function ProjetBox(props) {
                     <GridItem gridArea='description'><Text fontSize='lg'as='b'>{projet.desc}</Text></GridItem>
 
                     <GridItem margin={param.margin} gridArea='notes' width='full' rowSpan='2' >
-                        <Textarea name={projet.id} size='sm' value={projet.nature?projet.nature.notes:''} onChange={updateNotes} bg='whiteAlpha.700' ></Textarea>
+                        {
+                            value.user&&value.user.statut != 'elu'?
+                            <Textarea name={projet.id} size='sm' value={projet.nature?projet.nature.notes:''} onChange={updateNotes} bg='whiteAlpha.700' ></Textarea>
+                            :                        
+                            <Box maxW='md' borderWidth='1px' borderRadius='lg' padding='5px' bg='blue.100'>
+                            <Heading size='sm'>Description</Heading>
+                            <UnorderedList>
+                                {
+                                projet.nature.nature.map( item => 
+                                        <ListItem>
+                                            {item}                                        
+                                        </ListItem>
+                                )}
+                            </UnorderedList>
+                            </Box>                       
+                        }
+                        
                     </GridItem>
 
                     <GridItem margin={param.margin} gridArea='nom'><User user={props.user} /></GridItem>
