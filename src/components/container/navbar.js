@@ -1,24 +1,14 @@
 import { useContext } from 'react';
 import { AuthContext } from '../../auth';
 import { Flex, Spacer, Box, Button, ButtonGroup, Image, HStack, List, ListItem, ListIcon} from '@chakra-ui/react';
-import {
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    MenuItemOption,
-    MenuGroup,
-    MenuOptionGroup,
-    MenuDivider,    
-  } from '@chakra-ui/react'
+
 import { Connexion } from '../component/modal'
-import { GrList, GrSchedules, GrUserAdmin, GrMoney, GrTable, GrFlag, GrVulnerability, GrAnchor, GrFormDown } from 'react-icons/gr'
 import logo from '../../static/logo.png';
 import { Outlet, Link } from 'react-router-dom';
 
 import { GenButtonGroup } from '../component/navbar/genButtonGroup';
 import { ElusButtonGroup } from '../component/navbar/elusButtonGroup';
-import { ResponsiveButton } from '../component/navbar/responsiveButton';
+
 
 
 
