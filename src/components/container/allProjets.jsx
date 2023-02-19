@@ -97,8 +97,7 @@ export const AllProjet = () => {
                     <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch} bg='white' size='xs'></Input>
                     <ButtonGroup variant='outline' spacing='2px'>
                         <SortButton level='baseColumn' value='no_projet' title='No projet' onClick={handleSort}/>
-                        <SortButton level='natureLevel' value='echeance' title='Échéance' onClick={handleSort}/>
-                        <SortButton level='natureLevel' value='avancement' title='Avancement' onClick={handleSort}/>
+                        
                     </ButtonGroup>
 
                     </>
