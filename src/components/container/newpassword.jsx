@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { getRessources } from '../util';
+import { modJalon } from '../util';
 import { useNavigate, Navigate, Link, useParams, useSearchParams } from "react-router-dom";
 import { AuthContext } from '../../auth';
 import {
@@ -49,7 +49,7 @@ export function NewPassword()  {
             {toast({status:'error', description:'Les deux mots passe ne correspondent pas'})};
             return
         }
-        getRessources('/api/v1/resetPassword', {}, {'newPass':newPass, 'email':searchParams.get('email'), 'token':searchParams.get('token')}, 'POST').then(
+        modJalon('/api/v1/resetPassword', {}, {'newPass':newPass, 'email':searchParams.get('email'), 'token':searchParams.get('token')}, 'POST').then(
             (returnData) => {
                     if (returnData.user) {                              
                             toast({status:'success', description:'Mot de passe remplacé avec succès'});                            
