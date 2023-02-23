@@ -81,7 +81,7 @@ function BaseDataProvider({children}) {
     'services':[], 
     'avancement':0, 
     'impacts':[], 
-    'isStrategic':true, 
+    'isStrategic':false, 
     'echeance':'', 
     'notes':'',
     'tasks':[
