@@ -72,6 +72,7 @@ function BaseDataProvider({children}) {
   const [user, setUser] = useState([]);
   const [contrat, setContrat] = useState([]);
   const [projet, setProjet] = useState([]);
+  const [savedFilter, setSavedFilter] = useState({'listprojet':{}, 'listcontrat':{}})
   const blanckNature = {
     'nature': [' '],
     'justification':[' '],
@@ -103,6 +104,10 @@ function BaseDataProvider({children}) {
         },      
     ]
   }
+
+  const retainFilter = (newFilter) => {
+    setSavedFilter({...savedFilter, ...newFilter})
+  }
   
   const refreshData = () => {
     getRessources('/api/v1/user').then(
@@ -124,10 +129,11 @@ function BaseDataProvider({children}) {
 
   useEffect(() => {
     refreshData()
+    setSavedFilter({'listprojet':{}, 'listcontrat':{}})
     
   }, [])
 
-  return <BaseDataContext.Provider value={{user, projet, contrat, blanckNature, refreshData}}>{children}</BaseDataContext.Provider>;
+  return <BaseDataContext.Provider value={{user, projet, contrat, blanckNature, savedFilter, refreshData, retainFilter}}>{children}</BaseDataContext.Provider>;
 }
 
 
