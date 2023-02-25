@@ -63,13 +63,11 @@ export function Gantt({projet, updateNature})  {
     } 
 
     const deleteTask = (taskToDelete) => {
-        console.log(taskToDelete);
         let newTasks = [...tasks]
         newTasks = newTasks.filter(task => task !== taskToDelete)
         for (let i=0;  i < newTasks.length; i++) {
             newTasks[i].id = (i+1).toString()
-        };
-        console.log(newTasks)
+        };        
         setTasks(newTasks);
         const newNature = {...projet.nature, ...{'tasks':newTasks}}; 
         updateNature(newNature); 
@@ -77,8 +75,8 @@ export function Gantt({projet, updateNature})  {
     }
 
     useEffect(() => {
-        if (projet.nature.tasks) {
-            setTasks(projet.nature.tasks)
+        if (projet.nature) {
+            projet.nature.tasks&&setTasks(projet.nature.tasks)
         } 
         
     }       

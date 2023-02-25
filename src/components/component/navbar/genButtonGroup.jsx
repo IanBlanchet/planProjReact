@@ -21,7 +21,7 @@ export const GenButtonGroup = () => {
                         variant='solid'
                         borderColor="white"                                          
                     >
-                        <HStack spacing='2'><GrFlag/><div><Show above='1024px'>Lists</Show></div><GrFormDown /></HStack>
+                        <HStack spacing='2'><GrFlag/><div><Show above='1024px'>Listes</Show></div><GrFormDown /></HStack>
                     </MenuButton>
                     <MenuList zIndex='2' border='1px' borderColor="gray"  >
                         <List>

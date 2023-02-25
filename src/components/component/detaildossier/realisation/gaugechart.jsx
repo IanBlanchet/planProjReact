@@ -9,7 +9,7 @@ import { BaseDataContext } from '../../../../auth';
 export function GaugeChartSimple(props) {
     
     const {blanckNature} = useContext(BaseDataContext)
-    const [nature, setNature] = useState(props.projet.nature)
+    const [nature, setNature] = useState(blanckNature)
     
 
     const handleClickUp = () => {
@@ -45,7 +45,7 @@ export function GaugeChartSimple(props) {
     
 
     useEffect(() => {
-          setNature(props.projet.nature)
+          setNature(!props.projet.nature?blanckNature:{...blanckNature, ...props.projet.nature});
         
     }, [props])
   

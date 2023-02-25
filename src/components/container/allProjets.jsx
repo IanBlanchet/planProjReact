@@ -19,15 +19,16 @@ const statut = ['Complété', 'Actif', 'Abandonné', 'En réception', 'En approb
 
 export const AllProjet = () => {
     
-    const {user, refreshData} = useContext(BaseDataContext)
+    const {user, savedFilter, retainFilter} = useContext(BaseDataContext)
     const [rawProjet, setRawProjet] = useState([]);
     const [projet, setProjet] = useState([]);    
-    const [filters, setFilters] = useState({}); 
+    const [filters, setFilters] = useState(savedFilter['listprojet']); 
     const [sortCriteria, setSortCriteria] = useState({level:'baseColumn', criteria:'', direction:true})
     const [searchInput, setSearchInput]= useState('')  
     let projetFiltre = useFilter(filters, projet);
     let projetFiltreSort = useSort(sortCriteria, projetFiltre)
 
+    
 
     const handleFilter = ({target}) => {
         const filter = {};        
@@ -37,7 +38,8 @@ export const AllProjet = () => {
             filter[target.name] = target.value;
         }
         
-        setFilters({...filters, ...filter})
+        setFilters({...filters, ...filter});
+        retainFilter({'listprojet':{...filters, ...filter}})
     }
 
 
@@ -61,15 +63,13 @@ export const AllProjet = () => {
         }
     }
 
-
-
     useEffect(() => {
         
         getRessources('/api/v1/projet').then( projets => {                     
 
             setRawProjet(projets);
             setProjet(projets);            
-          
+            
             }
             
         );
@@ -85,13 +85,13 @@ export const AllProjet = () => {
                 <VStack overflow='hidden' gap='3' margin='5px'>
                     <>
                     
-                    <Select placeholder='filtrer par catégorie' onChange={handleFilter} name='cat' bg='white' size='xs'>
+                    <Select placeholder='filtrer par catégorie' value={filters.cat&&filters.cat} onChange={handleFilter} name='cat' bg='white' size='xs'>
                         {cat.map(item => <option key={item} value={item}>{item}</option>)}
                     </Select>
-                    <Select placeholder='filtrer par responsable' onChange={handleFilter} name='charge' bg='white' size='xs'>
+                    <Select placeholder='filtrer par responsable' value={filters.charge&&filters.charge} onChange={handleFilter} name='charge' bg='white' size='xs'>
                         {user.map(item => <option key={item.id} value={item.id}>{item.username}</option>)}
                     </Select>
-                    <Select placeholder='filtrer par statut' onChange={handleFilter} name='statut' bg='white' size='xs'>
+                    <Select placeholder='filtrer par statut' value={filters.statut&&filters.statut} onChange={handleFilter} name='statut' bg='white' size='xs'>
                         {statut.map(item => <option key={item} value={item.id}>{item}</option>)}
                     </Select>
                     <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch} bg='white' size='xs'></Input>

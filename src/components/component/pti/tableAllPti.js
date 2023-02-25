@@ -86,7 +86,7 @@ export function TableAllPti(props) {
                 <Tr>
                     <Td textColor='blue' _hover={{background: "white", color: "teal.500",}}>
                         {value.user&&value.user.statut != 'elu'?
-                        <Link to={`/detailprojet/${pti.projet_id}`}>{pti.no_projet}</Link>:
+                        <Link to={`/detaildossier/${pti.projet_id}`}>{pti.no_projet}</Link>:
                         pti.no_projet
                         }
                     </Td>

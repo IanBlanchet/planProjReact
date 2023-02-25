@@ -37,8 +37,7 @@ export function DescriptionGen({projet, updateNature}) {
     }
 
     useEffect(() => {
-        setNature(!projet.nature?blanckNature:{...blanckNature, ...projet.nature});
-        console.log(projet.nature.isStrategic)
+        setNature(!projet.nature?blanckNature:{...blanckNature, ...projet.nature});        
                         
     },[projet])
     
