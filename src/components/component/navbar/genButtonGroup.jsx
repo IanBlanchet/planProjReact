@@ -27,7 +27,7 @@ export const GenButtonGroup = () => {
                         <List>
                             <MenuItem><ListIcon as={GrList}/><Link to='/listjalons'>Jalons</Link></MenuItem>
                             <MenuItem><ListIcon as={GrList}/><Link to='/allprojet'>Projets</Link></MenuItem>
-                            
+                            <MenuItem><ListIcon as={GrList}/><Link to='/allcontrat'>Contrats</Link></MenuItem>
                         </List>                       
                     </MenuList>
                 </Menu>                
