@@ -17,7 +17,7 @@ import { RegisterUser } from './components/container/registerUser';
 import { ProjetStrategic } from './components/container/projetStrategic';
 import { DetailDossier } from './components/container/detaildossier';
 import { AllProjet } from './components/container/allProjets';
-
+import { AllContrat } from './components/container/allContrats';
 
 
 import {Routes, Route} from "react-router-dom"
@@ -64,7 +64,7 @@ function App() {
                         />
                     </Route>
                   <Route path='allprojet' element={<RequireAuth><AllProjet/></RequireAuth>} />
-                  
+                  <Route path='allcontrat' element={<RequireAuth><AllContrat/></RequireAuth>} />
                 </Route>
                 
 
