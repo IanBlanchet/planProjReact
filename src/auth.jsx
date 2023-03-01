@@ -45,8 +45,9 @@ export function AuthProvider({ children }) {
   };
 
   let signout = (callback) => {
-    cleanSessionStorage()    
-    clearTimeout(myTimeout)    
+    cleanSessionStorage();  
+    clearTimeout(myTimeout); 
+    setUser('')   
     callback()
     
   };
