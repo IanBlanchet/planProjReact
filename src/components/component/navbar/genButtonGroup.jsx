@@ -38,7 +38,7 @@ export const GenButtonGroup = () => {
                 <Link to='/strategique'><ResponsiveButton text='Dossiers stratégiques'><GrVulnerability/></ResponsiveButton></Link>                 
                 {   
                     sessionStorage.user&&
-                    (JSON.parse(sessionStorage.user)).username=== 'Ian'&&
+                    (JSON.parse(sessionStorage.user)).statut=== 'admin'&&
                     <Link to='/admin'><Button leftIcon={<GrUserAdmin />}  variant='solid' borderWidth={1} borderColor="white">Admin</Button></Link>
                 }             
                   

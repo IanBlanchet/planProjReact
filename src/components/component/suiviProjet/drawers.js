@@ -10,11 +10,16 @@ import {
     useDisclosure
   } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons'
-import { Button, Input, FormControl, IconButton, VStack } from '@chakra-ui/react';
+import { Button, Heading, Text, Box, IconButton, VStack, HStack, Spacer, Grid, GridItem } from '@chakra-ui/react';
 import { JalonInput } from '../suiviProjet/JalonInput';
 import {modJalon} from "../../util";
 import { ContextSelectProject } from '../../container/suiviProjet';
 import { AddJalonInput } from '../suiviProjet/JalonInput';
+
+
+const jalonsTypeProjet = ['C_Direction','Commission', 'Rencontre publique', 'Conseil', 'Demande_CA', 'Fermeture']
+const jalonsTypeContrat = ['AO', 'Conseil', 'D_travaux', 'F_travaux', 'Livrable', 'Fermeture']
+
 
 export function EditJalon(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -98,23 +103,35 @@ export function EditJalon(props) {
           <DrawerCloseButton />
             <DrawerHeader borderBottomWidth='1px' textAlign='center' >Editer jalons pour : {props.title}</DrawerHeader>
             <DrawerBody>
-                < VStack>
-                {props.jalons.map((item) => 
-                  <JalonInput key={item.id} jalon={item} modJalons={modJalons} users={context.users}/>
-                )}
-                {newJalon.map(item => <AddJalonInput users={context.users} currentProject={props.currentProject} 
-                                                    newJalon={item[Object.keys(item)[0]]} 
-                                                    newJalonId={Object.keys(item)[0]} 
-                                                    addJalon={addJalon}
-                                                    />)}
-                <IconButton icon={<SmallAddIcon/>}
-                            variant='outline'
-                            color='blue'
-                            size='md'
-                            title='ajouter un jalon' 
-                            onClick={addBlanckJalon} >
-                </IconButton>                       
-              </VStack> 
+              <Grid  gridTemplateColumns='0.5fr 3fr'>
+                
+                  <GridItem grid>
+                    <Heading size='sm'>Jalons typiques</Heading>
+                    {props.projet_contrat === 'projet'?
+                    jalonsTypeProjet.map(item => <><Text>{item}</Text><Spacer/></>):
+                    jalonsTypeContrat.map(item => <Text>{item}</Text>)}
+                  </GridItem>
+                  
+                  <GridItem>
+                    < VStack>
+                    {props.jalons.map((item) => 
+                      <JalonInput key={item.id} jalon={item} modJalons={modJalons} users={context.users}/>
+                    )}
+                    {newJalon.map(item => <AddJalonInput users={context.users} currentProject={props.currentProject} 
+                                                        newJalon={item[Object.keys(item)[0]]} 
+                                                        newJalonId={Object.keys(item)[0]} 
+                                                        addJalon={addJalon}
+                                                        />)}
+                    <IconButton icon={<SmallAddIcon/>}
+                                variant='outline'
+                                color='blue'
+                                size='md'
+                                title='ajouter un jalon' 
+                                onClick={addBlanckJalon} >
+                    </IconButton>                       
+                    </VStack>
+                  </GridItem>
+                </Grid> 
             </DrawerBody>
             <DrawerFooter>                
                 <Button colorScheme='blue' variant='solid' size='lg' onClick={enregistre}>terminer</Button>
