@@ -89,7 +89,9 @@ export const AllProjet = () => {
                         {cat.map(item => <option key={item} value={item}>{item}</option>)}
                     </Select>
                     <Select placeholder='filtrer par responsable' value={filters.charge&&filters.charge} onChange={handleFilter} name='charge' bg='white' size='xs'>
-                        {user.map(item => <option key={item.id} value={item.id}>{item.username}</option>)}
+                        {user.filter(item => item.statut === 'actif' || item.statut === 'admin')
+                        .map(item => <option key={item.id} value={item.id}>{item.prenom} {item.nom}</option>)}
+                        
                     </Select>
                     <Select placeholder='filtrer par statut' value={filters.statut&&filters.statut} onChange={handleFilter} name='statut' bg='white' size='xs'>
                         {statut.map(item => <option key={item} value={item.id}>{item}</option>)}

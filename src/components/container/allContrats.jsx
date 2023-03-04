@@ -71,11 +71,16 @@ export const AllContrat = () => {
                     if (contrat.projet_id) {
                         const associatedProjet = projet.find(item => item.id === contrat.projet_id);
                         associatedProjet&&(contrat['charge_contrat'] = associatedProjet.charge)
-                        contrat['responsable'] = contrat.charge_contrat?user.find(item => item.id === contrat.charge_contrat).username:''
+                        contrat['responsable'] = contrat.charge_contrat?user.find(
+                            item => item.id === contrat.charge_contrat).prenom
+                            + ' '
+                            + user.find(
+                                item => item.id === contrat.charge_contrat).nom
+                                :''
                     }
                 } else {                    
                     const leResponsable = user.find(item => item.id === contrat.charge_contrat);
-                    contrat['responsable'] = leResponsable.username
+                    contrat['responsable'] = leResponsable.prenom + ' ' + leResponsable.nom
                 }            
             
             })
@@ -98,7 +103,9 @@ export const AllContrat = () => {
                     <>
 
                     <Select minWidth='285px' placeholder='filtrer par responsable' value={filters.charge_contrat&&filters.charge_contrat} onChange={handleFilter} name='charge_contrat' bg='white' size='xs'>
-                        {user.map(item => <option key={item.id} value={item.id}>{item.username}</option>)}
+                        {user.filter(item => item.statut === 'actif' || item.statut === 'admin')
+                        .map(item => <option key={item.id} value={item.id}>{item.prenom} {item.nom}</option>)}                     
+                        
                     </Select>
                     <Select placeholder='filtrer par statut' value={filters.statut&&filters.statut} onChange={handleFilter} name='statut' bg='white' size='xs'>
                         {statut.map(item => <option key={item} value={item}>{item}</option>)}

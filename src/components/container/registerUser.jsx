@@ -43,6 +43,8 @@ export function AddUserForm({}) {
     <Formik
     initialValues={{            
       username: '',
+      nom:'',
+      prenom:'',
       email: '',            
       password: '', 
       secondpassword:'',          
@@ -54,7 +56,13 @@ export function AddUserForm({}) {
     validationSchema={Yup.object({
       username: Yup.string()
         .max(63, 'maximum de 64 caractères')               
-        .required('Requis'),              
+        .required('Requis'),
+      nom: Yup.string()
+        .max(63, 'maximum de 64 caractères')               
+        .required('Requis'),
+      prenom: Yup.string()
+        .max(63, 'maximum de 64 caractères')               
+        .required('Requis'),           
       email: Yup.string()
         .email('entrer un courriel valide')    
         .max(64, 'Doit être de 64 caractères ou moins')
@@ -71,7 +79,7 @@ export function AddUserForm({}) {
     })}
 
     onSubmit={(values, actions) => {
-        let minValues = {'username':values.username,'email':values.email, 'service':values.service}
+        let minValues = {'username':values.username, 'nom':values.nom, 'prenom':values.prenom, 'email':values.email, 'service':values.service}
         modJalon('/api/v1/user', {}, {'values':minValues, 'pass':values.password}, 'POST').then(
             (response) => {
                 if (response.user) {
@@ -93,6 +101,20 @@ export function AddUserForm({}) {
       <MyTextInput
           label='Nom usager'
           name='username'
+          type='text'
+              
+          />
+
+      <MyTextInput
+          label='Prénom'
+          name='prenom'
+          type='text'
+              
+          />
+
+      <MyTextInput
+          label='Nom'
+          name='nom'
           type='text'
               
           />

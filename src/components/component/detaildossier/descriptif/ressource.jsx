@@ -51,14 +51,14 @@ export function RessourceRequise ({projet, updateNature}) {
 
 
     const changeResponsable = (e) => {               
-       setCharge(user.find(item => item.id == e.target.value).username);
+       setCharge(user.find(item => item.id == e.target.value));
        modJalon(`/api/v1/projet/${projet.id}`, {}, {'charge':e.target.value}, 'PUT');
     }
 
     useEffect(()=>{
         
         setNature(!projet.nature?blanckNature:{...blanckNature,...projet.nature})        
-        setCharge(projet.charge?user.find(item => item.id === projet.charge).username:'')
+        setCharge(projet.charge?user.find(item => item.id === projet.charge):'')
   
     }, [projet])
     
@@ -74,10 +74,11 @@ export function RessourceRequise ({projet, updateNature}) {
                 {isChecked?<Stack >
                 
                 <Select placeholder='choisir un chargé de projet' onChange={changeResponsable}> 
-                    {user.filter(item => item.statut !== 'support').map(item => (<option value={item.id} key={item.id}>{item.username}</option>))}                   
+                    {user.filter(item => item.statut === 'actif' || item.statut === 'admin')
+                    .map(item => <option key={item.id} value={item.id}>{item.prenom} {item.nom}</option>)}                                     
                 </Select>
-                <Text>{charge}</Text> 
-                </Stack>:<Text>{charge}</Text> }
+                <Text>{charge?charge.prenom+' '+charge.nom:''}</Text> 
+                </Stack>:<Text>{charge?charge.prenom+' '+charge.nom:''}</Text> }
                               
                 </Stack>
 
