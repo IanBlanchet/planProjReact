@@ -58,7 +58,9 @@ export function TableAllPti(props) {
             <HStack gap='6'>
            <SelectFiltre items={cat} column='cat' placeHolder='catégories' onChange={handleFilter}/>
            <Select name='charge' placeholder='responsable' onChange={handleFilterSimple} flexBasis='300px'>
-                {props.user.map(item => <option key={item.id} value={item.id} >{item.username}</option>)}
+                {props.user.filter(item => item.statut === 'actif' || item.statut === 'admin')
+                        .map(item => <option key={item.id} value={item.id}>{item.prenom} {item.nom}</option>)}               
+               
            </Select>
            <Grid templateColumns='3fr 1fr'><Text>Voir seulement nouveaux projets </Text><Switch onChange={handleFilterStatus}></Switch></Grid>
            

@@ -46,7 +46,7 @@ export function Login()  {
         postLogin('/api/v1/autorize', {}, userInfo).then(
             (returnData) => {
                     if (returnData.user) {                              
-                            toast({status:'success', description:'bienvenue '+returnData.user.username});
+                            toast({status:'success', description:'bienvenue '+returnData.user.prenom});
                             sessionStorage.token = returnData.token;
                             sessionStorage.user = JSON.stringify(returnData.user) 
                             auth.signin(returnData.user);

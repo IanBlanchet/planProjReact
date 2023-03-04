@@ -116,7 +116,8 @@ export function TableStrategic({user}) {
                         {cat.map(item => <option key={item} value={item}>{item}</option>)}
                     </Select>
                     <Select placeholder='filtrer par responsable' onChange={handleFilter} name='charge' bg='white' size='xs'>
-                        {user.map(item => <option key={item.id} value={item.id}>{item.username}</option>)}
+                        {user.filter(item => item.statut === 'actif' || item.statut === 'admin')
+                        .map(item => <option key={item.id} value={item.id}>{item.prenom} {item.nom}</option>)}
                     </Select>
                     <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch} bg='white' size='xs'></Input>
                     <ButtonGroup variant='outline' spacing='2px'>

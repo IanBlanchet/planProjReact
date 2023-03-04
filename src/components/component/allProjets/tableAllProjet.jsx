@@ -71,7 +71,8 @@ export function TableAllProjet({projet}) {
                 <Tr key={projet.id}>
                     <Td value={projet.id} textColor='blue' _hover={{background: "white", color: "teal.500",}}><Link to={`/detaildossier/${projet.id}`} >{projet.no_projet}</Link></Td>
                     <Td>{projet.desc}</Td>
-                    <Td>{projet.charge?user.find(user => user.id === projet.charge).username:''}</Td>
+                    <Td>{projet.charge?
+                        user.find(user => user.id === projet.charge).prenom+ ' ' +user.find(user => user.id === projet.charge).nom:''}</Td>
                     <Td>
                         <Select size='xs' name={projet.id} field='cat' onChange={handleChange} value={projet.cat}>
                                 {cat.map(item => <option key={item} value={item} >{item}</option>)}

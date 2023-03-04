@@ -55,7 +55,7 @@ const User = ({user}) => {
             >
                 <TagLabel>{user.service}</TagLabel> 
             </Tag>
-        <TagLabel>{user.username}</TagLabel>
+        <TagLabel>{user.prenom} {user.nom}</TagLabel>
         
         </Tag>
 
