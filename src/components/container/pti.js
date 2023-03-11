@@ -1,4 +1,4 @@
-import { Grid, GridItem, Box, Text, Stack, Button, Select} from '@chakra-ui/react';
+import { Grid, GridItem, Box, Text, Stack, VStack, Button, Select, Switch, Input} from '@chakra-ui/react';
 import { TableAllPti } from '../component/pti/tableAllPti';
 import { TableFinance } from '../component/pti/tablefinance';
 import { getRessources } from '../util';
@@ -39,8 +39,8 @@ export function Pti() {
     // declaration de donne de base correspondant au pti pour eviter des call à l'api au changement d'années qui ralentissent.
     const [donneeBase, setDonneeBase] = useState([])
     const [donneeBaseEnPrep, setDonneeBaseEnPrep] = useState([])
-    const [ptis, setPtis] = useState([]);
-    const [ptisEnPrep, setPtisEnPrep] = useState([])    
+
+    const [isOnlyNew, setIsOnlyNew] = useState(false)    
     const [year, setYear] = useState((CurrentYear-1));
     const [isFinance, setIsFinance] = useState(false);
     const [assReglements, setAssReglements] = useState([]);
@@ -50,8 +50,10 @@ export function Pti() {
     const [fonds, setFonds] = useState([]);
     const [sortCriteria, setSortCriteria] = useState({'criteria':'','level':'baseColumn', 'direction':true});
     const {user, projet, savedFilter, retainFilter} = useContext(BaseDataContext);
+    const [listProjet, setListProjet] = useState(projet);
+    const [searchInput, setSearchInput]= useState('') 
     const [filters, setFilters] = useState(savedFilter['listpti']); 
-    let projetFiltre = useFilter(filters, projet);
+    let projetFiltre = useFilter(filters, listProjet);
     let ptiList = useBuildPti(projetFiltre, (!(year === CurrentYear)?donneeBase:donneeBaseEnPrep) )
     let ptiListSort = useSort(sortCriteria, ptiList);
 
@@ -113,6 +115,20 @@ export function Pti() {
         setIsFinance(isFinance?false:true)
     }
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setSearchInput(e.target.value);        
+        if (e.target.value.length > 0) {
+            let findedProjets = [];
+            findedProjets = projet.filter(projet => projet.desc.toLowerCase().includes(e.target.value.toLowerCase()));            
+            setListProjet(findedProjets);
+        } else {
+            setListProjet(projet);
+        }
+    }
+
+
+
     useEffect(() => {
         
         document.body.style.cursor = "wait";
@@ -151,28 +167,45 @@ export function Pti() {
 
 
     return (
-        <Grid justifyItems='center'>
+
+
+        <Grid templateColumns='1fr 5px 8fr' gap='2px'>
             
-            
+        <GridItem colSpan='1' width='max-content' bg='blue.500'>
+
+            <VStack overflow='hidden' gap='3' margin='5px'>
+                
                 <Stack direction='row'>
-                    <RadioGroup onChange={changePti} value={year} >
+                    <RadioGroup onChange={changePti} value={year} bg='white' borderRadius='5px' padding='5px'>
                         <Radio value={(CurrentYear-1)}>En vigueur</Radio>
                         <Radio value={(CurrentYear)}>En préparation</Radio>
-                    </RadioGroup>
-                <ExportCSV ptiData={!(year === CurrentYear)?ptis:ptisEnPrep} financeData={{assReglement:assReglements,assFonds:assFonds, assSubvention:assSubvention}} LesReglements={reglement} fileName={'extraitPTI'} />                 
+                    </RadioGroup>                                 
                 </Stack>
+                
                 <Select placeholder='filtrer par catégorie' value={filters.cat&&filters.cat} onChange={handleFilter} name='cat' bg='white' size='xs'>
-                        {cat.map(item => <option key={item} value={item}>{item}</option>)}
+                        {cat.map(item => <option key={item} value={item}>{item}</option>)}                
+                </Select> 
+                <Select placeholder='filtrer par responsable' value={filters.charge&&filters.charge} onChange={handleFilter} name='charge' bg='white' size='xs'>
+                {user.filter(item => item.statut === 'actif' || item.statut === 'admin')
+                        .map(item => <option key={item.id} value={item.id}>{item.prenom} {item.nom}</option>)}                
                 </Select>
-                  
-            
-                    
-            <Button size='sm' onClick={handleClickFinance}>{isFinance?'MODES DE FINANCEMENT':'PROGRAMME TRIENNAL D\'IMMOBILISATION'}<FcSynchronize/></Button>
+                <Input type='search' placeholder='Recherche par mot clé' value={searchInput} onChange={handleSearch} bg='white' size='xs'></Input>
+                <Button size='sm' onClick={handleClickFinance}>{!isFinance?'VOIR MODES DE FINANCEMENT':'VOIR PTI'}<FcSynchronize/></Button>
+                                
+
+                <ExportCSV ptiData={ptiListSort} financeData={{assReglement:assReglements,assFonds:assFonds, assSubvention:assSubvention}} LesReglements={reglement} fileName={'extraitPTI'} />
+             
+            </VStack>
+       </GridItem >
+
+       <GridItem colSpan='1' margin='1px'>
+            <Box bg='blue.300' height='880px' ></Box>
+        </GridItem>       
             
             
                 {isFinance?
                 <GridItem  >
-                <TableFinance ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
+                <TableFinance ptis={ptiListSort} 
                              assReglements={assReglements}
                              assFonds={assFonds}
                              assSubvention={assSubvention}
