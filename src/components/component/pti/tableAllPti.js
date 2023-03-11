@@ -39,10 +39,15 @@ export function TableAllPti(props) {
     }
 
     const handleTrie = (e) => {
-        let newTries = {...tries}
-        tries[e.currentTarget.name]?props.trie(e.currentTarget.name, true):props.trie(e.currentTarget.name, false)
+        let newTries = {...tries};
+        tries[e.currentTarget.name]?props.sort(
+                                    {'criteria':e.currentTarget.name, 'level':'baseColumn', 'direction':true}):
+                                    props.sort(
+                                    {'criteria':e.currentTarget.name, 'level':'baseColumn', 'direction':false})
+        //tries[e.currentTarget.name]?props.trie(e.currentTarget.name, true):props.trie(e.currentTarget.name, false)
         newTries[e.currentTarget.name]?newTries[e.currentTarget.name]=false:newTries[e.currentTarget.name]=true;
-        setTries(newTries)
+        setTries(newTries);
+        
     }
 
     useEffect(() => {

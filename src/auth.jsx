@@ -73,7 +73,11 @@ function BaseDataProvider({children}) {
   const [user, setUser] = useState([]);
   const [contrat, setContrat] = useState([]);
   const [projet, setProjet] = useState([]);
-  const [savedFilter, setSavedFilter] = useState({'listprojet':{}, 'listcontrat':{}})
+  const [savedFilter, setSavedFilter] = useState({'listprojet':{},
+                                                  'listcontrat':{},
+                                                  'listjalon':{},
+                                                  'liststrategic':{},
+                                                  'listpti':{}})
   const blanckNature = {
     'nature': [' '],
     'justification':[' '],
@@ -130,7 +134,11 @@ function BaseDataProvider({children}) {
 
   useEffect(() => {
     refreshData()
-    setSavedFilter({'listprojet':{}, 'listcontrat':{}})
+    setSavedFilter({'listprojet':{}, 
+                  'listcontrat':{}, 
+                  'listjalon':{},
+                  'liststrategic':{},
+                  'listpti':{}})
     
   }, [])
 

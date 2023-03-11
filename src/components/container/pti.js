@@ -1,4 +1,4 @@
-import { Grid, GridItem, Box, Text, Stack, Button} from '@chakra-ui/react';
+import { Grid, GridItem, Box, Text, Stack, Button, Select} from '@chakra-ui/react';
 import { TableAllPti } from '../component/pti/tableAllPti';
 import { TableFinance } from '../component/pti/tablefinance';
 import { getRessources } from '../util';
@@ -8,8 +8,32 @@ import { FcSynchronize } from "react-icons/fc";
 import { ExportCSV } from '../component/pti/exportExcel';
 import { useContext } from 'react';
 import { BaseDataContext } from '../../auth';
+import { useFilter} from '../../hooks/useFilter';
+import { useSort } from '../../hooks/useSort';
 
 const CurrentYear = new Date().getFullYear();
+
+const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
+'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
+
+const useBuildPti = (projetFiltre, donnee) => {
+    const [ptiList, setPtiList] = useState(donnee);
+
+    useEffect(() => {
+        
+        let newPti = [];
+        projetFiltre.forEach(element => {
+            const pti = donnee.find(pti => pti.projet_id === element.id)
+            pti&&newPti.push(pti)
+            });        
+            setPtiList(newPti);
+
+    }, [projetFiltre, donnee])
+
+    return ptiList
+
+}
+
 
 export function Pti() {
     // declaration de donne de base correspondant au pti pour eviter des call à l'api au changement d'années qui ralentissent.
@@ -23,13 +47,34 @@ export function Pti() {
     const [assFonds, setAssFonds] = useState([]);
     const [assSubvention, setAssSubvention] = useState([]);
     const [reglement, setReglement] = useState([]);
-    const [fonds, setFonds] = useState([])
-    const {user, projet} = useContext(BaseDataContext)
-    
+    const [fonds, setFonds] = useState([]);
+    const [sortCriteria, setSortCriteria] = useState({'criteria':'','level':'baseColumn', 'direction':true});
+    const {user, projet, savedFilter, retainFilter} = useContext(BaseDataContext);
+    const [filters, setFilters] = useState(savedFilter['listpti']); 
+    let projetFiltre = useFilter(filters, projet);
+    let ptiList = useBuildPti(projetFiltre, (!(year === CurrentYear)?donneeBase:donneeBaseEnPrep) )
+    let ptiListSort = useSort(sortCriteria, ptiList);
+
     const changePti = (e) => {
         setYear(parseInt(e));
-        setPtis(donneeBase);
-        setPtisEnPrep(donneeBaseEnPrep);
+
+    }
+
+
+    const handleFilter = ({target}) => {
+        const filter = {};        
+        if (target.name === 'charge') {
+            filter[target.name] = parseInt(target.value);
+        } else {
+            filter[target.name] = target.value;
+        }        
+        setFilters({...filters, ...filter});
+        retainFilter({'listpti':{...filters, ...filter}});       
+        } 
+
+
+    const sortPti = (sortCriteria) => {
+        setSortCriteria(sortCriteria)
     }
 
     const filtrePti = (filtre, column) => {
@@ -50,10 +95,18 @@ export function Pti() {
     }
 
     const triPti = (column, sens) => {
-        let ptiTrie = !(year === CurrentYear)?[...ptis]:[...ptisEnPrep];
+        let ptiTrie = []
+        if (!(year === CurrentYear)) {
+            ptiTrie = [...donneeBase];
+            setDonneeBase([])
+        } else {
+           ptiTrie = [...donneeBaseEnPrep];
+           setDonneeBaseEnPrep([])
+        };
         sens?ptiTrie.sort((a,b) => (a[column] > b[column]) ? 1 : ((b[column] > a[column]) ? -1 : 0)):
         ptiTrie.sort((a,b) => (b[column] > a[column]) ? 1 : ((a[column] > b[column]) ? -1 : 0));
-        !(year === CurrentYear)?setPtis(ptiTrie):setPtisEnPrep(ptiTrie);
+        !(year === CurrentYear)?setDonneeBase(ptiTrie):setDonneeBaseEnPrep(ptiTrie);
+        console.log(ptiTrie)
     }
 
     const handleClickFinance = () => {
@@ -69,14 +122,17 @@ export function Pti() {
                     const leuser = user.find(user => user.id === pti.responsable_id);
                     pti['responsable'] = leuser?leuser.username:'';
                 })
-                setPtis(lesPti);setDonneeBase(lesPti)});
+                setDonneeBase(lesPti);
+            });
+                
         getRessources('/api/v1/pti/all/'+CurrentYear).then(
                 lesPtiEnPrep => {
                     lesPtiEnPrep.map(pti => {
                         const leuser = user.find(user => user.id === pti.responsable_id);
                         pti['responsable'] = leuser?leuser.username:'';
                     })                    
-                setPtisEnPrep(lesPtiEnPrep);setDonneeBaseEnPrep(lesPtiEnPrep); document.body.style.cursor = "default"});
+                setDonneeBaseEnPrep(lesPtiEnPrep); document.body.style.cursor = "default";
+                });
         
         getRessources('/api/v1/reglement').then( reglements => {
                     setReglement(reglements)
@@ -89,6 +145,7 @@ export function Pti() {
                     setAssFonds(association.assFonds);
                     setAssSubvention(association.assSubvention)
                 });   
+        
      },[])
 
 
@@ -104,6 +161,9 @@ export function Pti() {
                     </RadioGroup>
                 <ExportCSV ptiData={!(year === CurrentYear)?ptis:ptisEnPrep} financeData={{assReglement:assReglements,assFonds:assFonds, assSubvention:assSubvention}} LesReglements={reglement} fileName={'extraitPTI'} />                 
                 </Stack>
+                <Select placeholder='filtrer par catégorie' value={filters.cat&&filters.cat} onChange={handleFilter} name='cat' bg='white' size='xs'>
+                        {cat.map(item => <option key={item} value={item}>{item}</option>)}
+                </Select>
                   
             
                     
@@ -123,8 +183,9 @@ export function Pti() {
                 </GridItem>
                              :
                 <TableAllPti year={year} projet={projet} 
-                            ptis={!(year === CurrentYear)?ptis:ptisEnPrep} 
-                            filter={filtrePti} 
+                            ptis={ptiListSort} 
+                            filter={filtrePti}
+                            sort={sortPti} 
                             trie={triPti}                            
                             reglement={reglement}
                             assReglements={assReglements}

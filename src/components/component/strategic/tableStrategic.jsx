@@ -1,16 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
 import {  
     Box, VStack, Flex, Grid, GridItem,
-    Select, ButtonGroup, Input, Heading } from '@chakra-ui/react'
-import { SelectFiltre } from '../common/select';
-import { AddPointage } from '../modal';
-import { modJalon } from '../../util';
+    Select, ButtonGroup, Input } from '@chakra-ui/react'
 import { getRessources } from '../../util';
 import { ProjetBox } from './projetBox';
 import { useFilter } from '../../../hooks/useFilter';
 import { useSort} from '../../../hooks/useSort';
 import { SortButton } from '../common/sortButton';
-
+import { BaseDataContext } from '../../../auth';
 
 const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Environnement','Infrastructures existantes', 'Developpement', 'Cours d\'eau','Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
@@ -18,9 +15,10 @@ const cat = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 const serviceArray = ['Ingénierie', 'Travaux publics', 'Environnement', 'SRC', 'Urbanisme', 'Développement Économique', 'Greffe', 'Finance', 'Communications', 'Incendies', 'RH']
 
 export function TableStrategic({user}) {
+    const {savedFilter, retainFilter} = useContext(BaseDataContext)
     const [rawProjet, setRawProjet] = useState([]);
     const [projet, setProjet] = useState([]);    
-    const [filters, setFilters] = useState({}); 
+    const [filters, setFilters] = useState(savedFilter['liststrategic']); 
     const [sortCriteria, setSortCriteria] = useState({level:'baseColumn', criteria:'', direction:true})
     const [searchInput, setSearchInput]= useState('')  
     let projetFiltre = useFilter(filters, projet);
@@ -45,7 +43,8 @@ export function TableStrategic({user}) {
             filter[target.name] = target.value;
         }
         
-        setFilters({...filters, ...filter})
+        setFilters({...filters, ...filter});
+        retainFilter({'liststrategic':{...filters, ...filter}})
     }
 
     const handleSort = (target, sortDirection) => {
@@ -112,10 +111,10 @@ export function TableStrategic({user}) {
                 <VStack overflow='hidden' gap='3' margin='5px'>
                     <>
                     
-                    <Select placeholder='filtrer par catégorie' onChange={handleFilter} name='cat' bg='white' size='xs'>
+                    <Select placeholder='filtrer par catégorie' value={filters.cat&&filters.cat} onChange={handleFilter} name='cat' bg='white' size='xs'>
                         {cat.map(item => <option key={item} value={item}>{item}</option>)}
                     </Select>
-                    <Select placeholder='filtrer par responsable' onChange={handleFilter} name='charge' bg='white' size='xs'>
+                    <Select placeholder='filtrer par responsable' value={filters.charge&&filters.charge} onChange={handleFilter} name='charge' bg='white' size='xs'>
                         {user.filter(item => item.statut === 'actif' || item.statut === 'admin')
                         .map(item => <option key={item.id} value={item.id}>{item.prenom} {item.nom}</option>)}
                     </Select>
