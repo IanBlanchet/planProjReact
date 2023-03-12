@@ -79,7 +79,7 @@ export function TableAllPti(props) {
                         pti.no_projet
                         }
                     </Td>
-                    <Td>{pti.description}  {pti.statut==='En approbation'?<Badge colorScheme='blue' variant='solid'>Nouveau</Badge>:""}</Td>
+                    <Td>{pti.description}  </Td>
                     <Td>{assReglements.find(item => item.projet_id === pti.projet_id)?
                         reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id)?
                         reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id).numero:
