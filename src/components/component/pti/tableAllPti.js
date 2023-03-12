@@ -19,14 +19,6 @@ export function TableAllPti(props) {
     const [isOnlyNew, setIsOnlyNew] = useState(false)
     const value = useContext(AuthContext);
 
-    const handleFilter = (filter, column) => {        
-        props.filter(filter, column);
-    }
-    
-    const handleFilterSimple = (e) => {
-        
-        props.filter(e.target.value?[parseInt(e.target.value)]:e.target.value, e.target.name);
-    }
 
     const handleFilterStatus = () => {
         if (!isOnlyNew) {
@@ -39,10 +31,15 @@ export function TableAllPti(props) {
     }
 
     const handleTrie = (e) => {
-        let newTries = {...tries}
-        tries[e.currentTarget.name]?props.trie(e.currentTarget.name, true):props.trie(e.currentTarget.name, false)
+        let newTries = {...tries};
+        tries[e.currentTarget.name]?props.sort(
+                                    {'criteria':e.currentTarget.name, 'level':'baseColumn', 'direction':true}):
+                                    props.sort(
+                                    {'criteria':e.currentTarget.name, 'level':'baseColumn', 'direction':false})
+        //tries[e.currentTarget.name]?props.trie(e.currentTarget.name, true):props.trie(e.currentTarget.name, false)
         newTries[e.currentTarget.name]?newTries[e.currentTarget.name]=false:newTries[e.currentTarget.name]=true;
-        setTries(newTries)
+        setTries(newTries);
+        
     }
 
     useEffect(() => {
@@ -54,18 +51,9 @@ export function TableAllPti(props) {
     return (
         
         
-        <Box >
-            <HStack gap='6'>
-           <SelectFiltre items={cat} column='cat' placeHolder='catégories' onChange={handleFilter}/>
-           <Select name='charge' placeholder='responsable' onChange={handleFilterSimple} flexBasis='300px'>
-                {props.user.filter(item => item.statut === 'actif' || item.statut === 'admin')
-                        .map(item => <option key={item.id} value={item.id}>{item.prenom} {item.nom}</option>)}               
-               
-           </Select>
-           <Grid templateColumns='3fr 1fr'><Text>Voir seulement nouveaux projets </Text><Switch onChange={handleFilterStatus}></Switch></Grid>
+        <Box >  
            
-           </HStack>
-        <Table colorScheme='blue' overflowY='scroll'  size={format} display='inline-block' maxHeight='700px' 
+        <Table colorScheme='blue' overflowY='scroll'  size={format} display='inline-block' maxHeight='800px' 
                 onDoubleClick={()=>(format === 'sm')?setFormat('md'):setFormat('sm')} >
             <Thead position='sticky' top='0'>
                 <Tr bg='blue.200'>
@@ -77,8 +65,7 @@ export function TableAllPti(props) {
                     <Th>{props.year+2}<IconButton name='cycle2' onClick={handleTrie} icon={tries.cycle2?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>{props.year+3}<IconButton name='cycle3' onClick={handleTrie} icon={tries.cycle3?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>ultérieur</Th>
-                    <Th>Chargé projet (hrs)</Th>
-                    <Th>Technicien (hrs)</Th>
+                   
                     
                 </Tr>
             </Thead>
@@ -92,7 +79,7 @@ export function TableAllPti(props) {
                         pti.no_projet
                         }
                     </Td>
-                    <Td>{pti.description}  {pti.statut==='En approbation'?<Badge colorScheme='blue' variant='solid'>Nouveau</Badge>:""}</Td>
+                    <Td>{pti.description}  </Td>
                     <Td>{assReglements.find(item => item.projet_id === pti.projet_id)?
                         reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id)?
                         reglement.find( lereglement => lereglement.id === assReglements.find(item => item.projet_id === pti.projet_id).reglement_id).numero:
@@ -105,14 +92,7 @@ export function TableAllPti(props) {
                     <Td>{pti.cycle2/1000000}</Td>
                     <Td>{pti.cycle3/1000000}</Td>
                     <Td>{((pti.cycle4 + pti.cycle5)/1000000).toFixed(2)}</Td>
-                    <Td>{(((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+ pti.prev_courante + pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
-                        (pti.nature?pti.nature.tempsCharge?pti.nature.tempsCharge:0:0)).toFixed(0)}
-                    </Td>
-                    <Td>{(((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+ pti.prev_courante + pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
-                        (pti.nature?pti.nature.tempsTech?pti.nature.tempsTech:0:0)).toFixed(0)}
-                    </Td>
+                   
                     
                 </Tr>
                 )}
@@ -143,16 +123,7 @@ export function TableAllPti(props) {
                                 return accumulator + object.cycle5;
                                 }, 0))/1000000).toFixed(2)  }
                                                             </Th>
-                    <Th>{(props.ptis.reduce((accumulator, pti) => {
-                        return accumulator + ((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
-                        (pti.nature?pti.nature.tempsCharge?pti.nature.tempsCharge:0:0)}, 0)).toFixed(0)
-                        }</Th>
-                    <Th>{(props.ptis.reduce((accumulator, pti) => {
-                        return accumulator + ((pti.cycleCour+pti.cycle2+pti.cycle3)/
-                        (pti.anterieur+pti.cycleCour+pti.cycle2+pti.cycle3+pti.cycle4+pti.cycle5+.00001))*
-                        (pti.nature?pti.nature.tempsTech?pti.nature.tempsTech:0:0)}, 0)).toFixed(0)
-                        }</Th>
+
 
                 </Tr>
             </Tfoot>
