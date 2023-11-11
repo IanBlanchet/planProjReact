@@ -70,16 +70,16 @@ export const ListJalons = () => {
                     <>
                     
 
-                    <Select minWidth='285px' placeholder='filtrer par responsable' onChange={handleFilter} name='charge_jalon' bg='white' size='xs'>
+                    <Select minWidth='285px' placeholder='filtrer par responsable' value={filters.charge_jalon&&filters.charge_jalon} onChange={handleFilter} name='charge_jalon' bg='white' size='xs'>
                         {data.user.filter(item => item.statut === 'actif' || item.statut === 'admin')
                         .map(item => <option key={item.id} value={item.id}>{item.prenom} {item.nom}</option>)}
                         
                     </Select>
-                    <Select placeholder='filtrer par jalon' onChange={handleFilter}   name='jalon' bg='white' size='xs'>
+                    <Select placeholder='filtrer par jalon' onChange={handleFilter} value={filters.jalon&&filters.jalon}  name='jalon' bg='white' size='xs'>
                         {jalonsDesc.map(item => <option key={item} value={item.id}>{item}</option>)}
                     </Select>
-                    <Select placeholder='filtrer par service' onChange={handleFilter}  name='service' bg='white' size='xs'>
-                        {services.map(item => <option key={item} value={item.id}>{item}</option>)}
+                    <Select placeholder='filtrer par service' onChange={handleFilter} value={filters.service&&filters.service} name='service' bg='white' size='xs'>
+                        {services.map(item => <option key={item} value={item}>{item}</option>)}
                     </Select>
                     
                 
@@ -96,7 +96,12 @@ export const ListJalons = () => {
 
            <GridItem colSpan='1' height='880px' overflowY='scroll' >
 
-            <  TableAllJalon jalons={jalonFiltre} users={data.user}/>
+            <  TableAllJalon jalons={jalonFiltre} 
+                             users={data.user}
+                             projets={data.projet}
+                             contrats={data.contrat}
+                             refresh={refresh}
+                             />
             </GridItem>
          </Grid>
 
