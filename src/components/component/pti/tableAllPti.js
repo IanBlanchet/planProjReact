@@ -65,6 +65,8 @@ export function TableAllPti(props) {
                     <Th>{props.year+2}<IconButton name='cycle2' onClick={handleTrie} icon={tries.cycle2?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>{props.year+3}<IconButton name='cycle3' onClick={handleTrie} icon={tries.cycle3?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>ultérieur</Th>
+                    <Th>Dépense réelle 2023</Th>
+                    <Th>Avancement</Th>
                    
                     
                 </Tr>
@@ -92,6 +94,10 @@ export function TableAllPti(props) {
                     <Td>{pti.cycle2/1000000}</Td>
                     <Td>{pti.cycle3/1000000}</Td>
                     <Td>{((pti.cycle4 + pti.cycle5)/1000000).toFixed(2)}</Td>
+                    <Td>{(pti.depense_courante/1000000).toFixed(2)}</Td>
+                    <Td>{props.projet.find(item => item.id === pti.projet_id)?
+                        props.projet.find(item => item.id === pti.projet_id).nature.avancement?
+                        props.projet.find(item => item.id === pti.projet_id).nature.avancement:0:0}</Td>
                    
                     
                 </Tr>
@@ -123,6 +129,8 @@ export function TableAllPti(props) {
                                 return accumulator + object.cycle5;
                                 }, 0))/1000000).toFixed(2)  }
                                                             </Th>
+                    <Th></Th>
+                    <Th></Th>
 
 
                 </Tr>
