@@ -1,10 +1,10 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useContext} from 'react';
 import { useFormik, Formik, Form,  } from 'formik';
 import { Button, Grid, GridItem, Heading } from '@chakra-ui/react';
 import { getRessources, modJalon } from '../../util';
 import * as Yup from 'yup';
 import { MyTextInput, MySelect, MyCheckbox, MySwitch } from '../common/forms';
-
+import { BaseDataContext } from '../../../auth';
 
 const categories = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
 'Infrastructures existantes', 'Developpement', 'Véhicules, Machineries, matériel, équipements','Logiciel, équipements informatique', 'Divers']
@@ -13,7 +13,7 @@ const categories = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, cul
 export function NewProjet() {
       const [users, setUsers] = useState([]);
       const [noProjet, setNoProjet] = useState([]);
-      
+      const {blanckNature} = useContext(BaseDataContext)
 
       const validate = (value) => {
   
@@ -53,7 +53,8 @@ export function NewProjet() {
             cat:'',           
             immo: false, // added for our checkbox
             affectation:'',//select            
-            charge:''
+            charge:'',
+            nature:blanckNature
 
           }}       
           
