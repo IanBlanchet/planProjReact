@@ -60,11 +60,13 @@ export function TableAllPti(props) {
                     <Th>no projet<IconButton name='no_projet' onClick={handleTrie} icon={tries.no_projet?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     <Th>Description<IconButton name='description' onClick={handleTrie} icon={tries.description?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     <Th>Règlement</Th>
-                    <Th>Anterieur</Th>
+                    <Th borderRight='2px'>Anterieur</Th>
                     <Th >{props.year+1}<IconButton name='cycleCour' onClick={handleTrie} icon={tries.cycleCour?<FcExpand/>:<FcCollapse></FcCollapse> } size='xs' bgColor='blue.200'/></Th>
                     <Th>{props.year+2}<IconButton name='cycle2' onClick={handleTrie} icon={tries.cycle2?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>{props.year+3}<IconButton name='cycle3' onClick={handleTrie} icon={tries.cycle3?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>ultérieur</Th>
+                    <Th borderLeft='2px'>Dépense réelle 2023</Th>
+                    <Th>Avancement</Th>
                    
                     
                 </Tr>
@@ -87,11 +89,19 @@ export function TableAllPti(props) {
                     }</Td>
                   
                     
-                    <Td>{(pti.anterieur/1000000).toFixed(2)}</Td>
+                    <Td borderRight='2px'>{(pti.anterieur/1000000).toFixed(2)}</Td>
                     <Td>{pti.cycleCour/1000000}</Td>
                     <Td>{pti.cycle2/1000000}</Td>
                     <Td>{pti.cycle3/1000000}</Td>
                     <Td>{((pti.cycle4 + pti.cycle5)/1000000).toFixed(2)}</Td>
+                    <Td borderLeft='2px' backgroundColor='gray.200'>{(pti.depense_courante/1000000).toFixed(2)}
+                    </Td>
+                    <Td backgroundColor='gray.200'>{((props.projet.find(item => item.id === pti.projet_id)?
+                        props.projet.find(item => item.id === pti.projet_id).nature.avancement?
+                        props.projet.find(item => item.id === pti.projet_id).nature.avancement:0:0)/100).toLocaleString('en-US',
+                        { style: 'percent',                          
+                          
+                          maximumFractionDigits: 0,})}</Td>
                    
                     
                 </Tr>
@@ -123,6 +133,10 @@ export function TableAllPti(props) {
                                 return accumulator + object.cycle5;
                                 }, 0))/1000000).toFixed(2)  }
                                                             </Th>
+                    <Th>{(props.ptis.reduce((accumulator, object) => {
+                            return accumulator + object.depense_courante;
+                            }, 0)/1000000).toFixed(2)  }</Th>
+                    <Th></Th>
 
 
                 </Tr>
