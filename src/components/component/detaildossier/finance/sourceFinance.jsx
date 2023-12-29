@@ -19,7 +19,22 @@ export function SourceFinance(props) {
     const [ajoutFinance, setAjoutFinance]= useState({});    
     const [isChecked, setIschecked] = useState(false);
     
-
+    const validate = (value, type) => {
+        
+        if (type === 'reglements') {     
+            const numReglement = reglements.find(reglement => reglement.id === parseInt(value)).numero       
+            
+            return finance[type].some( item => item.no === numReglement)?true:false
+        } else if (type === 'subventions') {
+            const nomSubvention = subventions.find(subvention => subvention.id === parseInt(value)).nomProg
+            return finance[type].some( item => item.nom === nomSubvention)?true:false
+        } else {
+            const nomFonds = fonds.find(fonds => fonds.id === parseInt(value)).nom
+            return finance[type].some( item => item.nom === nomFonds)?true:false
+        }
+        
+        
+    }
 
     const handleCheck = () => {
         !isChecked?setIschecked(true):setIschecked(false)
@@ -34,19 +49,19 @@ export function SourceFinance(props) {
             financemod = {...finance, ...newFinance};
             setFinance(financemod)
             const idReglement = reglements.find(item => item.numero === e.target.attributes.identifiant.value).id
-            modJalon('/api/v1/affectefinance', {}, {'reglements':{'id':idReglement,'montant':e.target.value, 'projet':props.projet.id}}, 'PUT')
+            modJalon('/api/v1/affectefinance', {}, {'reglements':{'id':idReglement,'montant':parseInt(e.target.value), 'projet':props.projet.id}}, 'PUT')
         } else if (e.target.name === 'subventions') {
             newFinance = {'subventions' : finance[e.target.name].map(item => (item.nom === e.target.attributes.identifiant.value)?{'montant':parseInt(e.target.value), 'nom':e.target.attributes.identifiant.value}:item )}
             financemod = {...finance, ...newFinance};
             setFinance(financemod);
             const idSubvention = subventions.find(item => item.nomProg === e.target.attributes.identifiant.value).id
-            modJalon('/api/v1/affectefinance', {}, {'subventions':{'id':idSubvention,'montant':e.target.value, 'projet':props.projet.id}}, 'PUT')
+            modJalon('/api/v1/affectefinance', {}, {'subventions':{'id':idSubvention,'montant':parseInt(e.target.value), 'projet':props.projet.id}}, 'PUT')
         } else if (e.target.name === 'fonds') {
             newFinance = {'fonds' : finance[e.target.name].map(item => (item.nom === e.target.attributes.identifiant.value)?{'montant':parseInt(e.target.value), 'nom':e.target.attributes.identifiant.value}:item )}
             financemod = {...finance, ...newFinance};
             setFinance(financemod);
             const idFonds = fonds.find(item => item.nom === e.target.attributes.identifiant.value).id
-            modJalon('/api/v1/affectefinance', {}, {'fonds':{'id':idFonds,'montant':e.target.value, 'projet':props.projet.id}}, 'PUT')
+            modJalon('/api/v1/affectefinance', {}, {'fonds':{'id':idFonds,'montant':parseInt(e.target.value), 'projet':props.projet.id}}, 'PUT')
         }
 
     }
@@ -96,14 +111,17 @@ export function SourceFinance(props) {
             }} 
           
             onSubmit={(values, actions) => {
-            
-                      let addReglement = {'reglements':{'id':values.reglements,'montant':values.montantReglement, 'projet':props.projet.id}}
+                if (validate(values.reglements, 'reglements')) {
+                    alert('Ce financement est déjà attribué')
+                    
+                } else {
+                      let addReglement = {'reglements':{'id':values.reglements,'montant':parseInt(values.montantReglement), 'projet':props.projet.id}}
                       modJalon('/api/v1/affectefinance', {}, addReglement, 'POST').then(item =>
                         {getRessources('/api/v1/finance/'+props.projet.id).then(
                             lesfinance => setFinance(lesfinance));} );                     
-                                                  
-            actions.resetForm();          
-            actions.setSubmitting(false);
+                        }                               
+                actions.resetForm();          
+                actions.setSubmitting(false);
             }}   
         >
             <Form>
@@ -137,11 +155,16 @@ export function SourceFinance(props) {
             montantSubvention:0,         
             }} 
           
-            onSubmit={(values, actions) => {            
-                      let addSubvention = {'subventions':{'id':values.subventions,'montant':values.montantSubvention, 'projet':props.projet.id}}
-                      modJalon('/api/v1/affectefinance', {}, addSubvention, 'POST').then(item =>
+            onSubmit={(values, actions) => {  
+                    if (validate(values.subventions, 'subventions')) {
+                        alert('Ce financement est déjà attribué')
+                                 
+                     } else {
+                         let addSubvention = {'subventions':{'id':values.subventions,'montant':parseInt(values.montantSubvention), 'projet':props.projet.id}}
+                        modJalon('/api/v1/affectefinance', {}, addSubvention, 'POST').then(item =>
                         {getRessources('/api/v1/finance/'+props.projet.id).then(
                             lesfinance => setFinance(lesfinance));} )
+                     }
                                       
                                      
             actions.resetForm();          
@@ -179,13 +202,16 @@ export function SourceFinance(props) {
             }} 
           
             onSubmit={(values, actions) => {
-            
-                      let addFonds = {'fonds':{'id':values.fonds,'montant':values.montantFonds, 'projet':props.projet.id}}
+                    if (validate(values.fonds, 'fonds')) {
+                        alert('Ce financement est déjà attribué')
+
+                    } else {
+                      let addFonds = {'fonds':{'id':values.fonds,'montant':parseInt(values.montantFonds), 'projet':props.projet.id}}
                       modJalon('/api/v1/affectefinance', {}, addFonds, 'POST').then(item =>
                         {getRessources('/api/v1/finance/'+props.projet.id).then(
                             lesfinance => setFinance(lesfinance));} 
                       );
-                            
+                    }      
                       
                                      
             actions.resetForm();          
