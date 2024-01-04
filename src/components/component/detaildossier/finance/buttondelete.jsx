@@ -5,21 +5,14 @@ import { CloseIcon } from '@chakra-ui/icons'
 
 
 
-export function DeleteButton({identifiant, type, projet_id, listSources, handleDelete}) {
+export function DeleteButton({identifiant, categorie, projet_id, listSources, handleDelete}) {
 
-    const handleClick = () => {        
-
-        if (type === 'reglements') {
-            const idReglement = listSources.find(item => item.numero === identifiant).id
-            modJalon('/api/v1/affectefinance', {}, {'reglements':{'id':idReglement, 'projet':projet_id}}, 'DELETE');            
-        } else if (type === 'subventions') {
-            const idSubvention = listSources.find(item => item.nomProg === identifiant).id
-            modJalon('/api/v1/affectefinance', {}, {'subventions':{'id':idSubvention, 'projet':projet_id}}, 'DELETE')
-        } else if (type === 'fonds') {
-            const idFonds = listSources.find(item => item.nom === identifiant).id
-            modJalon('/api/v1/affectefinance', {}, {'fonds':{'id':idFonds,'projet':projet_id}}, 'DELETE')
-        }
-        handleDelete(type, identifiant )
+    const handleClick = () => { 
+        
+        let itemToDelete = {}
+        itemToDelete[categorie] = {'id': identifiant, 'projet':projet_id};
+        modJalon('/api/v1/affectefinance', {}, itemToDelete, 'DELETE')     
+        handleDelete(categorie, identifiant )
     }
     
 
