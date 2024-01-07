@@ -10,7 +10,7 @@ import  SearchSelect from 'react-select'
    // message if the field is invalid and it has been touched (i.e. visited)
    const [field, meta] = useField(props);
    return (
-     <Box margin='10px' >
+     <Box margin='10px'>
         <HStack>
        <label htmlFor={props.id || props.name} style={{fontFamily:'fantasy'}}>{label}</label>
        <Input className="text-input" {...field} {...props} />
@@ -73,12 +73,14 @@ import  SearchSelect from 'react-select'
    const [field, meta] = useField(props);
    return (
      <Box margin='10px'>
+      <HStack>
        <label htmlFor={props.id || props.name} style={{fontFamily:'fantasy'}} >{label}</label>
        <Select {...field} {...props} />
        {meta.touched && meta.error ? (
          <div className="error"><Text color='red.500'>{meta.error}</Text></div>
        ) : null}
-     </Box>
+       </HStack>
+     </Box >
    );
  };
 
@@ -101,5 +103,21 @@ import  SearchSelect from 'react-select'
   );
 };
 
-
+export const MyDateInput = ({ label, ...props }) => {
+  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+  // which we can spread on <input>. We can use field meta to show an error
+  // message if the field is invalid and it has been touched (i.e. visited)
+  const [field, meta] = useField(props);
+  return (
+    <Box margin='10px' >
+       <HStack>
+      <label htmlFor={props.id || props.name} style={{fontFamily:'fantasy'}}>{label}</label>
+      <Input type='date' className="date-input" {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <div className="error"><Text color='red.500'>{meta.error}</Text></div>
+      ) : null}
+      </HStack>
+    </Box>
+  );
+};
  

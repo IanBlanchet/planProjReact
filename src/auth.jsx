@@ -110,6 +110,11 @@ function BaseDataProvider({children}) {
     ]
   }
 
+  const categories = ['Bâtiments municipaux', 'Parcs, espaces verts, loisirs, culture',
+                      'Infrastructures existantes', 'Developpement',
+                       'Véhicules, Machineries, matériel, équipements',
+                       'Logiciel, équipements informatique', 'Divers']
+
   const retainFilter = (newFilter) => {
     setSavedFilter({...savedFilter, ...newFilter})
   }
@@ -142,7 +147,14 @@ function BaseDataProvider({children}) {
     
   }, [])
 
-  return <BaseDataContext.Provider value={{user, projet, contrat, blanckNature, savedFilter, refreshData, retainFilter}}>{children}</BaseDataContext.Provider>;
+  return <BaseDataContext.Provider value={{user, 
+                                          projet,
+                                          contrat, 
+                                          blanckNature, 
+                                          savedFilter,
+                                          categories, 
+                                          refreshData, 
+                                          retainFilter}}>{children}</BaseDataContext.Provider>;
 }
 
 
