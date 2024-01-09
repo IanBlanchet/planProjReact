@@ -90,6 +90,7 @@ function BaseDataProvider({children}) {
     'isStrategic':false, 
     'echeance':'', 
     'notes':'',
+    'estimation':null,
     'tasks':[
       {
         id: '1',

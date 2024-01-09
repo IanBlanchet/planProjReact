@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 
 
-export function TextDescriptifInput({titre, detail, updateNature, isChecked}) {
+export function TextDescriptifInput({name, detail, label, updateNature, isChecked}) {
 
     const [modDetail, setModDetail] = useState([])
    
@@ -25,7 +25,7 @@ export function TextDescriptifInput({titre, detail, updateNature, isChecked}) {
         setModDetail(editDetail);
         //update nature
         let editNature = {};
-        editNature[titre] = editDetail
+        editNature[name] = editDetail
         updateNature(editNature);
 
     }
@@ -37,17 +37,17 @@ export function TextDescriptifInput({titre, detail, updateNature, isChecked}) {
     },[isChecked, detail])
 
     return (
-        <Box>
+        <Box margin='5px'>
         {!isChecked?
             <Box>
-                <Heading size='md'>{titre}</Heading><UnorderedList fontSize='md'>{modDetail.map(item => <ListItem key={item}>{item}</ListItem>)}</UnorderedList>
+                <Heading size='md'>{label}</Heading><UnorderedList fontSize='md'>{modDetail.map(item => <ListItem key={item}>{item}</ListItem>)}</UnorderedList>
             </Box>:
             <Box>
-                <Heading size='md' >{titre}</Heading>
+                <Heading size='md' >{label}</Heading>
                             <UnorderedList fontSize='md'>{modDetail.map((item, index) => 
                                 <ListItem key={index}>
                                     
-                                    <Textarea size='sm' type='text' name={titre} index={index} value={item} onChange={handleChange}/>
+                                    <Textarea size='sm' type='text' name={name} index={index} value={item} onChange={handleChange}/>
                                    
                                 </ListItem>)}
                             </UnorderedList>

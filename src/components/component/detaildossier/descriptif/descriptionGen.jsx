@@ -61,9 +61,9 @@ export function DescriptionGen({projet, updateNature}) {
                             </Stack>
                             </RadioGroup>
                         </FormControl>
-                        <TextDescriptifInput titre='nature' detail={nature.nature} updateNature={updateDescriptif} isChecked={isChecked}/>
-                        <TextDescriptifInput titre='justification' detail={nature.justification} updateNature={updateDescriptif} isChecked={isChecked}/>
-                        <TextDescriptifInput titre='refus' detail={nature.refus} updateNature={updateDescriptif} isChecked={isChecked}/>
+                        <TextDescriptifInput titre='nature' label='Description/Nature' detail={nature.nature} updateNature={updateDescriptif} isChecked={isChecked}/>
+                        <TextDescriptifInput titre='justification' label='Justifications' detail={nature.justification} updateNature={updateDescriptif} isChecked={isChecked}/>
+                        <TextDescriptifInput titre='refus' label='Conséquences du refus' detail={nature.refus} updateNature={updateDescriptif} isChecked={isChecked}/>
                         </Stack>
                         
             </Box> 
