@@ -12,8 +12,11 @@ export const TableDossierEnPrep = ({projet, user, handleSelectProjet}) => {
         handleSelectProjet(target.getAttribute("value"))
     };
 
-    useEffect(() => {
-        setProjets(projet);
+    
+        
+    
+        useEffect(() => {
+        setProjets(projet.filter(item => item.statut === 'En approbation'));
         
      }, [projet])
 
@@ -29,26 +32,27 @@ export const TableDossierEnPrep = ({projet, user, handleSelectProjet}) => {
                     <Th>Description</Th>
                     <Th>Responsable</Th>                                
                     
-                    <Th>Immobilisation</Th>
-                    <Th>Estimation</Th>                   
+                    <Th>Immo</Th>
+                    <Th>Stratégique</Th>                   
 
                     
                 </Tr>
             </Thead>
             <Tbody >
-                {projets.map(projet =>
+                {projets.map(item =>
                 
-                <Tr key={projet.id}  >
+                <Tr key={item.id}  >
                    
-                    <Td value={projet.id} onClick={onSelectProjet}>{projet.desc}</Td>
-                    <Td >{projet.charge?
-                        user.find(user => user.id === projet.charge).prenom+ ' ' +user.find(user => user.id === projet.charge).nom:''}</Td>
+                    <Td value={item.id} onClick={onSelectProjet}>{item.desc}</Td>
+                    <Td >{item.charge?
+                        user.find(user => user.id === item.charge).prenom+ ' ' +user.find(user => user.id === item.charge).nom:''}</Td>
                     
                     
-                    <Td >{projet.immo?'oui':'non'}</Td>  
+                    <Td >{item.immo?'oui':'non'}</Td>  
                     <Td >
-                        {projet.nature.estimation}
-                    </Td>             
+                        {item.nature.isStrategic?'oui':'non'}
+                    </Td> 
+                         
                     
                 </Tr>
                 )}

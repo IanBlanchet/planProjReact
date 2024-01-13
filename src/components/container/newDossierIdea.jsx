@@ -14,6 +14,7 @@ export const NewDossierIdea = () => {
     const [projetIsSelected, setProjetIsSelected] = useState(false)
 
     const handleSelectProjet = (projetId) => {
+        
         setProjetIsSelected(true)
         setCurrentProjet(projet.find( projet => projet.id === parseInt(projetId) ))
     }
@@ -30,14 +31,14 @@ export const NewDossierIdea = () => {
     return (
 
         <Grid templateRows='1fr'
-              templateColumns='2fr 1fr'>
-                <GridItem gridRow='1 / span 1' margin='2px' border='1px' borderColor='gray.300' borderRadius='3px' padding='3px'>
-                    <Box>
+              templateColumns='5fr 2fr'>
+                <GridItem  gridRow='1 / span 1' margin='10px' border='1px' borderColor='gray.300' borderRadius='3px' padding='3px' >
+                    <Box >
                         <BaseFormDossier projetIsSelected={projetIsSelected} currentProjet={currentProjet} clearSelection={clearSelection}/>
                     </Box>
                 </GridItem>
 
-                <GridItem gridRow='1 / span 1' >
+                <GridItem gridRow='1 / span 1' margin='5px'>
                     <Box>
                         <TableDossierEnPrep projet={projet} user={user} handleSelectProjet={handleSelectProjet} />
                     </Box>
