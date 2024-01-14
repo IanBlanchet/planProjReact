@@ -26,6 +26,10 @@ export const DetailDossier = () => {
         getRessources('/api/v1/projet/'+projetID).then(
             (response) => setProjet(response)
         ); 
+
+        return () => {
+            data.refreshData()
+        }
          
 
     }, [projetID])

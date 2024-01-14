@@ -91,7 +91,7 @@ export const BaseFormDossier = ({currentProjet, projetIsSelected, clearSelection
 
           onSubmit={(values, actions) => {
             let newNature = {...newprojet.nature,                            
-                            'isStrategic':values.isStrategic,
+                            'isStrategic':values.isStrategic==='true'?true:values.isStrategic===true?true:false,
                             'echeance':values.echeance,
                             'estimation':parseInt(values.estimation)
                             }

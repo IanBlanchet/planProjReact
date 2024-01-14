@@ -50,7 +50,7 @@ export const TableDossierEnPrep = ({projet, user, handleSelectProjet}) => {
                     
                     <Td >{item.immo?'oui':'non'}</Td>  
                     <Td >
-                        {item.nature.isStrategic?'oui':'non'}
+                        {item.nature?item.nature.isStrategic?'oui':'non':''}
                     </Td> 
                          
                     
