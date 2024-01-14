@@ -13,8 +13,7 @@ export const NewDossierIdea = () => {
     const {blanckNature, user, projet, refreshData, categories } = useContext(BaseDataContext);
     const [projetIsSelected, setProjetIsSelected] = useState(false)
 
-    const handleSelectProjet = (projetId) => {
-        
+    const handleSelectProjet = (projetId) => {        
         setProjetIsSelected(true)
         setCurrentProjet(projet.find( projet => projet.id === parseInt(projetId) ))
     }

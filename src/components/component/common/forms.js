@@ -1,6 +1,6 @@
 import React from 'react';
 import { useField } from 'formik';
-import { Input, Select, Checkbox, Text, Textarea, Switch , Box, HStack, Radio, RadioGroup, Stack, GridItem, Grid, Tooltip } from '@chakra-ui/react';
+import { Input, Select, Checkbox, Text, Textarea, Switch , Box, HStack, Radio, RadioGroup,  Stack, GridItem, Grid, Tooltip } from '@chakra-ui/react';
 import  SearchSelect from 'react-select'
 
  
@@ -21,6 +21,24 @@ import  SearchSelect from 'react-select'
      </Box>
    );
  };
+
+ export const MyNumberInput = ({ label, ...props }) => {
+  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+  // which we can spread on <input>. We can use field meta to show an error
+  // message if the field is invalid and it has been touched (i.e. visited)
+  const [field, meta] = useField(props);
+  return (
+    <Box margin='10px'>
+       <HStack>
+      <label htmlFor={props.id || props.name} style={{fontFamily:'fantasy'}}>{label}</label>
+      <Input className="number-input" {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <div className="error"><Text color='red.500'>{meta.error}</Text></div>
+      ) : null}
+      </HStack>
+    </Box>
+  );
+};
 
  export const MyRatingInput = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -131,6 +149,24 @@ export const MyTextAreaInput = ({ label, ...props }) => {
        <HStack>
       <label htmlFor={props.id || props.name} style={{fontFamily:'fantasy'}}>{label}</label>
       <Textarea  className="date-input" {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <div className="error"><Text color='red.500'>{meta.error}</Text></div>
+      ) : null}
+      </HStack>
+    </Box>
+  );
+};
+
+export const MyRadioInput = ({ label, ...props }) => {
+  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+  // which we can spread on <input>. We can use field meta to show an error
+  // message if the field is invalid and it has been touched (i.e. visited)
+  const [field, meta] = useField(props);
+  return (
+    <Box margin='10px' >
+       <HStack>
+      <label htmlFor={props.id || props.name} style={{fontFamily:'fantasy'}}>{label}</label>
+      <input className="field-input" {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error"><Text color='red.500'>{meta.error}</Text></div>
       ) : null}
