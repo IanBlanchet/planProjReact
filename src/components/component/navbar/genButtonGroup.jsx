@@ -7,8 +7,9 @@ import {
   } from '@chakra-ui/react';
 import { Show, Hide } from '@chakra-ui/react';
 import { Outlet, Link } from 'react-router-dom';
-import { GrList, GrSchedules, GrUserAdmin, GrMoney, GrTable, GrFlag, GrVulnerability, GrAnchor, GrFormDown } from 'react-icons/gr'
+import { GrList, GrSchedules, GrUserAdmin, GrMoney, GrTable, GrFlag, GrVulnerability, GrAnchor, GrFormDown, GrSun } from 'react-icons/gr'
 import { ResponsiveButton } from './responsiveButton';
+
 
 export const GenButtonGroup = () => {
 
@@ -36,6 +37,7 @@ export const GenButtonGroup = () => {
                 <Link to='/detailprojet' ><ResponsiveButton text='Détail projet'><GrTable/></ResponsiveButton></Link>
                 <Link to='/pti'><ResponsiveButton text='Pti'><GrMoney/></ResponsiveButton></Link>
                 <Link to='/strategique'><ResponsiveButton text='Dossiers stratégiques'><GrVulnerability/></ResponsiveButton></Link>                 
+                <Link to='/newdossier'><Button  variant='solid' borderWidth={1} borderColor="white"><GrSun/></Button></Link>
                 {   
                     sessionStorage.user&&
                     (JSON.parse(sessionStorage.user)).statut=== 'admin'&&

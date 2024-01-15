@@ -18,7 +18,7 @@ import { ProjetStrategic } from './components/container/projetStrategic';
 import { DetailDossier } from './components/container/detaildossier';
 import { AllProjet } from './components/container/allProjets';
 import { AllContrat } from './components/container/allContrats';
-
+import { NewDossierIdea } from './components/container/newDossierIdea';
 
 import {Routes, Route} from "react-router-dom"
 import { AuthProvider, RequireAuth, AuthContext } from './auth';
@@ -65,6 +65,7 @@ function App() {
                     </Route>
                   <Route path='allprojet' element={<RequireAuth><AllProjet/></RequireAuth>} />
                   <Route path='allcontrat' element={<RequireAuth><AllContrat/></RequireAuth>} />
+                  <Route path='newdossier' element={<RequireAuth><NewDossierIdea/></RequireAuth>} />
                 </Route>
                 
 
