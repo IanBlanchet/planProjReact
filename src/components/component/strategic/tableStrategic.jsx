@@ -77,7 +77,8 @@ export function TableStrategic({user}) {
         getRessources('/api/v1/projet').then( projets => {                     
             let filterProjet = projets.filter(item => item.nature&&item.nature.isStrategic);            
             filterProjet = filterProjet.filter(item => item.statut === 'Actif' ||item.statut === 'En approbation');
-            filterProjet = filterProjet.sort((a,b) => {
+            filterProjet = filterProjet.filter(item => item.nature.avancement !== 100)
+            filterProjet = filterProjet.sort((a,b) => {              
                 if (a.nature.echeance < b.nature.echeance){
                   return -1;
                 } 
