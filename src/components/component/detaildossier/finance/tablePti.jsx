@@ -16,6 +16,7 @@ export function TablePti(props) {
     const [ptiEnPrep, setPtiEnPrep] = useState()
     //const [prevCourante, setprevCourante] = useState(props.projet.prev_courante/1000000)
     const [projet, setProjet] = useState({})
+    const [depenseCourante, setDepenseCourante] = useState(props.depense.courante)
     const toast = useToast({
         status: 'error',
         position: 'center',
@@ -61,14 +62,15 @@ export function TablePti(props) {
             window.alert('Attention, le montant doit être entré en millions. Votre chiffre ne semble pas réaliste!')
             return
         }
-        console.log('ok')
+        setDepenseCourante((e.target.value*1000000).toFixed(2));   
         const newdepense_courante = {'annee': year ,'projet_id': projet.id,'montant':e.target.value*1000000}        
         //props.updatePrevision(newprevCourante);
         //let newprojet = projet;
         //newprojet = {...newprojet, ...newprevCourante}
         //setProjet(newprojet)
-        modJalon('/api/v1,depense/'+projet.id, {}, newdepense_courante, 'POST')
-               
+        //modJalon('/api/v1/depense/'+projet.id, {}, newdepense_courante, 'POST')
+        //(depenseCourante/1000000).toFixed(2)
+        props.updateCourante(newdepense_courante)
     }
 
 
@@ -79,9 +81,9 @@ export function TablePti(props) {
     }
 
     useEffect(()=> {
-        setPtiEnPrep(props.pti.ptiEnPrep);
-              
-        setProjet(props.projet)
+        setPtiEnPrep(props.pti.ptiEnPrep);              
+        setProjet(props.projet);
+        setDepenseCourante(props.depense.courante);
     }, [props])
     
 
@@ -112,8 +114,8 @@ export function TablePti(props) {
                 <Tr>
                     <Td>PLANIFICATION</Td>
                     <Td>{(props.depense.anterieur/1000000).toFixed(2)}</Td>
-                    <Td><Input size='sm' width='12' type='number' name='depense_courante' value={(props.depense.courante/1000000).toFixed(2)} onChange={handleChangeDepense_courante}/>/
-                        <Input size='sm' width='12' type='number' name='prevision' value={projet.prev_courante/1000000} onChange={handleChangePrevison}/></Td>
+                    <Td><Input size='md' width='12' type='number' name='depense_courante' value={depenseCourante/1000000} onChange={handleChangeDepense_courante}/>/
+                        <Input size='md' width='12' type='number' name='prevision' value={projet.prev_courante/1000000} onChange={handleChangePrevison}/></Td>
                     <Td><Input size='sm' width='12' type='number' name='cycleCour' value={ptiEnPrep?ptiEnPrep.cycleCour/1000000:''} onChange={handleChange} bg='white'/></Td>
                     <Td><Input size='sm' width='12' type='number' name='cycle2' value={ptiEnPrep?ptiEnPrep.cycle2/1000000:''} onChange={handleChange} bg='white'/></Td>
                     <Td><Input size='sm' width='12' type='number' name='cycle3' value={ptiEnPrep?ptiEnPrep.cycle3/1000000:''} onChange={handleChange} bg='white'/></Td>
