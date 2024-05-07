@@ -20,6 +20,12 @@ export const Finance = ({projet}) => {
         
     }
 
+    const updateCourante = (newdepense_courante) => {        
+        modJalon('/api/v1/depense/'+projet.id, {}, newdepense_courante, 'POST');        
+        
+    }
+
+
     useEffect(() => {
         getRessources('/api/v1/depense/'+projet.id).then(
             lesdepense => setDepense(lesdepense));
@@ -36,7 +42,7 @@ export const Finance = ({projet}) => {
             >
                 <GridItem  gridColumn='1 /span 1'>
                     {projet.immo?
-                    <TablePti projet={projet} pti={pti} depense={depense} updatePti={updatePti} updatePrevision={updatePrevision}></TablePti>:
+                    <TablePti projet={projet} pti={pti} depense={depense} updatePti={updatePti} updatePrevision={updatePrevision} updateCourante={updateCourante}></TablePti>:
                     <Heading>Ce projet n'est pas immobilisé</Heading>
                     }
                     

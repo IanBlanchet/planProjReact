@@ -65,7 +65,7 @@ export function TableAllPti(props) {
                     <Th>{props.year+2}<IconButton name='cycle2' onClick={handleTrie} icon={tries.cycle2?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>{props.year+3}<IconButton name='cycle3' onClick={handleTrie} icon={tries.cycle3?<FcExpand/>:<FcCollapse></FcCollapse>} size='xs' bgColor='blue.200'/></Th>
                     <Th>ultérieur</Th>
-                    <Th borderLeft='2px'>Dépense réelle 2023</Th>
+                    <Th borderLeft='2px'>Dépenses réelles année courante</Th>
                     <Th>Avancement</Th>
                    
                     
