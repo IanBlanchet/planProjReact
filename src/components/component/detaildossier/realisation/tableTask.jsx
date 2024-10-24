@@ -31,11 +31,12 @@ export const TableTasks = ({tasks, updateTasks, addTask, deleteTask}) => {
                   start:'2023-01-01', 
                   end:'2023-02-01',
                   progress:5, 
-                  dependencies:'' 
+                  dependencies:'',
+                  responsable:''
                   }
       addTask(newtask)
     }
-
+    const {user} = useContext(BaseDataContext)
     useEffect(() =>{
       setCurrentTasks(tasks)
     }, [tasks])
@@ -49,6 +50,7 @@ export const TableTasks = ({tasks, updateTasks, addTask, deleteTask}) => {
             <Tr bg='gray.200' size='xs'>
               <Th></Th>
               <Th >ID</Th>
+              <Th >Responsable</Th>
               <Th >Description</Th>              
               <Th>Début</Th>
               <Th>Fin</Th>
@@ -57,7 +59,7 @@ export const TableTasks = ({tasks, updateTasks, addTask, deleteTask}) => {
           </Thead>
           <Tbody>
             {currentTasks.map((task, index) =>
-                <EditTasksForm key={index} task={task} updateTasks={updateTasks} deleteTask={deleteTask}/>
+                <EditTasksForm key={index} task={task} updateTasks={updateTasks} deleteTask={deleteTask} users={user}/>
                 )}
               <Tr>
                 <IconButton icon={<FcPlus/>} onClick={handleAddTask} />
