@@ -91,6 +91,7 @@ function BaseDataProvider({children}) {
     'echeance':'', 
     'notes':'',
     'estimation':null,
+    'sharepoint':'',   
     'tasks':[
       {
         id: '1',

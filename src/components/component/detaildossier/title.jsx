@@ -1,4 +1,4 @@
-import { Heading, Grid, GridItem, Text, Select, FormLabel, FormControl } from "@chakra-ui/react"
+import { Heading, Grid, GridItem, Text, Select, FormLabel, FormControl, HStack } from "@chakra-ui/react"
 
 
 const statut = ['Actif', 'Complété', 'En suspend', 'En approbation', 'Abandonné', 'En réception']
@@ -16,9 +16,13 @@ export const TitleProjet = ({projet, updateStatut}) => {
               boxShadow='md'>
 
             <GridItem  gridRow='1 /span 1' gridColumn='1 / span1' overflow='hidden'>
-
-                <Heading fontSize={['18px', '20px', '25px', '35px']}  margin='5px'>{projet.no_projet} - {projet.desc}</Heading>
-
+                <HStack>
+                <Heading fontSize={['18px', '20px', '25px', '35px']}  margin='5px'>
+                    {projet.no_projet} - {projet.desc} 
+                   
+                </Heading>
+                </HStack>
+          
             </GridItem>
 
             <GridItem justifySelf='end' gridRow='1 /span 1' gridColumn='2 / span1' >
