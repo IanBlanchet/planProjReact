@@ -8,6 +8,8 @@ import { SiMicrosoftsharepoint } from "react-icons/si";
 
 
 
+
+
 export function DescriptionGen({projet, updateNature}) {
 
     const {blanckNature} = useContext(BaseDataContext)
@@ -37,6 +39,9 @@ export function DescriptionGen({projet, updateNature}) {
     }
 
     const updateSharepoint = (e) => {
+        if (e.target.value === "") {
+
+        }
         let newNature = {...nature};
         newNature = {...newNature, 'sharepoint':e.target.value}
         setNature(newNature);
@@ -59,7 +64,7 @@ export function DescriptionGen({projet, updateNature}) {
                         <Stack orientation='vertical'>
                         {isChecked?<Input type='text' value={nature.sharepoint} onChange={updateSharepoint}></Input>:                    
                             <Link   variant="underline"
-                                    href={nature.sharepoint}
+                                    href={nature.sharepoint?nature.sharepoint:'/notFound'}
                                     colorPalette="teal"
                                     isExternal>
                                 <Icon fontSize="25px" color="teal"><SiMicrosoftsharepoint/></Icon>
