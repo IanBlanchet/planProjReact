@@ -2,7 +2,8 @@ import { useState, useEffect, useContext } from 'react';
 import {Radio, RadioGroup, FormControl, FormLabel, Stack, Box, IconButton, Heading, Input, Link, Icon } from '@chakra-ui/react';
 import {Grid, GridItem} from '@chakra-ui/react'
 import { TextDescriptifInput } from './textDescriptifInput';
-import { FcSettings, FcFeedIn } from "react-icons/fc";
+import { FcFeedIn } from "react-icons/fc";
+import { TiEdit } from "react-icons/ti";
 import { BaseDataContext } from '../../../../auth';
 import { SiMicrosoftsharepoint } from "react-icons/si";
 
@@ -59,7 +60,7 @@ export function DescriptionGen({projet, updateNature}) {
     
         <GridItem  gridRow='1 / span 3' gridColumn='1 /span 1'>
             <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg'  >
-                        <Heading size='lg' marginBottom='2'>Description générale <IconButton onClick={saveChange} variant={isChecked?'solid':'outline'} colorScheme='whiteAlpha' icon={!isChecked?<FcSettings/>:<FcFeedIn/>}/></Heading>
+                        <Heading size='lg' marginBottom='2'>Description générale <IconButton onClick={saveChange} variant={isChecked?'solid':'outline'}   icon={!isChecked?<TiEdit />:<FcFeedIn/>}/></Heading>
                         
                         <Stack orientation='vertical'>
                         {isChecked?<Input type='text' value={nature.sharepoint} onChange={updateSharepoint}></Input>:                    

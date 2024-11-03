@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { getRessources, modJalon } from '../../../util';
 import {  Box, IconButton, Heading } from '@chakra-ui/react';
-import { FcSettings, FcFeedIn, FcPlus } from "react-icons/fc";
+import { FcFeedIn, FcPlus } from "react-icons/fc";
+import { TiEdit } from "react-icons/ti";
 import { FinanceForm } from './formfinance';
 
 
@@ -69,7 +70,7 @@ export function SourceFinance(props) {
         <Box display='inline'>
         
         <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                    <Heading size='lg'>Sources de financement{!isChecked?<IconButton icon={<FcSettings/>} onClick={handleCheck}/>:<IconButton icon={<FcFeedIn/>} onClick={handleCheck} />}</Heading>
+                    <Heading size='lg'>Sources de financement{!isChecked?<IconButton icon={<TiEdit/>} onClick={handleCheck}/>:<IconButton icon={<FcFeedIn/>} onClick={handleCheck} />}</Heading>
 
         <FinanceForm 
             projet={props.projet} 

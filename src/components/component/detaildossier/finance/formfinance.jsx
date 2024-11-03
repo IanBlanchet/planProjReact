@@ -4,6 +4,7 @@ import { Formik, Form,  } from 'formik';
 import { MySelect, MyTextInput } from '../../common/forms';
 import { FcPlus } from "react-icons/fc";
 import { DeleteButton } from './buttondelete';
+import * as Yup from 'yup';
 
 
 
@@ -13,6 +14,10 @@ export function FinanceForm({projet, categorie, availableItem, finance, isChecke
     const genCategorie = (item) => {
         return {'reglements': item.numero, 'subventions': item.nomProg + ' -- ' + item.no_id, 'fonds' : item.nom}
     }
+    const validationSchema = Yup.object().shape(
+        { idCategorie: Yup.string().required("Vous devez faire un choix"), 
+        montant: Yup.number().required("Montant est requis") 
+        });
     
     return (
         <Formik
@@ -21,7 +26,7 @@ export function FinanceForm({projet, categorie, availableItem, finance, isChecke
             idCategorie: '',            
             montant:0,         
             }} 
-          
+            validationSchema={validationSchema}
             onSubmit={(values, actions) => {
                 
                 if (validate(values.idCategorie, categorie)) {

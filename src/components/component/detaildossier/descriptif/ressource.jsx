@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { Box, IconButton, Heading, HStack, Stack, Text, List, ListItem, Select} from '@chakra-ui/react';
-import { FcSettings, FcFeedIn, FcPlus } from "react-icons/fc";
+import { FcFeedIn} from "react-icons/fc";
+import { TiEdit } from "react-icons/ti";
 import { modJalon } from '../../../util';
 import { ButtonAddService } from './buttonAddService';
 import { ButtonRemoveService } from './buttonRemoveService';
@@ -65,7 +66,7 @@ export function RessourceRequise ({projet, updateNature}) {
 
     return (
         <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-            <Heading size='lg' marginBottom='2'>Ressources<IconButton icon={isChecked?<FcFeedIn/>:<FcSettings/>} onClick={saveChange} /></Heading>
+            <Heading size='lg' marginBottom='2'>Ressources<IconButton icon={isChecked?<FcFeedIn/>:<TiEdit/>} onClick={saveChange} /></Heading>
                    
             
                 <Stack orientation='vertical'>
