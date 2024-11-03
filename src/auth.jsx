@@ -91,6 +91,7 @@ function BaseDataProvider({children}) {
     'echeance':'', 
     'notes':'',
     'estimation':null,
+    'sharepoint':'',   
     'tasks':[
       {
         id: '1',
@@ -98,7 +99,8 @@ function BaseDataProvider({children}) {
         start: '2023-01-28',
         end: '2023-03-31',
         progress: 10,
-        dependencies: ''
+        dependencies: '',
+        responsable:''
       },
       {
           id: '2',
@@ -106,7 +108,8 @@ function BaseDataProvider({children}) {
           start: '2023-03-31',
           end: '2023-04-30',
           progress: 20,
-          dependencies: '1'
+          dependencies: '1',
+          responsable:''
         },      
     ]
   }

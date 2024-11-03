@@ -1,9 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
-import {Radio, RadioGroup, FormControl, FormLabel, Stack, Box, IconButton, Heading } from '@chakra-ui/react';
+import {Radio, RadioGroup, FormControl, FormLabel, Stack, Box, IconButton, Heading, Input, Link, Icon } from '@chakra-ui/react';
 import {Grid, GridItem} from '@chakra-ui/react'
 import { TextDescriptifInput } from './textDescriptifInput';
-import { FcSettings, FcFeedIn } from "react-icons/fc";
+import { FcFeedIn } from "react-icons/fc";
+import { TiEdit } from "react-icons/ti";
 import { BaseDataContext } from '../../../../auth';
+import { SiMicrosoftsharepoint } from "react-icons/si";
+
 
 
 
@@ -36,6 +39,16 @@ export function DescriptionGen({projet, updateNature}) {
         updateNature(newNature); 
     }
 
+    const updateSharepoint = (e) => {
+        if (e.target.value === "") {
+
+        }
+        let newNature = {...nature};
+        newNature = {...newNature, 'sharepoint':e.target.value}
+        setNature(newNature);
+        updateNature(newNature)
+    }
+
     useEffect(() => {
         setNature(!projet.nature?blanckNature:{...blanckNature, ...projet.nature});        
                         
@@ -47,9 +60,16 @@ export function DescriptionGen({projet, updateNature}) {
     
         <GridItem  gridRow='1 / span 3' gridColumn='1 /span 1'>
             <Box maxW='md' padding='5' borderWidth='2px' borderRadius='lg'  >
-                        <Heading size='lg' marginBottom='2'>Description générale <IconButton onClick={saveChange} variant={isChecked?'solid':'outline'} colorScheme='whiteAlpha' icon={!isChecked?<FcSettings/>:<FcFeedIn/>}/></Heading>
+                        <Heading size='lg' marginBottom='2'>Description générale <IconButton onClick={saveChange} variant={isChecked?'solid':'outline'}   icon={!isChecked?<TiEdit />:<FcFeedIn/>}/></Heading>
                         
                         <Stack orientation='vertical'>
+                        {isChecked?<Input type='text' value={nature.sharepoint} onChange={updateSharepoint}></Input>:                    
+                            <Link   variant="underline"
+                                    href={nature.sharepoint?nature.sharepoint:'/notFound'}
+                                    colorPalette="teal"
+                                    isExternal>
+                                <Icon fontSize="25px" color="teal"><SiMicrosoftsharepoint/></Icon>
+                            </Link> }
                         <FormControl display='flex' alignItems='center'>
                             <FormLabel htmlFor='isStrategic' mb='0'>
                                 Stratégique?

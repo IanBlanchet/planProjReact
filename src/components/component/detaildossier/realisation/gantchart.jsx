@@ -4,7 +4,17 @@ import { FrappeGantt } from 'frappe-gantt-react'
 import { TableTasks } from './tableTask'
 import { BaseDataContext } from '../../../../auth'
 import { BsBarChartSteps, BsReverseLayoutTextSidebarReverse } from "react-icons/bs";
-
+import {
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer   
+  } from '@chakra-ui/react'
 
 
 
@@ -16,7 +26,7 @@ const transformDate = (date) => {
 }
 
 export function Gantt({projet, updateNature})  {
-    const {blanckNature} = useContext(BaseDataContext)
+    const {user, blanckNature} = useContext(BaseDataContext)
     const [ mode, setMode] = useState('Month')
     const [ tasks, setTasks] = useState(blanckNature.tasks)
     const [ tableauTaskOn, setTableauTaskOn] = useState(false)
@@ -74,6 +84,7 @@ export function Gantt({projet, updateNature})  {
 
     }
 
+
     useEffect(() => {
         if (projet.nature) {
             projet.nature.tasks&&setTasks(projet.nature.tasks)
@@ -118,7 +129,11 @@ export function Gantt({projet, updateNature})  {
                 {
 
                     !tableauTaskOn&&
-                    <>
+                    <Grid templateColumns='1fr 11fr'  templateRows='1fr 6fr' >
+                        <GridItem gridColumn='1 / span 1' gridRow='2 / span 1'>
+
+                        </GridItem>
+                        <GridItem gridColumn='2 / span 1' gridRow='1 / span 2'>
                         <ButtonGroup orientation='horizontal' size='xs' isAttached variant='outline'>
                             <Button onClick={()=> setMode('Month')} >Mois</Button>
                             <Button onClick={()=> setMode('Year')} >Année</Button>
@@ -129,12 +144,15 @@ export function Gantt({projet, updateNature})  {
                             borderRadius='25px'                                                                            
                             tasks={tasks}
                             viewMode={mode}
+                            bar_height = '20'
+                            padding='5px'
                             //onClick={task => console.log('click')}                
                             onDateChange={(task, start, end) => handleDateChange(task, start, end)}
                             onProgressChange={(task, progress) => handleProgessChange(task, progress)}
                             //onTasksChange={tasks => console.log('ok')}
                         />
-                    </>
+                        </GridItem>
+                    </Grid>
                 }
             </GridItem>
                 
