@@ -13,13 +13,12 @@ import { Table } from './static/customStyle.ts'
 import { contextData } from './App';
 
 
-const ElementTest = () => {
-  
-  return <h1 >Va te logger pour commencer</h1>
-  
-}
 
-
+import { PublicClientApplication } from '@azure/msal-browser';
+import { MsalProvider } from '@azure/msal-react';
+import { msalConfig } from './authConfig';
+// Bootstrap components
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import {
@@ -28,7 +27,7 @@ import {
   BrowserRouter
 } from "react-router-dom";
 
-
+const msalInstance = new PublicClientApplication(msalConfig);
 
 /*const router = createBrowserRouter([
   { 
@@ -66,7 +65,9 @@ ReactDOM.render(
     <React.StrictMode>
 
     <BrowserRouter >
+    <MsalProvider instance={msalInstance}>
       <App />
+    </MsalProvider>
     </BrowserRouter>
       
     </React.StrictMode>

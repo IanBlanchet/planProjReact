@@ -5,9 +5,12 @@ import {Grid, GridItem} from '@chakra-ui/react'
 import { RessourceRequise } from './descriptif/ressource';
 import { DescriptionGen } from './descriptif/descriptionGen';
 
+import {  Todo} from '@microsoft/mgt-react';
 
 
 export function Descriptif({projet, updateNature}) {
+
+    
 
     useEffect(() => {
         
@@ -38,6 +41,9 @@ export function Descriptif({projet, updateNature}) {
                     Localisation (en construction)
                 </Heading>
             </Box>
+        </GridItem>
+        <GridItem>
+            <Todo></Todo>
         </GridItem>
 
     </Grid>

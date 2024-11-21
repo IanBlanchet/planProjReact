@@ -24,8 +24,13 @@ import { NotFound } from './components/container/notFound';
 import {Routes, Route} from "react-router-dom"
 import { AuthProvider, RequireAuth, AuthContext } from './auth';
 
+import { PageLayout } from './components/component/msal/PageLayout';
+import { loginRequest } from './authConfig';
+import { callMsGraph } from './graph';
+import { ProfileData } from './components/component/msal/ProfileData';
 
-
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
+import Button from 'react-bootstrap/Button';
 
 function App() {
   
@@ -36,6 +41,9 @@ function App() {
         
             
             <AuthProvider>
+            <PageLayout>
+            <AuthenticatedTemplate>
+
               <Routes >
                 
                 <Route  path='/' element={<NavBar />} >
@@ -70,8 +78,21 @@ function App() {
                   
                 </Route>
                 <Route path='notFound' element={<NotFound/>} />
+                
+
+
 
               </Routes>
+              </AuthenticatedTemplate>
+              </PageLayout>
+              <UnauthenticatedTemplate>
+                <h5>
+                    <center>
+                        Please sign-in to see your profile information.
+                    </center>
+                </h5>
+                </UnauthenticatedTemplate>
+
               </AuthProvider>
             
             
