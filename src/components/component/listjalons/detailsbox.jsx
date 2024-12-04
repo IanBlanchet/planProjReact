@@ -19,7 +19,14 @@ const icons = {
     TP: {icon:<FcVlc size={param.size}/>, bg:'orange.300'},
     ING: {icon:<FcEditImage size={param.size}/>, bg:'blue.300'},
     ENV: {icon:<FcGlobe size={param.size}/>, bg:'green.300'},
-    GEN: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'}
+    GEN: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'},
+    URBA: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'},
+    SRC: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'},
+    GREFFE: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'},
+    FIN: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'},
+    DEV: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'},
+    COM: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'},
+    RH: {icon:<FcSynchronize size={param.size}/>, bg:'gray.300'},
 }
 
 const reducer = (state, action) => {
