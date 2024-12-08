@@ -31,6 +31,7 @@ import { ProfileData } from './components/component/msal/ProfileData';
 
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
 import Button from 'react-bootstrap/Button';
+import { GetPlaner } from './components/component/msal/testButtonPlaner';
 
 function App() {
   
@@ -75,7 +76,7 @@ function App() {
                   <Route path='allprojet' element={<RequireAuth><AllProjet/></RequireAuth>} />
                   <Route path='allcontrat' element={<RequireAuth><AllContrat/></RequireAuth>} />
                   <Route path='newdossier' element={<RequireAuth><NewDossierIdea/></RequireAuth>} />
-                  
+                  <Route path='testplaner' element={<GetPlaner/>} />
                 </Route>
                 <Route path='notFound' element={<NotFound/>} />
                 
