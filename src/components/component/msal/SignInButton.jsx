@@ -12,11 +12,23 @@ export const SignInButton = () => {
 
     const handleLogin = (loginType) => {
         if (loginType === "popup") {
-            instance.loginPopup(loginRequest).catch(e => {
+            instance.loginPopup(loginRequest)
+            .then(response => {
+                const accessToken = response.accessToken;
+                console.log(accessToken)
+                sessionStorage.setItem('accessToken', accessToken)
+            })
+            .catch(e => {
                 console.log(e);
             });
         } else if (loginType === "redirect") {
-            instance.loginRedirect(loginRequest).catch(e => {
+            instance.loginRedirect(loginRequest)
+            .then(response => {
+                const accessToken = response.accessToken;
+                console.log(accessToken)
+                sessionStorage.setItem('accessToken', accessToken)
+            })
+            .catch(e => {
                 console.log(e);
             });
         }
