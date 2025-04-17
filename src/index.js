@@ -66,7 +66,18 @@ ReactDOM.render(
     <React.StrictMode>
 
     <BrowserRouter >
-      <App />
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nouveau lien vers l'application de gestion des projets</title>
+    </head>
+    <body>
+        <h2>Nouveau lien vers l'application de gestion des projets</h2>
+        <p>Cliquer ici pour accéder au nouvel URL:</p>
+        <a href="https://projet.ville.valleyfield.qc.ca" target="_blank">https://projet.ville.valleyfield.qc.ca</a>
+    
+        <p>À noter que l'application sera désormais seulement disponible à l'interne ou via votre vpn.  Merci</p>
+    </body>
     </BrowserRouter>
       
     </React.StrictMode>
